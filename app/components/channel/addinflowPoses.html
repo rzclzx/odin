@@ -1,0 +1,35 @@
+
+
+<div class="content">
+   <div class="add">
+        <div class="add-length inflow-error">
+            <span>名称：</span>
+            <i>*</i>
+            <input type="text" [(ngModel)]="name" name="name" validation [validations]="'required;videoname'">
+            <span class="display-inline-block ml100">限20字以内</span>
+        </div>
+        <div class="add-length">
+                <span>标识：</span>
+                <i>*</i>
+                <input type="number" [(ngModel)]="code" name="code" validation [validations]="'required;'">
+            </div>
+            <div class="add-length">
+                    <span>平台：</span>
+                    <i>*</i>
+                    <select [(ngModel)]="adxId" name="adxId"  class="width280" >
+                            <!-- <option [ngValue]= undefined >请选择平台</option> -->
+                           <option *ngFor="let v of this.adxs;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                       </select>
+            </div>
+            <div class="add-length">
+                    <span>模板：</span>
+                    <select [(ngModel)]="infoflowTmplId" name="infoflowTmplId"  class="width280 ml10" >
+                            <!-- <option [ngValue]= undefined >请选择平台</option> -->
+                           <option *ngFor="let v of this.infoflowTmpls;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                       </select>
+            </div>
+            <button class="btn btn-default btn1 mt30" (click)="cancel()">取消</button>
+            <button class=" btn btn-primary mt30" (click)="save()">确定</button>
+   </div>    
+</div>
+

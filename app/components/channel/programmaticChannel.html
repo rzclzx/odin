@@ -1,0 +1,98 @@
+<div class="content">
+	<div class="channel-table-head clearfix">
+		<span>程序化渠道</span>
+		<button class="btn btn-default pull-right" (click)="goCreateEditChannel()">新建渠道</button>
+	</div>
+	<ngx-datatable
+    #mydatatable
+    [rows]="channel"
+    [columnMode]="'force'"
+    [draggable]="false"
+    [externalSorting]="true"
+    [externalPaging]="true"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="50"
+    [limit]="page.pageSize"
+    [count]="page.total"
+    [offset]="page.pageNo"
+    (page)="onPage($event)"  
+	[messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+    [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+	    <ngx-datatable-column name="" [resizeable]="false" [sortable]="false"  [width]="140">
+	        <template ngx-datatable-cell-template let-row="row">
+	           <div class="ell">
+                    <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.enable=='1'?true:false)}" (click)="switchChange(row)">
+                        <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.enable=='1'?false:true)}"></span>
+                         <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                         <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.enable=='1'?false:true)}"></span>
+                    </div>
+                </div>
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="渠道编号" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div>
+	                {{row.id}}
+	            </div>							
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="渠道名称" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div> 
+	                {{row.name}}
+	            </div>
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="logo" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div class="logo">
+	                <img src="{{ row.logoPath ? row.logoPath : ''}}" *ngIf=" row.logoPath ? true : false"/>
+	            </div>
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">编辑 
+                    	<span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu ul78">
+                        <li (click)="goCreateEditChannel(row.id)"><a> 编辑</a></li>
+                        <li><a>充值</a></li>
+                        <li><a>渠道审核</a></li>    
+                    </ul>
+                </div>
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="是否支持安全连接" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div>
+	                {{row.supportSsl}}
+	            </div>
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="状态" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div>
+	                {{row.enable}}
+	            </div>								
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="定价合约数" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div>
+	                {{row.contractNum}}
+	            </div>
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="APP个数" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div>
+	                {{row.appNum}}
+	            </div>
+	        </template>
+	    </ngx-datatable-column>
+	</ngx-datatable>
+</div>

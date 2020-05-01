@@ -1,0 +1,18 @@
+.analysisdata ul {
+  overflow: hidden;
+}
+.analysisdata ul li {
+  height: 50px;
+  width: 120px;
+  line-height: 50px;
+  float: left;
+  text-align: center;
+  border-right: 1px solid #dcdcdc;
+  cursor: pointer;
+}
+.analysisdata ul .active {
+  border-top: 4px solid #1d8bfb;
+  border-bottom: 1px solid #fff;
+  background-color: #fff;
+  color: #1d8bfb;
+}

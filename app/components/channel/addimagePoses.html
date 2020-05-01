@@ -1,0 +1,26 @@
+
+
+<div class="content">
+   <div class="add">
+            <div class="add-imagePoses">
+                    <span>选择尺寸：</span>
+                    <i>*</i>
+                    <select [(ngModel)]="sizeId" name="sizeId"  validation [validations]="'adxrequired'"> 
+                        <option *ngFor="let v of sizes;let i = index;" [ngValue]="v.id">{{ v.width }}*{{ v.height }}</option>
+                    </select>
+            </div>
+            <div class="add-imagePoses">
+                <span>选择渠道：</span>
+                <i>*</i>
+                <select [(ngModel)]="adxId" name="adxId"  validation [validations]="'sizerequired'">
+                    <option *ngFor="let v of this.adxs;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                </select>
+            </div>
+           <div class="add-imagePoses">
+                <button class="btn btn-default btn1" (click)="cancel()">取消</button>
+                <button class=" btn btn-primary" (click)="save()">确定</button>
+            </div> 
+           
+   </div>    
+</div>
+

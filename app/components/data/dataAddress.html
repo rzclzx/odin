@@ -1,0 +1,170 @@
+<div class="wrap">
+        <div class="wrap-s">
+                <p class="icon-quanju">
+                        <span class="data-center">数据中心</span>
+                        <i>/</i>
+                        <span class="data-chart">数据图表</span>
+                </p>
+                <div class="btns">
+                        <button class="btn" (click)="dataData()">实时数据</button>
+                        <button class="btn" style="background:rgb(75,144,212);color:#fff">地域</button>
+                        <button class="btn" (click)="dataNetwork()">网络</button>
+                        <button class="btn" (click)="dataFacility()">设备</button>
+                        <button class="btn" (click)="dataAdvert()">广告形式</button>
+                        <button class="btn" (click)="dataMedia()">媒体</button>
+                        <button class="btn" (click)="dataPoints()">分日</button>
+                        <a>
+                                <img src="../../images/hint.png">
+                        </a>
+                </div>
+                <div class="selectes">
+                        <div class="select-first">
+                                <span class="text-date datas">时间选择：</span>
+                                <div class="rel width220 put-picker">
+                                        <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}">
+                                        <i class="icon-calendar time-icon"></i>
+                                </div>
+
+                        </div>
+                        <div class="select-first">
+                                <label>客户：</label>
+                                <select [(ngModel)]="advertiserId" name="advertiserId" (change)="selected(0)">
+                                        <option [ngValue]="undefined">全部客户</option>
+                                        <option cutString [cutLength]="25" *ngFor="let v of advertisers;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                                </select>
+
+                        </div>
+                        <div class="select-first">
+                                <label>广告项目：</label>
+                                <select [(ngModel)]="projectId" name="projectId" (change)="selected(1)">
+                                        <option [ngValue]="undefined">全部广告项目</option>
+                                        <option cutString [cutLength]="25" *ngFor="let v of projects;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                                </select>
+
+                        </div>
+                        <div class="select-first">
+                                <label>推广活动：</label>
+                                <select [(ngModel)]="campaignId" name="campaignId" (change)="selected(2)">
+                                        <option [ngValue]="undefined">全部推广活动</option>
+                                        <option cutString [cutLength]="25" *ngFor="let v of campaigns;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                                </select>
+
+                        </div>
+                        <div class="select-first">
+                                <label>投放策略：</label>
+                                <select [(ngModel)]="policyId" name="policyId" (change)="selected(3)">
+                                        <option [ngValue]="undefined">全部投放策略</option>
+                                        <option cutString [cutLength]="25" *ngFor="let v of policys;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                                </select>
+
+                        </div>
+                        <div class="select-first">
+                                <label>创意：</label>
+                                <select [(ngModel)]="creativeId" name="creativeId" (change)="selected(4)">
+                                        <option [ngValue]="undefined">全部广告创意</option>
+                                        <option cutString [cutLength]="25" *ngFor="let v of creatives;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                                </select>
+
+                        </div>
+                        <button class="btn btn-primary find" (click)="search()">查询</button>
+                </div>
+                <div class="width-100 bgc-white">
+                        <p class="mychart-title">
+                                <span class="tab-title">地域数据统计表</span>
+                        </p>
+                        <div #myChart class="width-100 height450"></div>
+
+                </div>
+                <div class="form-nav mb20">
+                        <button [class.province]="current" [class.city]="!current" (click)="toggle()">省份</button>
+                        <button [class.city]="current" [class.province]="!current" (click)="toggle()">城市</button>
+                </div>
+                <ng-page
+                        [page]="page"
+                        (outerPage)="onPage($event)"
+                ></ng-page>
+                <ngx-datatable
+                        [rows]="datas"
+                        [columnMode]="'force'"
+                        [draggable]="false"
+                        [externalSorting]="true"
+                        [externalPaging]="true"
+                        [headerHeight]="50"
+                        [rowHeight]="50"
+                        [limit]="page.pageSize"
+                        [count]="page.total"
+                        [offset]="page.pageNo"
+                        [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+                        [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                        <ngx-datatable-column *ngIf="current" name="省份" prop="name" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.name }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column *ngIf="!current" name="城市" prop="name" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.name }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="时间" prop="date" [resizeable]="false" [sortable]="false" [width]="200" [canAutoResize]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate) }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="展现数" prop="impression" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.impression }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="点击数" prop="click" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.click }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="CTR" prop="ctr" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.ctr }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="成本" prop="cost" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.cost }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="eCPM" prop="ecpm" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.ecpm }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="eCPC" prop="ecpc" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                                <span>{{ row.ecpc }}</span>
+                                        </div>							
+                                </template>
+                        </ngx-datatable-column>
+                </ngx-datatable>             
+                <ng-page
+                        [isFooter]="true"
+                        [page]="page"
+                        (outerPage)="onPage($event)"
+                ></ng-page>
+                <div class="height100"></div>
+        </div>
+</div>

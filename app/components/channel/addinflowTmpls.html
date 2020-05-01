@@ -1,0 +1,91 @@
+
+
+<div class="content">
+   <div class="add mt0">
+        <div class="add-length inflow-error">
+            <span class="diplay-inline-block ml35">名称：</span>
+            <i>*</i>
+            <input type="text" [(ngModel)]="name" name="name" validation [validations]="'required;videoname'" class="width320">
+            <span class="display-inline-block ml100">限20字以内</span>
+        </div>
+        <div class="add-length line-height0">
+                <span  class="diplay-inline-block ml35">icon：</span>
+                <select [(ngModel)]="size" name="size"  class="width133 ml18"  >
+                        <option [ngValue]= undefined >请选择尺寸</option>
+                       <option *ngFor="let v of sizes;let i = index;" [ngValue]="v.id">{{ v.width }}*{{v.height}}</option>
+                   </select> -
+                   <input type="text" class="width171"  placeholder="最大限制，单位为kb" [(ngModel)]="maxVolume"  name="maxVolume">
+            </div>
+            <div class="add-length line-height0" >
+                    <span>大图尺寸：</span>
+                    <select [(ngModel)]="size1" name="size1"  class="width133 ml18" >
+                            <option [ngValue]= undefined >请选择尺寸</option>
+                           <option *ngFor="let v of sizes;let i = index;" [ngValue]="v.id">{{ v.width }}*{{v.height}}</option>
+                    </select> -
+                    <input type="text" class="width171"  placeholder="最大限制，单位为kb" [(ngModel)]="maxVolume1"  name="maxVolume1">
+                    <span class="icon-add22 color-blue1 ml100 cursor-point" (click)="addImage1(i)"></span>
+                    <span>最多支持5张大图</span>
+            </div>
+            <div class="add-length "  *ngFor="let v of this.bigImage;let i = index;" >
+                        <select [(ngModel)]="v.name"  name="v.name"  class="width133 ml103" >
+                                <option [ngValue]= undefined >请选择尺寸</option>
+                               <option *ngFor="let vs of sizes;let i = index;" [ngValue]="vs.id">{{ vs.width }}*{{vs.height}}</option>
+                        </select> -
+                        <input type="text" class="width171"  placeholder="最大限制，单位为kb" [(ngModel)]="v.maxVolume2"  name="v.maxVolume2">
+                        <!-- <span class="glyphicon glyphicon-minus-sign color-blue1 ml103 cursor-point"></span> -->
+                </div> 
+            <div class="line-height50">
+                    <span  class="diplay-inline-block ml35">格式：</span>
+                    <input type="checkbox"  class="ml12" [(ngModel)]="format1" name="format1"  [value]="'17'"><span>PNG</span>
+                    <input type="checkbox"  class="ml12" [(ngModel)]="format2" name="format2'"  [value]="'18'"><span>JPG/JPEG</span>
+                    <input type="checkbox"  class="ml12" [(ngModel)]="format3" name="format3'"  [value]="'19'"><span>GIF</span>
+                    <input type="checkbox"   class="ml12" [(ngModel)]="format4" name="format4" [value]="'0'"><span>未知</span>
+            </div>
+            <div class="add-length inflow-error">
+                    <span  class="diplay-inline-block ml35">标题：</span>
+                    <i>*</i>
+                    <input type="text" [(ngModel)]="titleMaxLen" name="titleMaxLen" validation [validations]="'required;typeflag'" class="width320">
+            </div>
+            <div class="line-height50">
+                    <span  class="diplay-inline-block ml35">描述：</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="descriptionRequire" name="descriptionRequire:'1'" [value]="'1'"><span>不填</span>
+                    <input type="radio"  class="ml12" [(ngModel)]="descriptionRequire" name="descriptionRequire:'2'" [value]="'2'"><span>选填</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="descriptionRequire" name="descriptionRequire:'3'" [value]="'3'"><span>必填</span>
+                    <input type="text" [(ngModel)]="descriptionMaxLen" name="descriptionMaxLen"  class="width240 height34 ml30" placeholder="请输入最大字符长度" [ngClass]="{'hide':(descriptionRequire=='1'?true:false)}">
+            </div>
+            <div class="line-height50">
+                    <span >行为按钮：</span>
+                    <input type="radio"   class="ml10" [(ngModel)]="ctaDescRequire" name="ctaDescRequire:'1'" [value]="'1'"><span>不填</span>
+                    <input type="radio"  class="ml12" [(ngModel)]="ctaDescRequire" name="ctaDescRequire:'2'" [value]="'2'" ><span>选填</span>
+                    <input type="radio"   class="ml12"[(ngModel)]="ctaDescRequire" name="ctaDescRequire:'3'" [value]="'3'"><span>必填</span>
+                    <input type="text" [(ngModel)]="ctaDescMaxLen" name="ctaDescMaxLen"  class="width240 height34 ml30" placeholder="请输入最大字符长度" [ngClass]="{'hide':(ctaDescRequire=='1'?true:false)}">
+            </div>
+            <div class="line-height50">
+                    <span  class="diplay-inline-block ml35">评分：</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needGoodsStar" name="needGoodsStar:'1'" [value]="'1'"><span>不填</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needGoodsStar" name="needGoodsStar:'2'" [value]="'2'"><span>选填</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needGoodsStar" name="needGoodsStar:'3'" [value]="'3'"><span>必填</span>
+            </div>
+            <div class="line-height50">
+                    <span  class="diplay-inline-block ml35">原价：</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needOriginalPrice" name="needOriginalPrice:'1'" [value]="'1'" ><span>不填</span>
+                    <input type="radio"  class="ml12" [(ngModel)]="needOriginalPrice" name="needOriginalPrice:'2'" [value]="'2'" ><span>选填</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needOriginalPrice" name="needOriginalPrice:'3'" [value]="'3'"><span>必填</span>
+            </div>
+            <div class="line-height50">
+                    <span  class="diplay-inline-block ml18">折后价：</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needDiscountPrice" name="needDiscountPrice:'1'" [value]="'1'" ><span>不填</span>
+                    <input type="radio"  class="ml12" [(ngModel)]="needDiscountPrice" name="needDiscountPrice:'2'" [value]="'2'"><span>选填</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needDiscountPrice" name="needDiscountPrice:'3'" [value]="'3'"><span>必填</span>
+            </div>
+            <div class="line-height50">
+                    <span  class="diplay-inline-block ml35">销量：</span>
+                    <input type="radio"   class="ml12" [(ngModel)]="needSalesVolume" name="needSalesVolume:'1'" [value]="'1'" ><span>不填</span>
+                    <input type="radio"  class="ml12" [(ngModel)]="needSalesVolume" name="needSalesVolume:'2'" [value]="'2'" ><span>选填</span>
+                    <input type="radio"   class="ml12"[(ngModel)]="needSalesVolume" name="needSalesVolume:'3'" [value]="'3'"><span>必填</span>
+            </div>
+            <button class="btn btn-default btn1 mt30" (click)="cancel()">取消</button>
+            <button class=" btn btn-primary mt30" (click)="save()">确定</button>
+   </div>    
+</div>
+

@@ -1,0 +1,117 @@
+<div class="content">
+    <div class="add-form-box">
+        <div class="flex-start-center">
+            <div class="flex-start-center width250 height50 radius5 bgc-gray12 color-white rel top-25">
+                <img src="{{ number1 }}" class="ml15">
+                <img src="{{ gr }}" class="ml10 height50">
+                <div class="ml10">详情审核</div>
+            </div>
+            <div class="flex-start-center width250 height50 radius5 bgc-gray12 color-white rel top-25 ml10">
+                <img src="{{ number2 }}" class="ml15">
+                <img src="{{ gr }}" class="ml10 height50">
+                <div class="ml10">物料包审核</div>
+            </div>
+            <div class="flex-start-center width250 height50 radius5 bgc-yellow4 color-white rel top-25 ml10">
+                <img src="{{ number3 }}" class="ml15">
+                <img src="{{ yr }}" class="ml10 height50">
+                <div class="ml10">渠道,媒体及渠道设置</div>
+            </div>
+        </div>
+        <div class="flex-base mt34">
+            <div class="font18 width120 height34 line-height34 textcenter font-bold">投放信息</div>
+            <!--<div class="font18 width150 height34 line-height34 textcenter font-bold color-blue3">渠道媒体推荐 >></div>-->
+        </div>    
+        <div class="flex-base">
+            <div class="height2 bgc-blue4 width120"></div>
+            <div class="height1 bgc-gray3 self-flex-end flex-grow1"></div>
+        </div>
+        <div class="flex-base mt34 disSelected">
+            <div class="width220 textright height60 line-height60 rel required-left">渠道定向：</div>
+            <div class="flex-wrap width1200 ml20">
+                <ng-container *ngFor="let v of adxs;let i = index">
+                    <label *ngIf="v.logoPath" class="flex-column-start-start height120 mr20 mb20">
+                        <div class="flex-start-center">
+                            <input type="checkbox" [(ngModel)]="v.selected" [attr.name]="'adxSelected' + i" class="mr10">
+                            <img src="{{ v.logoPath }}" class="height38 mr10">
+                            <div class="font12 mt10 mb10">[竞价]</div>
+                        </div>
+                    </label> 
+                </ng-container>
+                <ng-container *ngFor="let v of contracts;let i = index">
+                    <label *ngIf="v.logoPath" class="flex-column-start-start height120 mr20 mb20">
+                        <div class="flex-start-center mb10">
+                            <input type="checkbox" [(ngModel)]="v.selected" [attr.name]="'contractsSelected' + i" class="mr10">
+                            <img src="{{ v.logoPath }}" class="height38 mr10">
+                            <div class="font12 mt10 mb10">[定价]</div>
+                        </div>
+                        <div>
+                            <div *ngIf="v.name" class="width150 textleft wordwrap ml40 ell">{{ v.name }}</div>
+                            <div *ngIf="v.id" class="width150 textleft wordwrap ml40 ell">{{ " deal id: " + v.id }}</div>
+                            <div *ngIf="v.bid" class="width150 textleft wordwrap ml40 ell">{{ v.bid + "元/CPM" }}</div>
+                        </div>
+                    </label>
+                </ng-container>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">按媒体分类：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr40">
+                    <input type="radio" [(ngModel)]="campaign.targeting.appType.isInclude" name="isappTypeis" [value]="undefined" (click)="removeAppType()">不限
+                </label>
+                <label class="mr40">
+                    <input type="radio" [(ngModel)]="campaign.targeting.appType.isInclude" name="isappTypeisInclude" [value]="'1'">选择分类
+                </label>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="campaign.targeting.appType.isInclude" name="deleteappTypeisInclude" [value]="'0'">排除分类
+                </label>
+            </div>
+        </div>
+        <div class="flex-base mt34" *ngIf="campaign.targeting.appType.isInclude">
+            <div class="width220 textright height60 line-height60"></div>
+            <div class="flex-wrap width1200 ml20">
+                <div *ngFor="let v of appTypes;let i = index" (click)="toggleAppType(v)" [class.campaign-appType]="v.selected" class="rel mr20 mb20 width110 height38 border-yellow3-1px textcenter line-height38 font12 radius3 disSelected pointer">
+                    {{ v.name }}
+                    <span class="icon-dg-right22 right0 bottom0 abs font16" *ngIf="v.selected"></span>
+                </div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">按媒体名称：</div>
+            <div class="flex-start-center width1200 ml20">
+                <div *ngIf="appAmount" class="mr20">{{ (campaign.targeting.app.isInclude === "0" ? "排除了 " : "选择了 ") + appAmount + " 个媒体" }}</div>
+                <button class="btn btn-primary" (click)="showApp()">点击设置</button>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright rel required-left">出价：</div>
+            <div class="flex-base width1200 ml20">
+                <div class="width150">
+                    <input type="text" class="form-control" [(ngModel)]="realBid" name="realBid" validation [validations]="'rate;required;maxnum:9999.99'">
+                </div>
+                <div class="ml10">元/CPM</div>
+            </div>
+        </div>
+        <modal #appModal [backdrop]="'static'" [animation]="false" class="modalApp">
+            <modal-body>    
+                <div class="ng2-modal-header">
+                    <div class="width3 height18 bgc-blue4 ml20"></div> 
+                    <div class="ml10 font16 font-bold color-gray5">选择媒体</div>   
+                </div>    
+                <ng-app *ngIf="isShowApp"
+                    [app] = "campaign.targeting.app"
+                    (outer)="onAppMessage($event)"
+                ></ng-app>
+            </modal-body>
+        </modal>
+        <div class="dashed-gray3-1px mt34 mb50"></div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright"></div>
+            <div class="flex-base width1200 ml20">
+                <button class="btn btn-primary mr10" (click)="prevent()">上一步</button>
+                <button class="btn btn-primary mr10" (click)="save()">通过并下一步</button>
+                <button class="btn btn-cancel" (click)="cancel()">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>

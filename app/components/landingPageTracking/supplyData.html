@@ -1,0 +1,181 @@
+<div class="landing-page-tracking-wrapper">
+	<ul class="nav nav-tabs navTabs" role="tablist">
+		<li role="presentation">
+			<button href="#duringAnalysis" aria-controls="duringAnalysis" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('duringAnalysis')">时段分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#spatialAnalysis" aria-controls="spatialAnalysis" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('spatialAnalysis')">地域分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#networkAnalysis" aria-controls="networkAnalysis" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('networkAnalysis')">网络分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#equipmentAnalysis" aria-controls="equipmentAnalysis" role="tab" data-toggle="tab" class="btn btn-primary paddingTB10 btn-lg" (click)="goRouter('equipmentAnalysis')">设备分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#analysisOfThePageSurveyed" aria-controls="analysisOfThePageSurveyed" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('analysisOfThePageSurveyed')">受访页面分析</button>
+		</li>
+		<li role="presentation" class="active">
+			<button href="#analysisOfRetentionData" aria-controls="analysisOfRetentionData" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('analysisOfRetentionData')">留资数据分析</button>
+		</li>
+	</ul>
+	<div class="row">
+		<form class="form-inline">
+		    <div class="form-group col-sm-3">
+			    <label for="" class="control-label">时间选择：</label>
+			    <div class="rel width220 display-inline-block">
+                    <input id="timeRangePicker" class="form-control width220" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}" >
+                    <i class="icon-calendar time-icon"></i>
+                </div>
+		    </div>
+		    <div class="form-group col-sm-3">
+			    <label for="" class="control-label">客户：</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部客户</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-3">
+			     <label for="" class="control-label">广告项目：</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部广告项目</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-3">
+			     <label for="" class="control-label">推广活动：</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部推广活动</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-3">
+			    <label for="" class="control-label">物料包:</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部物料包</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-4">
+		    	<button type="button" class="btn btn-primary">查询</button>
+		    </div>
+		</form>
+	</div>
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane " id="duringAnalysis">duringAnalysis</div>
+		<div role="tabpanel" class="tab-pane" id="spatialAnalysis">spatialAnalysis</div>
+		<div role="tabpanel" class="tab-pane" id="networkAnalysis">networkAnalysis</div>
+		<div role="tabpanel" class="tab-pane" id="equipmentAnalysis">equipmentAnalysis</div>
+		<div role="tabpanel" class="tab-pane" id="analysisOfThePageSurveyed">analysisOfThePageSurveyed</div>
+		<div role="tabpanel" class="tab-pane active" id="analysisOfRetentionData">
+				<div class="width-100 ">
+						<div class="add-head-line height50 line-height50 border-gray3-1px analysisdata">
+								<!-- <span class="line1"></span> -->
+								<ul>
+										<li   (click)="goRouter('analysisOfRetentionData')">平台数据</li>
+										<li (click)="goRouter('analysisOfRetentionData/supplyData')" class="active">供应商数据</li>
+										<li (click)="goRouter('analysisOfRetentionData/compareData')">数据对比</li>
+								</ul>
+							</div>
+					<!-- <div #analysisOfRetentionDataEcharts class="width-100 "></div> -->
+				</div>
+			<div class="width-100 ">
+					<div class="add-head-line height50 line-height50 border-gray3-1px">
+							<!-- <span class="display-inline-block cursor-point  height25 border-gray3-1px line-height10 padding5 ml675">重复数据</span>
+							<button class="btn btn-primary height35 line-height35 ml-6" >平台独有</button>
+							<span  class="display-inline-block cursor-point  height25 border-gray3-1px line-height10 padding5 ml-6">供应商独有</span>
+							<span class="glyphicon glyphicon-download-alt cursor-point ml560 loadlist"></span>
+							<span>导出数据</span> -->
+							<button class="btn btn-primary ml1250">下载模板</button>
+							<button class="btn btn-primary">导入供应商数据</button>
+							<span class="glyphicon glyphicon-download-alt cursor-point  loadlist"></span>
+							<span>导出数据</span>
+						</div>
+	            <!-- <div #analysisOfRetentionDataEcharts class="width-100 "></div> -->
+	        </div>
+			<ngx-datatable #analysisOfRetentionDataTable
+			 [rows]="analysisOfRetentionDataData" 
+			 [columnMode]="'force'" 
+			 [draggable]="false" 
+			 [externalSorting]="true" 
+			 [externalPaging]="true" 
+			 [headerHeight]="50" 
+			 [footerHeight]="50" 
+			 [rowHeight]="50" 
+			 [limit]="page.pageSize" 
+			 [count]="page.total" 
+			 [offset]="page.pageNo" 
+			 (page)="onPage($event)" 
+			 [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }" 
+			 [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+				<ngx-datatable-column name="姓名" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="性别" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="电话号码" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="意向车型" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="省" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="市" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="经销商代码" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="购车时间" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="购车预算" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="添加时间" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+			</ngx-datatable>
+		</div>
+	</div>
+</div>

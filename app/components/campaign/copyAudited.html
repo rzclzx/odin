@@ -1,0 +1,53 @@
+<div class="content">
+        <div class="ml80 mt30">
+             <div class="line-height50 ">
+                 <div class="pname dispaly-inline-block .abs width175 text-right">
+                     <span class="display-inline-block rel left0">&nbsp;&nbsp;&nbsp;<i class="color-bluebtn">*</i>推广活动名称：</span>
+                 </div>
+                 <input type="text" class="width240 form-control dispaly-inline-block" [(ngModel)]="realBid" name="realBid" validation [validations]="'policyName;required'">
+                 <div class="ml10 dispaly-inline-block">限20个字以内</div>
+                 <img src="../../images/zhuangtai.png" alt=""title="若选择按地域批量复制，则复制后的推广活动名称为“填写的名字+阿拉伯数字”">
+             </div>
+             <div class=" line-height50">
+                 <div class="pname dispaly-inline-block .abs width175 text-right">
+                     <span class="display-inline-block rel left0 ml30"><i class="color-bluebtn">*</i>复制到广告项目：</span>
+                 </div>
+                 <div class="width320 mr10 dis-inlieblock">
+                     <select class="form-control width160" [(ngModel)]="campaign" name="campaign" >
+                         <!--<option [ngValue]="undefined">请选择广告项目</option>-->
+                         <option *ngFor="let v of campaigns;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                     </select>
+                 </div>
+                <!-- <div class="dispaly-inline-block">
+                        <input type="checkbox" class="ml20">
+                        <span>复制到当前广告项目</span>
+                 </div>-->
+             </div>
+             <div class=" line-height50">
+                 <div class="pname dispaly-inline-block width175 text-right">
+                     <span class="display-inline-block ml75"><i class="color-bluebtn">*</i>复制内容：</span>
+                 </div>
+                 <input type="checkbox" (change)="packageCheckbox($event,obj.package)" [(ngModel)]="obj.package" [value] = "false">
+                 <span>物料包</span>
+                 <input type="checkbox" id="policy" [(ngModel)]="obj.policy" [value] = "false">
+                 <span>投放策略</span>
+             </div>
+        </div>
+        <!--<div class=" line-height50 ml80">
+             <div class="pname dispaly-inline-block">
+                    <input type="checkbox">
+                 <span class="display-inline-block">按地域批量复制：</span>
+             </div>
+             <input type="text" class="ml12 width370">
+             <span class="glyphicon glyphicon-plus-sign" (click)="show()"></span>
+             <img class="vertical-align-tt" src="../../images/zhuangtai.png" alt=""title="若选择按地域批量复制时，可设置多组区域，系统会自动复制多组推广活动，复制后的推广活动除名称、地域定向外，其他内容与原推广活动一致。">
+             <div class="ml177 hide jian">
+                    <input type="text" class="width370">
+                    <span class="glyphicon glyphicon-minus-sign" (click)="hide()"></span>
+             </div>
+         </div>-->
+         <div class="line-height60 ml300">
+                 <button class="btn btn-primary" (click)="cancel()">取消</button>
+                 <button class="btn btn-primary ml20" (click)="save()">保存</button>
+         </div>
+     </div>    

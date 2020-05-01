@@ -1,0 +1,240 @@
+<div class="content-creative">
+    <div class="creative-name text-left">
+        <span>{{"广汽哦哦个推广活动"}}</span>
+    </div>
+    <div class="public-list clearfix">
+        <ul>
+            <li class="clearfix">
+                <span class="left">广告主：</span>
+                <span class="pull-right">{{headtitletext.advertiserName}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">广告项目：</span>
+                <span class="pull-right">{{headtitletext.projectName}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">推广活动：</span>
+                <span class="pull-right">{{headtitletext.campaignName}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-pannel clearfix">
+        <div class="tab-option" [class.active]="tab==1" (click)="wuliaobaotioazhuan()"><span class="bottom-l"></span>物料包详情</div>
+        <div class="tab-option" [class.active]="tab==2" ><span class="bottom-l"></span>创意</div>
+
+        <div class="pull-right mt10 mr10">
+
+            <span *ngIf="creativeType==2">
+                <a>视频创意推荐 >></a>
+            </span>
+        </div>
+    </div>
+    <div class="text-center">
+        <div class="package-type">
+            <label>
+                <input type="radio" [(ngModel)]="creativeType" [value]="'1'" name="typeDay" (click)="changeCreativeType('1')"/>
+                <span>图片</span>
+            </label>
+            <label>
+                <input type="radio" [(ngModel)]="creativeType" [value]="'2'" name="typeDay" (click)="changeCreativeType('2')"/>
+                <span>视频</span>
+            </label>
+            <label>
+                <input type="radio" [(ngModel)]="creativeType" [value]="'3'" name="typeDay" (click)="changeCreativeType('3')"/>
+                <span>原生</span>
+            </label>
+        </div>
+    </div>
+
+    <ng-page
+             [page]="page"
+             (outerPage)="onPage($event)"
+    ></ng-page>
+    <ngx-datatable #mydatatable
+                   [rows]="tmpls"
+                   [limit]="page.pageSize"
+                   [count]="page.total"
+                   [offset]="page.pageNo"
+                   (select)="onSelect($event,page)"
+                   [columnMode]="'force'"
+                   [rowHeight]="'auto'"
+                   [headerHeight]="'50'"
+                   [selected]="selected"
+                   [rowDetailTemplate]="rowDtlTmpl"
+                   [detailRowHeight]="'auto'"
+                   [messages]="{ emptyMessage: '暂无数据', totalMessage: '条记录' }"
+                   (activate)="onActivate($event)"
+                   [externalPaging]="true"
+                   [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+        <ngx-datatable-column name="广告位名称" [resizeable]="false" [sortable]="false" [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell addvideopackage">
+                    <span title="{{row.name}}">{{ row.name }}</span>
+                    <span class="icon-alert-01 color-blue2 font16 campaign-appType-alertshow"></span>
+                    <div class="campaign-appType-alert">
+                        展开详情，上传视频及相应信息
+                    </div>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="渠道" [resizeable]="false" [sortable]="false" [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{row.adxName}}">{{ row.adxName }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="尺寸" [resizeable]="false" [sortable]="false" [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{row.frameWidth}}*{{row.frameHeight }}" *ngIf="row.frameWidth && row.frameHeight">{{row.frameWidth}}*{{row.frameHeight }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="格式" [resizeable]="false" [sortable]="false" [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{videosupport(row.videoFormats)}}">{{videosupport(row.videoFormats)}}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    <ng-page
+             [isFooter]="true"
+             [page]="page"
+             (outerPage)="onPage($event)"
+    ></ng-page>
+
+    <!-- 详情模板 -->
+    <template #rowDtlTmpl let-row="row" let-value="value" let-index="index">
+        <div class="upload-list clearfix templaddvideopackage">
+            <div class="messagesuccess" *ngIf="submitflag" #sumbimtsuccess>
+                <span class="icon-dg-right22 right0 bottom0 abs font16"></span><span>{{row.videoname}} 以保存并提交</span>
+            </div>
+
+            <div class="upload-left ">
+                <div class="upload-left-creative mr10">
+                    <div class="box">
+                        <div class="box-thumb-in">
+                            <span></span>
+                            <img class="uploadcreative" *ngIf="uploadshow.imgpath" src="{{uploadshow.imgpath}}" />
+                            <div class="btn btn-primary mt50" *ngIf="!uploadshow.imgpath" [ngClass]="{'displaynone':uploadshow.imgpath}" style="position: relative;">
+                                上传图片创意
+                                <input type="file" class="btn btn-primary"  #fileinput ng2FileSelect [uploader]="uploader" style="top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; opacity: 0; position: absolute;"></div>
+                            <button class="btn btn-primary" *ngIf="!uploadshow.imgpath" (click)="importCreative('1')">导入图片创意</button>
+
+                            <modal #regionModal [backdrop]="'static'" [animation]="false" class="modalRegion packageCreative">
+                                <modal-header>
+                                    <div class="ng2-modal-header">
+                                        <div class="width3 height18 bgc-blue4 ml20"></div>
+                                        <div class="ml10 font16 font-bold color-gray5">我的创意</div>
+                                        <div class="btn-group specilSelect ml20 mr10">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{advertiser.name}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li *ngFor="let v of advertisers;let i = index;" (click)="selectedAdvertiser(v)" title="{{v.name}}">{{v.name}}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="btn-group specilSelect mr10">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{campaign.name}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li *ngFor="let v of campaigns;let i = index;" (click)="selectedCampaign(v)" title="{{v.name}}">{{v.name}}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="btn-group specilSelect mr10">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{creative.name}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li *ngFor="let v of creatives;let i = index;" (click)="selectedCreative(v)" title="{{v.name}}">{{v.name}}</li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </modal-header>
+                                <modal-body>
+                                    <div class="conentimg" *ngFor="let result of imgresults">
+                                        <div class="Imgdescription"  (click)="toggleAppType(result,$index)">
+                                            <img *ngIf="!videoflag" src="{{result.path}}"/>
+                                            <video controls="controls" *ngIf="videoflag" style="width:100%;height:100%" src="{{result.path}}"></video>
+                                            <span class="icon-dg-right22 right0 bottom0 abs font16" *ngIf="result.selected"></span>
+                                        </div>
+                                        <div class="Textdescription">
+                                            <div title="{{result.creativename}}" class="pull-left">{{result.creativename}}</div>
+                                            <div title="{{result.width}}*{{result.height}}" class="pull-right">{{result.width}}*{{result.height}}</div>
+                                        </div>
+                                    </div>
+                                </modal-body>
+                                <modal-footer>
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-cancel btn-sm height30 width65" (click)="regionCancel()">取消</button>
+                                        <button type="button" class="btn btn-primary btn-sm height30 width65" *ngIf="!videoflag" (click)="regionModalSubmit('1')">确定</button>
+                                        <button type="button" class="btn btn-primary btn-sm height30 width65" *ngIf="videoflag" (click)="regionModalSubmit('2')">确定</button>
+                                    </div>
+
+                                </modal-footer>
+                            </modal>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="upload-left-creative mr10">
+                    <div class="box">
+                        <div class="box-thumb-in">
+                            <video class="uploadcreative" controls="controls" autoplay="autoplay" *ngIf="uploadshow.videopath" src="{{uploadshow.videopath}}" style="width: 100%;height: 100%"></video>
+                            <div class="btn btn-primary mt50" *ngIf="!uploadshow.videopath" [ngClass]="{'displaynone':uploadshow.videopath}" style="position: relative;">
+                                上传视频创意
+                                <input type="file" class="btn btn-primary"  #file ng2FileSelect [uploader]="uploadervideo" style="top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; opacity: 0; position: absolute;"></div>
+                            <button class="btn btn-primary" *ngIf="!uploadshow.videopath" (click)="importCreative('2')">导入视频创意</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="videoInfo objlist-name">
+                    <div class="clearfix">
+                        <span class="control-span">视频名称：<span class="B" style="color:#5CBBFF">*</span></span>
+                        <div class="left">
+                            <input type="text" class="form-control w240" [(ngModel)]="row.videoname" name="videoname" validation [validations]="'videoCreativeName;required'">
+                        </div>
+                    </div>
+                    <div class="objlist-content">
+                        <div class="objlist-content-left">
+                            <span class="control-span">尺寸：</span>
+                            <span class="control-text">{{row.frameWidth}}*{{row.frameHeight }}</span>
+                        </div>
+                        <div class="objlist-content-left">
+                            <span class="control-span">视频时长：</span>
+                            <span class="control-text">{{row.duration}}s</span>
+                        </div>
+                    </div>
+                    <div class="objlist-content">
+                        <div class="objlist-content-right">
+                            <span class="control-span">视频支持大小：</span>
+                            <span class="control-text" *ngIf="row.maxVolume"><{{row.maxVolume/1024}}M</span>
+                        </div>
+                        <div class="objlist-content-right">
+                            <span class="control-span">视频支持格式：</span>
+                            <span class="control-text">{{videosupport(row.videoFormats)}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="saveCreative-btn">
+                <button class="btn btn-primary" (click)="submitCreative(row)">保存并提交审核</button>
+            </div>
+        </div>
+    </template>
+
+
+</div>
+

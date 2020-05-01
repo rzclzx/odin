@@ -1,0 +1,129 @@
+<div class="content">
+    <div class="mt30">
+        <div class="flex-start-center">
+            <div class="flex-start-center width250 height50 radius5 bgc-gray12 color-white rel top-25">
+                <img src="{{ number1 }}" class="ml15">
+                <img src="{{ gr }}" class="ml10 height50">
+                <div class="ml10">详情审核</div>
+            </div>
+            <div class="flex-start-center width250 height50 radius5 bgc-yellow4 color-white rel top-25 ml10">
+                <img src="{{ number2 }}" class="ml15">
+                <img src="{{ yr }}" class="ml10 height50">
+                <div class="ml10">物料包审核</div>
+            </div>
+            <div class="flex-start-center width250 height50 radius5 bgc-gray12 color-white rel top-25 ml10">
+                <img src="{{ number3 }}" class="ml15">
+                <img src="{{ gr }}" class="ml10 height50">
+                <div class="ml10">渠道,媒体及渠道设置</div>
+            </div>
+        </div>
+        <ngx-datatable
+            [rows]="packages"
+            [columnMode]="'force'"
+            [draggable]="false"
+            [externalPaging]="true"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [limit]="page.pageSize"
+            [count]="page.total"
+            [offset]="page.pageNo"
+            [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+            <ngx-datatable-column name="物料包ID" prop="id" [resizeable]="false" [sortable]="false">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.id }}</span>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="物料包名称" prop="name" [resizeable]="false" [sortable]="false">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="展现监测地址" prop="impressionUrl1" [resizeable]="false" [sortable]="false">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="flex-start-center height50 packageHover">
+                        <div *ngIf="!toggleArr[row.$$index][0]" class="color-blue3 ell width-90">{{ row.impressionUrl1 }}</div>
+                        <span *ngIf="!toggleArr[row.$$index][0]" class="icon-bianji color-blue3 ml10 pointer dispaly-none" (click)="toggle(row.$$index,0)"></span>
+                        <div *ngIf="toggleArr[row.$$index][0]" class="width-60 mr10">
+                            <input id="{{ row.$$index + '-impressionUrl1' }}" class="form-control" type="text" value="{{ row.impressionUrl1 }}">              
+                        </div>
+                        <button *ngIf="toggleArr[row.$$index][0]" class="btn btn-primary mr10 width45 min-width45 padding0" (click)="toggle(row.$$index,0,row.$$index + '-impressionUrl1')">确定</button>
+                        <button *ngIf="toggleArr[row.$$index][0]" class="btn btn-cancel width45 min-width45 padding0" (click)="toggle(row.$$index,0)">取消</button>
+                    </div>                     							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="点击监测地址" prop="clickUrl" [resizeable]="false" [sortable]="false">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="flex-start-center height50 packageHover">
+                        <div *ngIf="!toggleArr[row.$$index][1]" class="color-blue3 ell width-90">{{ row.clickUrl }}</div>
+                        <span *ngIf="!toggleArr[row.$$index][1]" class="icon-bianji color-blue3 ml10 pointer dispaly-none" (click)="toggle(row.$$index,1)"></span>
+                        <div *ngIf="toggleArr[row.$$index][1]" class="width-60 mr10">
+                            <input id="{{ row.$$index + '-clickUrl' }}" class="form-control" type="text" value="{{ row.clickUrl }}">              
+                        </div>
+                        <button *ngIf="toggleArr[row.$$index][1]" class="btn btn-primary mr10 width45 min-width45 padding0" (click)="toggle(row.$$index,1,row.$$index + '-clickUrl')">确定</button>
+                        <button *ngIf="toggleArr[row.$$index][1]" class="btn btn-cancel width45 min-width45 padding0" (click)="toggle(row.$$index,1)">取消</button>
+                    </div>						
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="落地页地址" prop="landpageUrl" [resizeable]="false" [sortable]="false">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="flex-start-center height50 packageHover">
+                        <div *ngIf="!toggleArr[row.$$index][2]" class="color-blue3 ell width-90">{{ row.landpageUrl }}</div>
+                        <span *ngIf="!toggleArr[row.$$index][2]" class="icon-bianji color-blue3 ml10 pointer dispaly-none" (click)="toggle(row.$$index,2)"></span>
+                        <div *ngIf="toggleArr[row.$$index][2]" class="width-60 mr10">
+                            <input id="{{ row.$$index + '-landpageUrl' }}" class="form-control" type="text" value="{{ row.landpageUrl }}">              
+                        </div>
+                        <button *ngIf="toggleArr[row.$$index][2]" class="btn btn-primary mr10 width45 min-width45 padding0" (click)="toggle(row.$$index,2,row.$$index + '-landpageUrl')">确定</button>
+                        <button *ngIf="toggleArr[row.$$index][2]" class="btn btn-cancel width45 min-width45 padding0" (click)="toggle(row.$$index,2)">取消</button>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="deeplick地址" prop="deeplinkUrl" [resizeable]="false" [sortable]="false">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="flex-start-center height50 packageHover">
+                        <div *ngIf="!toggleArr[row.$$index][3]" class="color-blue3 ell width-90">{{ row.deeplinkUrl }}</div>
+                        <span *ngIf="!toggleArr[row.$$index][3]" class="icon-bianji color-blue3 ml10 pointer dispaly-none" (click)="toggle(row.$$index,3)"></span>
+                        <div *ngIf="toggleArr[row.$$index][3]" class="width-60 mr10">
+                            <input id="{{ row.$$index + '-deeplinkUrl' }}" class="form-control" type="text" value="{{ row.deeplinkUrl }}">              
+                        </div>
+                        <button *ngIf="toggleArr[row.$$index][3]" class="btn btn-primary mr10 width45 min-width45 padding0" (click)="toggle(row.$$index,3,row.$$index + '-deeplinkUrl')">确定</button>
+                        <button *ngIf="toggleArr[row.$$index][3]" class="btn btn-cancel width45 min-width45 padding0" (click)="toggle(row.$$index,3)">取消</button>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="素材" prop="creativeNum" [resizeable]="false" [sortable]="false" [width]="30">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell color-blue3">
+                        <span class="pointer" (click)="showBanner(row.imageCreatives,'0')">{{ row.imageCreatives.length }}</span>
+                        <span> / </span>
+                        <span class="pointer" (click)="showBanner(row.videoCreatives,'1')">{{ row.videoCreatives.length }}</span>
+                        <span> / </span>
+                        <span class="pointer" (click)="showBanner(row.infoflowCreatives,'2')">{{ row.infoflowCreatives.length }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+        <modal #modalBanner [backdrop]="'static'" [animation]="false" class="modalBanner">
+            <modal-body>    
+                <ng-banner
+                    *ngIf="isShowBanner"
+                    [creative] = "creativeObj"
+                    (close)="closeBanner()"
+                ></ng-banner>
+            </modal-body>
+        </modal>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="flex-base width1200 ml20">
+                <button class="btn btn-primary mr10" (click)="prevent()">上一步</button>
+                <button class="btn btn-primary mr10" (click)="save()">通过并下一步</button>
+                <button class="btn btn-cancel" (click)="cancel()">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+

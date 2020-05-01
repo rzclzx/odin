@@ -1,0 +1,95 @@
+
+<div class="content">
+    <div class="size-top">
+        <span class="line3"></span>
+        <ul>
+            <li (click)="gotoimageSize()">图片尺寸</li>
+            <li (click)="gotoimagePoses()">图片广告位</li>
+            <li (click)="gotovideoPoses()">视频广告位</li>
+            <li class="active">原生广告位</li>
+        </ul>
+    </div>
+    <div class="add-size display-inline-block rel">   
+        <div class="abs left0 inflow-top">
+                <button class="btn btn-primary height44">原生广告位</button>
+                <span class="display-inline-block cursor-point  height34 line-height23" (click)="gotoinfoflowTmpls()">模板</span>
+        </div>   
+        <button class="btn btn-primary imagebtn" (click)="gotoaddinflowPoses()">新增原生广告位</button>
+    </div>
+    <div class="adxselect">
+        <input type="checkbox"  [(ngModel)]="inflowPosesAllcheck" name="inflowPosesAllcheck" (change)="allCheckFire(0)"><span>全选</span>
+        <span class="circle cursor-point" (click)="start()">开始</span>
+        <span class="circle  cursor-point" (click)="stop()">暂停</span>
+    </div>
+    <div class="size-list">
+            <ngx-datatable #inflowPosesDatatable
+            [rows]="inflows"
+            [columnMode]="'force'"
+            [selected]="inflowPosesSelected"
+            [selectionType]="'checkbox'"
+            [draggable]="false"
+            [externalSorting]="true"
+            [externalPaging]="true"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [limit]="page.pageSize"
+            [count]="page.total"
+            [offset]="page.pageNo"
+            (page)="onPage($event)"
+            (select)="onSelect($event,0)"
+            [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+            <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+            <ngx-datatable-column  [resizeable]="false" [sortable]="false" [width]="120"  [canAutoResize]="false">
+            <template ngx-datatable-cell-template let-row="row">
+            <div class="ell">
+            <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.enable=='1'?true:false)}" (click)="switchChange(row)">
+                <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.enable=='1'?false:true)}"></span>
+                <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.enable=='1'?false:true)}"></span>
+            </div>
+            </div>
+            </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="名称" prop="row.name" [resizeable]="false" [sortable]="false"> 
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="状态" prop="row.enable" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="80">
+                    <template ngx-datatable-cell-template let-row="row">
+                        <div class="ell">
+                            <span>{{ row.enable=="1"?"开启":"暂停" }}</span>
+                        </div>								
+                    </template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="操作" prop="编辑" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="80">
+                        <template ngx-datatable-cell-template let-row="row">
+                            <div class="ell">
+                                <a (click)="gotoeditinflowPoses(row.id)" class="cursor-point">编辑</a>
+                            </div>								
+                        </template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="模板" prop="模板" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="80">
+                            <template ngx-datatable-cell-template let-row="row">
+                                <div class="ell">
+                                  {{ row.infoflowTmpl && row.infoflowTmpl.name}}
+                                </div>								
+                            </template>
+                        </ngx-datatable-column>
+                    <ngx-datatable-column name="渠道" prop="渠道" [resizeable]="false" [sortable]="false" >
+                            <template ngx-datatable-cell-template let-row="row">
+                                <div class="ell">
+                                    <span>{{ row.adxName }}</span>
+                                </div>								
+                            </template>
+                        </ngx-datatable-column>        
+        </ngx-datatable>
+    </div>   
+</div>
+

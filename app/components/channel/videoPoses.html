@@ -1,0 +1,117 @@
+
+<div class="content">
+    <div class="size-top">
+        <span class="line2"></span>
+        <ul>
+            <li (click)="gotoimageSize()">图片尺寸</li>
+            <li (click)="gotoimagePoses()">图片广告位</li>
+            <li class="active">视频广告位</li>
+            <li (click)="gotoinfoflowPoses()">原生广告位</li>
+        </ul>
+    </div>
+    <div class="add-size">
+        <button class="btn btn-primary imagebtn" (click)="gotoaddvideoPoses()">新增视频广告位</button>
+    </div>
+    <div class="adxselect">
+        <input type="checkbox"  [(ngModel)]="videoPosesAllcheck" name="videoPosesAllcheck" (change)="allCheckFire(0)"><span>全选</span>
+        <span class="circle cursor-point" (click)="start()">开始</span>
+        <span class="circle  cursor-point" (click)="stop()">暂停</span>
+    </div>
+    <div class="size-list">
+            <ngx-datatable #videoPosesDatatable
+            [rows]="videos"
+            [columnMode]="'force'"
+            [selected]="videoPosesSelected"
+            [selectionType]="'checkbox'"
+            [draggable]="false"
+            [externalSorting]="true"
+            [externalPaging]="true"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [limit]="page.pageSize"
+            [count]="page.total"
+            [offset]="page.pageNo"
+            (page)="onPage($event)"
+            (select)="onSelect($event,0)"
+            [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+            <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+            <ngx-datatable-column  [resizeable]="false" [sortable]="false" [width]="120"  [canAutoResize]="false">
+            <template ngx-datatable-cell-template let-row="row">
+            <div class="ell">
+            <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.enable=='1'?true:false)}" (click)="switchChange(row)">
+                <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.enable=='1'?false:true)}"></span>
+                <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.enable=='1'?false:true)}"></span>
+            </div>
+            </div>
+            </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="名称" prop="row.name" [resizeable]="false" [sortable]="false"> 
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="状态" prop="row.enable" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="80">
+                    <template ngx-datatable-cell-template let-row="row">
+                        <div class="ell">
+                            <span>{{ row.enable=="1"?"开启":"暂停" }}</span>
+                        </div>								
+                    </template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="操作" prop="编辑" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="80">
+                        <template ngx-datatable-cell-template let-row="row">
+                            <div class="ell">
+                                <a (click)="gotoeditvideoPoses(row.id)" class="cursor-point">编辑</a>
+                            </div>								
+                        </template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="渠道" prop="row.adxName" [resizeable]="false" [sortable]="false" >
+                            <template ngx-datatable-cell-template let-row="row">
+                                <div class="ell">
+                                    <span>{{ row.adxName }}</span>
+                                </div>								
+                            </template>
+                        </ngx-datatable-column>        
+            <ngx-datatable-column name="尺寸(px)" prop="row.frameWidth" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="220">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.frameWidth}}*{{row.frameHeight }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="格式" prop="row.videoFormats" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="120">
+                    <template ngx-datatable-cell-template let-row="row">
+                        <div class="ell">
+                            <ng-container *ngFor="let v of row.videoFormats;let i =index">
+                                    <span *ngIf=" v=='33'">flv</span>
+                                    <span *ngIf=" v=='44'">mp4</span>
+                                    <span *ngIf=" v=='0'" >未知</span>
+                                    <span *ngIf=" (i+1) != row.videoFormats.length">,</span>  
+                            </ng-container>     
+                        </div>								
+                    </template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="时长" prop="row.duration" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="100">
+                        <template ngx-datatable-cell-template let-row="row">
+                            <div class="ell">
+                                <span>{{ row.duration }}</span>
+                            </div>								
+                        </template>
+                    </ngx-datatable-column>
+            <ngx-datatable-column name="视频大小" prop="row.maxVolume" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="100">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{row.maxVolume}}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>   
+</div>
+

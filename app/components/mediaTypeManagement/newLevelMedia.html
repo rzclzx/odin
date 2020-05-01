@@ -1,0 +1,54 @@
+<div class="content">
+	<form class="form-horizontal">
+		<div class="form-group" *ngIf=" level >= 1 ">
+			<label class="col-sm-2 control-label">一级分类：<span>*</span></label>
+			<div class="col-sm-3" *ngIf=" level == 1 ">
+				<input type="text" class="form-control" placeholder="" name="oneLevelName" [(ngModel)]="oneLevelName" validation [validations]="'required;'">
+			</div>
+			<div class="col-sm-3" *ngIf=" level > 1 ">
+				<select name="oneLevelId" class="form-control" [(ngModel)]="oneLevelId" (change)="oneLevelChange()" validation [validations]="'required;'">
+					<option value="0">请选择一级分类</option>
+					<option value="{{i.id}}" *ngFor="let i of level1Array;">{{i.oneLevelName}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" *ngIf=" level >= 2">
+			<label class="col-sm-2 control-label">二级分类：<span>*</span></label>
+			<div class="col-sm-3" *ngIf=" level == 2 ">
+				<input type="text" class="form-control" placeholder="请输入二级分类" name="twoLevelName" [(ngModel)]="twoLevelName" validation [validations]="'required;'">
+			</div>
+			<div class="col-sm-3" *ngIf=" level > 2 ">
+				<select name="twoLevelId" class="form-control" [(ngModel)]="twoLevelId" validation [validations]="'required;'">
+					<option value="0">请选择二级分类</option>
+					<option value="{{i.id}}" *ngFor="let i of level2Array;">{{i.twoLevelName}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" *ngIf=" level >= 3">
+			<label class="col-sm-2 control-label">三级分类：<span>*</span></label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="" name="threeLevelName" [(ngModel)]="threeLevelName" validation [validations]="'required;'">
+			</div>
+		</div>
+		<div class="form-group" *ngFor="let v of typeAdxs;let i = index">
+			<label class="col-sm-2">
+				<select name="{{i}}" class="form-control" [(ngModel)]="v.adxId">
+					<option value="">请选择渠道</option>channel
+					<option value="{{x.id}}" *ngFor="let x of channel" >{{x.name}}</option>
+				</select>
+			</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="请填写渠道ID" name="{{ i }}" [(ngModel)]="v.code" validation [validations]="'maxlength:20;'">
+			</div>
+			<button class="btn btn-primary" (click)="addTypeAdxs()" *ngIf=" i == 0">增加</button>
+			<button class="btn btn-danger" (click)="removeTypeAdxs( i)" *ngIf=" i > 0">删除</button>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-3">
+				<button class="btn btn-default" (click)="back()">取消</button>
+				<button class="btn btn-primary" (click)="save()">保存</button>
+			</div>
+		</div>
+	</form>
+</div>

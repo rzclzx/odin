@@ -1,0 +1,258 @@
+<div class="content-creative">
+
+    <ul class="li-btn-primary" [ngStyle]="{'margin-bottom':'50px'}">
+        <li *ngFor="let t of title;let i = index" class="mr30" [ngClass]="{'active':i == 2}" (click)="selecttitle(i)">{{t.name}}</li>
+    </ul>
+
+    <div class="form-inline-datacenter">
+        <div class="left">日期范围：</div>
+        <div class="right">
+            <div class="rel width240 put-picker dsplay-inline form-group mr20">
+                <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}" />
+                <i class="icon-calendar time-icon"></i>
+            </div>
+            <span *ngFor="let t of calenderday;let i = index" [ngClass]="{'active':clendorder == i}" (click)="selectcalender(i)">{{t.name}}</span>
+        </div>
+    </div>
+
+    <!--分组数据选择-->
+    <div class="form-inline-datacenter" *ngIf="selectGroup.length>0">
+        <div class="left" [ngStyle]="{'min-height':'1px'}"></div>
+        <div class="right">
+            <div class="default-list" *ngFor="let v of selectGroup ;let i = index">
+                <div class="text">{{v.name}}</div>
+                <div class="delete" (click)="deleteData(v,index)">&times;</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-inline-datacenter">
+        <div class="left">分组数据：</div>
+        <div class="right">
+            <div>
+                <label class="pointer w130"><input type="checkbox" (change)="chooseGrouplist(timeopen,index)"  [(ngModel)]="timeopen.checked"/>时间</label>
+                <label class="pointer w130"><input type="radio" name = time [(ngModel)]="timetype" [value]="'1'" (change)="choosetime(timetype)"/>小时</label>
+                <label class="pointer w130"><input type="radio" name = time [(ngModel)]="timetype" [value]="'0'" (change)="choosetime(timetype)"/>日</label>
+            </div>
+            <div>
+                <label class="pointer w130" *ngFor="let g of datagroups;let i = index">
+                    <input type="checkbox" [(ngModel)]="g.checked" [attr.name]="g.name" (change)="chooseGrouplist(g,index)"/>{{g.name}}
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!--统计数据选择显示-->
+    <div class="form-inline-datacenter" *ngIf="selectGrouptongjiselect.length>0">
+        <div class="left" [ngStyle]="{'min-height':'1px'}"></div>
+        <div class="right">
+            <div class="default-list" *ngFor="let v of selectGrouptongjiselect ;let i = index">
+                <div class="text">{{v.name}}</div>
+                <div class="delete" (click)="deleteDatatongji(v,index)">&times;</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-inline-datacenter">
+        <div class="left">统计数据：</div>
+        <div class="right">
+            <div>
+                <label class="pointer w130" *ngFor="let g of datagroupstongji;let i = index">
+                    <input type="checkbox" [(ngModel)]="g.checked" [attr.name]="g.name" (change)="chooseGrouplisttongji(g,index)"/>{{g.name}}
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!--过滤条件选择-->
+    <div class="clearfix mb20 pdl170">
+        <div class="clearfix dropdown-btn-selectlist" *ngFor="let cont of selectedCont;let i = index">
+            <div class="text">
+                <div class="text">{{cont.name}}：</div>
+                <div class="list">
+                    <div [ngClass]="{'minor-list':cont.flag=='0','primary-list':cont.flag=='1'}" *ngFor="let child of cont.select ;let i = index">
+                        {{child.ownname ? child.ownname : child.name}}<span class="delete" (click)="deleteChildCont(cont,child)">&times;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-btn-bgclose"></div>
+            <span class="delete dropdown-btn-delete" (click)="deleteCont(cont)">&times;</span>
+        </div>
+    </div>
+    <div class="clearfix mb20 pdl170" *ngIf="selectedprovince.length>0">
+        <div class="clearfix dropdown-btn-selectlist">
+            <div class="text">
+                <div class="text">市：</div>
+                <div class="list">
+                    <div class="primary-list" *ngFor="let cont of selectedprovince ;let i = index">
+                        {{cont.prov}}/{{cont.city}}<span class="delete" (click)="deleteProv(cont,i)">&times;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-btn-bgclose"></div>
+            <span class="delete dropdown-btn-delete" (click)="deleteContprov()">&times;</span>
+        </div>
+    </div>
+    <div>
+        <div class="dropdown-btn-label pdr20 text-right width170">
+            <span>过滤条件：</span>
+        </div>
+        <div class="btn-group dropdown-btn width240">
+            <button type="button" class="btn btn-default dropdown-toggle width240" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{filterselect.name}} <span class="caret pull-right"></span>
+            </button>
+            <ul class="dropdown-menu w100p">
+                <li *ngFor="let v of filterselects;let i = index;" (click)="selectedDropdownBtn(v)" title="{{v.name}}">{{v.name}}</li>
+            </ul>
+        </div>
+
+        <div class="btn-group dropdown-btn width240 ml20" *ngIf="this.filterselect.name != '过滤条件' && this.filterselect.name != '省/市'">
+            <button type="button" class="btn btn-default dropdown-toggle width240" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{filterselectChild.name}} <span class="caret"></span>
+            </button>
+            <input type="text" id="dropdownSearch" [(ngModel)]="inputsearch" class="form-control" autofocus (ngModelChange)="searchText(inputsearch)"/>
+            <span class="icon-search"></span>
+            <!--<input type="text" id="dropdownSearch" class="form-control" />-->
+            <ul class="dropdown-menu menu-double-btn  w100p">
+                <li *ngFor="let v of filterselectChilds;let i = index;">
+                    <span title="{{v.name}}">{{v.name}}</span>
+                    <button class="btn btn-primary" (click)="includebtn('1',v)" [disabled]="includeflag == '0'?'disabled':false">包含</button>
+                    <button class="btn btn-danger" (click)="includebtn('0',v)"  [disabled]="includeflag == '1'?'disabled':false">不包含</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="diyutankuang" *ngIf="this.filterselect.name == '省/市'">
+            <ul *ngFor = "let d of chinaAreas">
+                <li class="area"><label><input type="checkbox" [(ngModel)]="d.checked" (change)="areachoice(d)"/><span>{{d.area}}</span></label></li>
+                <li class="province">
+                    <label *ngFor="let p of d.province" class="cityrepeat">
+                        <input type="checkbox" [(ngModel)]="p.checked" (change)="provincechoice(p)" /><span>{{p.prov}}</span><span class="cont" *ngIf="p.cont>0">{{p.cont}}</span>
+                        <div class="city" *ngIf="p.citys"><span class="hengbai"></span><label *ngFor="let c of p.citys"><input type="checkbox" [(ngModel)]="c.checked" (change)="cityschoice(c,p,d)" /><span>{{c.city}}</span></label></div>
+                    </label>
+                </li>
+            </ul>
+            <form class="form-inline text-right">
+                <button class="btn btn-cancel" (click)="deleteContprov()">取消</button>
+                <button class="btn btn-primary" (click)="submitarea()">确定</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="clearfix tab-head">
+        <!--<span class="tab-title">APP列表</span>-->
+        <form class="form-inline pull-right">
+            <button class="btn btn-primary mr10" (click)="refeshrun()">运行报表</button>
+            <button class="btn btn-primary mr10" (click)="add()">导出execl</button>
+            <button class="btn btn-primary mr10" >保存查询条件</button>
+        </form>
+    </div>
+    <ng-page
+            [page]="page"
+            (outerPage)="onPage($event)"
+    ></ng-page>
+    <div [class.table-scroll]="isShowScroll">
+        <ngx-datatable
+                [rows]="datas"
+                [columnMode]="'force'"
+                [draggable]="false"
+                [externalSorting]="true"
+                [externalPaging]="true"
+                [headerHeight]="50"
+                [rowHeight]="50"
+                [limit]="page.pageSize"
+                [count]="page.total"
+                [offset]="page.pageNo"
+                [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+                [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+            <ngx-datatable-column *ngIf="tabshowtime.checked" name="时间" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[0].checked" name="渠道名称" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[1].checked" name="广告项目" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[2].checked" name="广告项目ID" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[3].checked" name="推广活动" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[4].checked" name="推广活动ID" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[5].checked" name="投放策略" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[6].checked" name="投放策略ID" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[7].checked" name="物料包" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[8].checked" name="创意类型" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[9].checked" name="创意尺寸" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="showdatagroups[10].checked" name="设备OS" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>
+                </template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    <ng-page
+            [isFooter]="true"
+            [page]="page"
+            (outerPage)="onPage($event)"
+    ></ng-page>
+</div>
+

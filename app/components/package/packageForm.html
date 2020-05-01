@@ -1,0 +1,62 @@
+<div class="content">
+   <div class="ml80 mt30">
+        <div class="line-height50 ">
+            <div class="pname dispaly-inline-block .abs width135">
+                <span class="display-inline-block rel left0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物料包名称：</span>
+            </div>
+            <i class="color-bluebtn display-inline-block  width10  height20">*</i>
+            <input type="text" class="width240 dispaly-inline-block" [(ngModel)]="package.name" name="name" validation [validations]="'advname;required'">
+            <div class="ml10 dispaly-inline-block">限20个字以内</div>
+        </div>
+        <div class=" line-height50">
+            <div class="pname dispaly-inline-block .abs width135">
+                <span class="display-inline-block rel left0">展现监测地址1：</span>
+            </div>
+            <!-- <i class="color-bluebtn">*</i> -->
+            <input type="text" class="width370 dispaly-inline-block ml13" [(ngModel)]="package.impressionUrl1" name="impressionUrl1" validation [validations]="'site'">
+            <div class="ml20 dispaly-inline-block">以http://、https://开头</div>
+        </div>
+        <div class=" line-height50">
+            <div class="pname dispaly-inline-block width135">
+                <span class="display-inline-block">展现监测地址2：</span>
+            </div>
+            <input type="text" class="width370 dispaly-inline-block  ml13" [(ngModel)]="package.impressionUrl2" name="impressionUrl2" validation [validations]="'site'">
+            <div class="ml20 dispaly-inline-block" >以http://、https://开头</div>
+        </div>
+        <div class=" line-height50">
+            <div class="pname dispaly-inline-block width135">
+                <span class="display-inline-block rel">&nbsp;&nbsp;点击监测地址：</span>
+            </div>
+            <input type="text" class="width370 dispaly-inline-block ml13" [(ngModel)]="package.clickUrl" name="clickUrl" validation [validations]="'site'">
+            <div class="ml20 dispaly-inline-block">以http://、https://开头</div>
+        </div>
+        <div class=" line-height50">
+            <div class="pname dispaly-inline-block .abs width135">
+                <span class="display-inline-block rel left0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;落地页地址：</span>
+            </div>
+            <i class="color-bluebtn">*</i>
+            <input type="text" class="width370 dispaly-inline-block " [(ngModel)]="package.landpageUrl" name="landpageUrl" validation [validations]="'site;required'">
+            <div class="ml20 dispaly-inline-block">以http://、https://开头</div>
+        </div>
+        <div class=" line-height50">
+            <div class="pname dispaly-inline-block width135">
+                <span class="display-inline-block">&nbsp;&nbsp;&nbsp;Deeplink地址：</span>
+            </div>
+            <input type="text" class="width370 dispaly-inline-block ml13" [(ngModel)]="package.deeplinkUrl" name="deeplinkUrl" >
+        </div>
+   </div>
+   <div class=" line-height50">
+        <div class="pname dispaly-inline-block">
+            <span class="display-inline-block">&nbsp;&nbsp;是否生成落地页监控代码：</span>
+        </div>
+        <input type="radio" class="ml25" [(ngModel)]="package.needMonitorCode" name="needMonitorCode:'1'" [value]="'1'">
+        <span>是</span>
+        <input type="radio" [(ngModel)]="package.needMonitorCode" name="needMonitorCode:'0'" [value]="'0'">
+        <span>否</span>
+    </div>
+    <input type="text" class=" dispaly-inline-block ml1700" [(ngModel)]="campaignId" name="campaignId">
+    <div class="line-height60 ml300">
+            <button class="btn btn-cancel" (click)="cancel(campaignId)">取消</button>
+            <button class="btn btn-primary ml20" (click)="save(campaignId)">保存</button>
+    </div>
+</div>

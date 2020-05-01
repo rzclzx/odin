@@ -1,0 +1,127 @@
+<div class="content pos-relative">
+    <div class="creative-name text-left">
+		{{adxName}}
+	</div>
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" (click)="goChannelDetail()">
+			<a>渠道详情</a>
+		</li>
+		<li role="presentation" (click)="goPricingContracts()">
+			<a>定价合约</a>
+		</li>
+		<li role="presentation" class="active" (click)="goTrafficManagement()">
+			<a>无设备ID流量管理</a>
+		</li>
+		<li role="presentation" (click)="goMediaManagement()">
+			<a>媒体管理</a>
+		</li>
+	</ul>
+	<div class="button-div">
+		<a href="{{documentTemplate}}" download="pricingContractsTemplate.xlsx">下载导入模板</a>
+		<button class="btn btn-primary">导入</button>
+		<button class="btn btn-primary" (click)="showApp()">新增</button>
+		<button class="btn btn-primary" (click)="back()">返回</button>
+	</div>
+	<div class="data-header clearfix">
+		<form action="">
+			<label for="" class="ml20">
+                <span>appID：</span>
+                <input type="text" name="appID" [(ngModel)]="appID">
+            </label>
+			<label for="" class="ml20">
+                <span>app名称：</span>
+                <input type="text" name="appName" [(ngModel)]="appName">
+            </label>
+            <label for="" class="ml20">
+                <span>广告位类型：</span>
+                <select name="type"  [(ngModel)]="type">
+                	<option value="undefined">全部</option>
+                	<option value="'1'">图片</option>
+                	<option value="'2'">视频</option>
+                	<option value="'3'">信息流</option>
+                </select>
+            </label>
+            <label for="" class="ml20">
+                <span>是否使用无设备ID流量：</span>
+                <select name="enable" [(ngModel)]="enable">
+                	<option value="undefined">全部</option>
+                	<option value="'1'">使用</option>
+                	<option value="'0'">不使用</option>
+                </select>
+            </label>
+			<button class="btn btn-primary ml20 mb2" (click)="refreshTable()">查询</button>
+		</form>
+	</div>
+	<ngx-datatable
+    #mydatatable
+    [rows]="trafficManagement"
+    [columnMode]="'force'"
+    [draggable]="false"
+    [externalSorting]="true"
+    [externalPaging]="true"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="50"
+    [limit]="page.pageSize"
+    [count]="page.total"
+    [offset]="page.pageNo"
+    (page)="onPage($event)"  
+	[messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+    [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+	    <ngx-datatable-column name="" [resizeable]="false" [sortable]="false"  [width]="140">
+	        <template ngx-datatable-cell-template let-row="row">
+	           <div class="ell">
+                    <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.enable=='1'?true:false)}" (click)="switchChange(row)">
+                        <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.enable=='1'?false:true)}"></span>
+                         <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                         <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.enable=='1'?false:true)}"></span>
+                    </div>
+                </div>
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="appID" prop="id" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div class="ell">
+	            	{{ row.id }}
+	            </div>							
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="app名称" prop="name" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div class="ell">
+	            	{{ row.name }}
+	            </div>	
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="广告位类型" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div class="ell">
+	            	<span *ngIf=" row.type == '1' ">图片</span>
+	            	<span *ngIf=" row.type == '2' ">视频</span>
+	            	<span *ngIf=" row.type == '3' ">信息流</span>
+	            </div>	
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="是否使用无设备ID流量" prop="supportSsl" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div class="ell">
+	            	{{ row.enable == "1" ? "是" : "否"}}
+	            </div>	          
+	        </template>
+	    </ngx-datatable-column>
+	</ngx-datatable>
+	
+	<modal #appModal [backdrop]="'static'" [animation]="false" class="modalApp">
+        <modal-body>    
+            <div class="ng2-modal-header">
+                <div class="width3 height18 bgc-blue4 ml20"></div> 
+                <div class="ml10 font16 font-bold color-gray5">选择媒体</div>   
+            </div>    
+            <ng-creative-app *ngIf="isShowApp"
+            [app] = "app"
+            (outer)="onAppMessage($event)"
+            ></ng-creative-app>
+        </modal-body>
+    </modal>
+</div>
+

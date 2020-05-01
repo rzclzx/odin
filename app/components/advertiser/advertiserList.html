@@ -1,0 +1,82 @@
+<div class="content">
+    <div class="adv-header">
+            <button class="btn btn-primary  ml20" (click)="gotocreateAdvertisers()">创建广告主</button>
+            <button class="btn btn-primary ml20 " (click)="gotocreateUsers()" *ngIf="false">创建用户</button>
+    </div>
+    <div class="data-header">
+       <form action="">
+            <label for="" class="ml20">
+                    <span>客户名称：</span>
+                    <input type="text" name="name" [(ngModel)]="name">
+                </label>
+                <label for="" class="ml20">
+                        <span>联系人：</span>
+                        <input type="text" name="contacts" [(ngModel)]="contacts">
+                    </label>
+                    <label for="" class="ml20">
+                            <span>公司名称：</span>
+                            <input type="text" name="companyName" [(ngModel)]="companyName">
+                    </label>
+                    <button class="btn btn-primary ml20 mb2" (click)="refreshTable({pageNo: 1})" >查询</button>
+       </form>
+    </div>
+	<ngx-datatable #mydatatable [rows]="advertisers" [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo" (page)="onPage($event)" [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }" [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+    <ngx-datatable-column name="Id" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div>
+                   <span>{{row.id}}</span>
+                </div>								
+            </template>
+        </ngx-datatable-column>
+    <ngx-datatable-column name="客户名称" [resizeable]="false" [sortable]="false">
+        <template ngx-datatable-cell-template let-row="row">
+            <div class="ell aHover">
+                <a class="cursor-point" (click)="gotoAdvertiserDetali(row.id)">{{ row.name }}</a>
+            </div>							
+        </template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="是否保护客户" [resizeable]="false" [sortable]="false">
+        <template ngx-datatable-cell-template let-row="row">
+            <div class="ell">
+                <span>{{ row.isProtected=="0"?"否":"是" }}</span>
+            </div>								
+        </template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="用户数量" [resizeable]="false" [sortable]="false">
+        <template ngx-datatable-cell-template let-row="row">
+            <div class="ell">
+                <span>{{ row.userNum}}</span>
+            </div>								
+        </template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          编辑 <span class="caret"></span>
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu ul78">
+                          <li (click)="gocreateAdvertisers(row.id)"><a> 编辑</a></li>
+                          <li><a>充值</a></li>
+                          <li><a>渠道审核</a></li>    
+                        </ul>
+                      </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="联系人" [resizeable]="false" [sortable]="false">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span title="{{ row.contacts }}">{{ row.contacts }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="公司名称" [resizeable]="false" [sortable]="false">
+                    <template ngx-datatable-cell-template let-row="row">
+                        <div class="ell">
+                            <span title="{{ row.companyName }}">{{ row.companyName }}</span>
+                        </div>								
+                    </template>
+                </ngx-datatable-column>
+</ngx-datatable>
+</div>

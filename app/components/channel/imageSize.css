@@ -1,0 +1,300 @@
+.content .size-top .line {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  top: 56px;
+  border-top: 2px solid #fff;
+}
+.content .size-top .line1 {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  top: 56px;
+  left: 121px;
+  border-top: 2px solid #fff;
+}
+.content .size-top .line2 {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  top: 56px;
+  left: 242px;
+  border-top: 2px solid #fff;
+}
+.content .size-top .line3 {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  top: 56px;
+  left: 361px;
+  border-top: 2px solid #fff;
+}
+.content .size-top ul {
+  border: 2px solid #dcdcdc;
+  overflow: hidden;
+}
+.content .size-top ul li {
+  height: 50px;
+  width: 120px;
+  line-height: 50px;
+  float: left;
+  text-align: center;
+  border-right: 1px solid #dcdcdc;
+  cursor: pointer;
+}
+.content .size-top ul .active {
+  border-top: 4px solid #1d8bfb;
+  border-bottom: 1px solid #fff;
+  background-color: #fff;
+  color: #1d8bfb;
+}
+.content .add-size {
+  height: 50px;
+  line-height: 50px;
+}
+.content .add-size button {
+  height: 38px;
+  margin-left: 1515px;
+}
+.content .add-size .imagebtn {
+  margin-left: 1474px;
+}
+.content .add-size .inflow-top button {
+  margin-left: 654px;
+}
+.content .add-size .inflow-top span {
+  border: 1px solid #dcdcdc;
+  padding: 5px 20px;
+  position: relative;
+  top: 5px;
+  left: -6px;
+}
+.content .add {
+  margin-left: 330px;
+  margin-top: 80px;
+}
+.content .add .add-length {
+  line-height: 50px;
+  height: 50px;
+}
+.content .add .add-length input {
+  width: 280px;
+  height: 35px;
+}
+.content .add .add-length i {
+  color: #1d8bfb;
+}
+.content .add .add-length select {
+  margin-left: 2px;
+  height: 34px;
+}
+.content .add .add-length textarea {
+  width: 280px;
+  height: 100px;
+  vertical-align: text-top;
+  margin-left: 18px;
+  resize: none;
+  wrap: "physical";
+}
+.content .add .add-length div {
+  margin-left: 100px;
+}
+.content .add .span-error .err-tip-span {
+  color: #e93522;
+  font-size: 12px;
+  font-family: Arial, 'Microsoft YaHei';
+  font-weight: 500;
+  white-space: nowrap;
+  /* margin-top: -49px; */
+  display: inline-block;
+  position: relative;
+  top: -128px;
+  left: 395px;
+}
+.content .add button {
+  margin-top: 120px;
+}
+.content .add .btn1 {
+  margin-left: 100px;
+}
+.content .adxselect {
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+.content .adxselect .circle:hover {
+  color: #1d8bfb;
+}
+.content .add-imagePoses {
+  margin-bottom: 30px;
+}
+.content .add-imagePoses select {
+  height: 34px;
+  width: 240px;
+}
+.content .add-imagePoses button {
+  margin-top: 0px;
+}
+.content .add-imagePoses .btn1 {
+  margin-left: 120px;
+}
+.content .add-imagePoses i {
+  color: #1d8bfb;
+}
+.content .add-video {
+  margin-left: 200px;
+  margin-top: 20px;
+}
+.content .add-video .add-length {
+  line-height: 50px;
+  height: 50px;
+}
+.content .add-video .add-length input {
+  width: 280px;
+  height: 35px;
+}
+.content .add-video .add-length i {
+  color: #1D8AFB;
+}
+.content .add-video .add-length .video-size {
+  margin-left: 97px;
+}
+.content .add-video .add-length .duration {
+  margin-left: 130px;
+}
+.content .add-video .add-length .frame {
+  margin-left: 115px;
+}
+.content .add-video .add-length .add-duration {
+  margin-left: 20px;
+}
+.content .add-video .add-length select {
+  height: 34px;
+  width: 280px;
+}
+.content .add-video .add-length .err-tip-span {
+  margin-left: -160px;
+}
+.content .add-video .videoFormats {
+  line-height: 50px;
+  height: 50px;
+}
+.content .add-video .videoFormats .duration {
+  margin-left: 130px;
+}
+.content .add-video .videoFormats .add-duration {
+  margin-left: 20px;
+}
+.content .add-video .videoFormats .needImage {
+  width: 240px;
+  height: 34px;
+  margin-left: 30px;
+}
+.content .add-video .videoFormats .err-tip-span {
+  margin-left: -160px;
+}
+.content .add-video .video-button {
+  margin-left: 220px;
+  margin-top: 30px;
+}
+.content .add-video .tips {
+  display: inline-block;
+  margin-left: 120px;
+}
+.content .add-video .tips1 {
+  display: inline-block;
+  margin-left: 67px;
+}
+.content .add-video .frame-degree .err-tip-span {
+  margin-left: -178px;
+}
+.content .add-video .name-tip .err-tip-span {
+  margin-left: -193px;
+}
+.content .inflow-error .err-tip-span {
+  margin-left: -185px;
+}
+.content .inflowTmpls-list {
+  margin-top: 20px;
+}
+.width240 {
+  width: 240px;
+}
+.width280 {
+  width: 280px;
+}
+.width320 {
+  width: 320px!important;
+}
+.width133 {
+  width: 133px!important;
+}
+.width152 {
+  width: 152px!important;
+}
+.width171 {
+  width: 171px!important;
+}
+.height34 {
+  height: 34px!important;
+}
+.height44 {
+  height: 44px!important;
+}
+.height52 {
+  height: 52px!important;
+}
+.mt30 {
+  margin-top: 30px!important;
+}
+.ml10 {
+  margin-left: 15px!important;
+}
+.ml12 {
+  margin-left: 12px!important;
+}
+.ml18 {
+  margin-left: 18px!important;
+}
+.left660 {
+  left: 660px!important;
+}
+.ml35 {
+  margin-left: 35px!important;
+}
+.mt0 {
+  margin-top: 0px!important;
+}
+.color-blue1 {
+  color: #1d8bfb;
+}
+.ml100 {
+  margin-left: 100px!important;
+}
+.ml103 {
+  margin-left: 103px!important;
+}
+.display-none {
+  display: none!important;
+}
+.show {
+  display: inline-block !important;
+}
+.hide {
+  display: none!important;
+}
+.border-1-gray {
+  border: 1px solid #a9a9a9;
+  padding: 5px;
+}
+.line-height0 {
+  line-height: 0px!important;
+}
+.line-height20 {
+  line-height: 20px!important;
+}
+.line-height23 {
+  line-height: 23px!important;
+}
+.line-height34 {
+  line-height: 34px!important;
+}

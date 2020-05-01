@@ -1,0 +1,145 @@
+<div class="content-creative">
+    <!--<div class="public-list clearfix">
+        <ul>
+            <li class="clearfix">
+                <span class="left">APP个数：</span>
+                <span class="pull-right">{{headtitletext.appnumber}}</span>
+            </li>
+            <li class="clearfix">
+                <span class="left">同步APP个数：</span>
+                <span class="pull-right">{{headtitletext.sameappnumber}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">APP黑名单个数：</span>
+                <span class="pull-right">{{headtitletext.appblacknumber}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">最新更新时间：</span>
+                <span class="pull-right">{{headtitletext.updatatime}}</span>
+            </li>
+        </ul>
+    </div>-->
+
+    <div class="clearfix tab-head">
+        <span class="tab-title">APP列表</span>
+        <form class="form-inline pdl60">
+            <div class="form-group">
+                <label >APP名称：</label>
+                <input type="text" class="form-control" name="appName"  [(ngModel)]="appName">
+            </div>
+            <div class="form-group ml10">
+                <label >APPID：</label>
+                <input type="text" class="form-control" name="appId"  [(ngModel)]="appId">
+            </div>
+            <div class="form-group ml10">
+                <label >APP状态：</label>
+                <select class="form-control width160" [(ngModel)]="appStatu" name="appStatu">
+                    <option [ngValue]="undefined">全部</option>
+                    <option *ngFor="let v of appStatus;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                </select>
+            </div>
+            <div class="form-group ml10">
+                <label >所属渠道：</label>
+                <select class="form-control width160" [(ngModel)]="channel" name="channel">
+                    <option [ngValue]="undefined">全部渠道</option>
+                    <option *ngFor="let v of adxdatas;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                </select>
+            </div>
+            <button class="btn btn-primary ml10" (click)="refreshTable()">查询</button>
+        </form>
+        <form class="form-inline pull-right">
+            <button class="btn btn-primary mr10" (click)="add()">新增媒体</button>
+            <div class="form-group mr20"><span class="icon-Export2  font16 mb2"></span><span>导出报表</span></div>
+        </form>
+    </div>
+    <div class="text-center">
+        <div class="pull-left">
+            <input type="checkbox" (change)="allToggleOuter($event,allCheck)"  [(ngModel)]="allCheck" [value] = "false" />
+            <span class="mr20">全选</span>
+            <span class="mr20" (click)="black('0')"><span class="icon-app-03  font16 mb2"></span>加入黑名单</span>
+            <span class="mr20" (click)="black('1')"><span class="icon-app-01  font16 mb2"></span>移出黑名单</span>
+        </div>
+    </div>
+    <ngx-datatable #allchangeList
+                   [rows]="datas"
+                   [selected]="selected"
+                   [selectionType]="'checkbox'"
+                   [columnMode]="'force'"
+                   [draggable]="false"
+                   [externalSorting]="true"
+                   [externalPaging]="true"
+                   [headerHeight]="50"
+                   [footerHeight]="50"
+                   [rowHeight]="50"
+                   [limit]="page.pageSize"
+                   [count]="page.total"
+                   [offset]="page.pageNo"
+                   (page)="onPage($event)"
+                   [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+                   [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+        <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="APPID" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.adxId }}">{{ row.adxId }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="名称" [resizeable]="false" [sortable]="false" [width]="300">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.name }}">{{ row.name }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <a href="javascript:;" (click)="editMediaManagement(row)" title="{{ row.name }}">编辑</a>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="所属渠道" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.adxName }}">{{ row.adxName }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="一级分类" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.oneLevelName }}">{{ row.oneLevelName }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="二级分类" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.twoLevelName }}">{{ row.twoLevelName }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="三级分类" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.threeLevelName }}">{{ row.threeLevelName }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="状态" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ queryStatus(row.status) }}">{{ queryStatus(row.status) }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+

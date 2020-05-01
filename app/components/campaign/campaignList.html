@@ -1,0 +1,282 @@
+<div class="content pd-content">
+    <div class="pd-header">
+        <h4 >{{project.name}}</h4>
+        <div class="pd-back">
+                <button class="btn btn-primary cursor-point  rel top0"  (click)="gocampaignForm()">新建推广活动</button>
+            <button class="btn btn-primary cursor-point rel top0" (click)="back()">返回</button>
+        </div>
+    </div>
+
+    <div class="pd-tab">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" [routerLink]="['/home/project/projectDetail',projectId]"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">项目详情</a></li>
+            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">推广活动</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active rel" id="profile">
+                   
+                    <div class="text-data mt10 dispaly-inline-block mt10 mb10 z-index99 ml1266 left0 top0">数据时间范围：</div>
+                    <div class="rel width220 dispaly-inline-block mt10 mb10">
+                        <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}"  daterangepicker   (applyDaterangepicker)="selectedDate($event.picker)">
+                        <i class="icon-calendar time-icon"></i>
+                    </div>
+                <div class="prom-tab rel">
+                        <ng-page
+                        [page]="page"
+                        (outerPage)="onPage($event)"
+                         ></ng-page>
+                    <ngx-datatable  [rows]="campaigns" [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50"  [rowHeight]="60" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo"
+                     [messages]="{totalMessage: '条' }"
+                    (page)="onPage($event)" [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                        <ngx-datatable-column name="开关" [resizeable]="false" [sortable]="false"  [width]="120" [canAutoResize]="false">
+                            <template ngx-datatable-cell-template let-row="row">
+                                <div class="ell mt10 ml5 line-height60">
+                                    <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.enable=='1'?true:false)}" (click)="switchChange(row)">
+                                        <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.enable=='1'?false:true)}"></span>
+                                        <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                                        <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.enable=='1'?false:true)}"></span>
+                                    </div>
+                                </div>     
+                            </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="推广活动ID" prop="id" [resizeable]="false" [sortable]="false">
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60" title="{{ row.id }}">
+                                            <span>{{ row.id }}</span>
+                                        </div>							
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="推广活动名称" prop="name" [resizeable]="false" [sortable]="false">
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60" title="{{ row.name }}">
+                                            <a class="display-inline-block cursor-point textdecoration" (click)="gotocampaignDetail( row.id)">{{ row.name }}</a>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="投放日期"  prop="startDate" [resizeable]="false" [sortable]="false">
+                            <template ngx-datatable-cell-template let-row="row">
+                                            <div class="ell line-height60" title="{{ publicService.FormalTimeLine(row.startDate) + ' 至 ' +  publicService.FormalTimeLine(row.endDate) }}">
+                                                <span>{{ publicService.FormalTimeLine(row.startDate) + ' 至 ' +  publicService.FormalTimeLine(row.endDate) }}</span>
+                                            </div>								
+                                        </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="操作"  prop="操作" [resizeable]="false" [sortable]="false" [width]="80" [canAutoResize]="false">
+                            <template ngx-datatable-cell-template let-row="row">
+                                            <div class="btn-group rel line-height60">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      编辑 <span class="caret"></span>
+                                                      <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu ul78">
+                                                      <li (click)="gotocampaignForm(row.id)"><a> 编辑</a></li>
+                                                      <li (click)="gotocopyAudited(row)"><a>复制</a></li>
+                                                    </ul>
+                                                    <div class="bgc-transprant width50 height30 abs z-index99"></div>
+                                                  </div>
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column [resizeable]="false"  prop="status" [sortable]="false" class="glyphicon glyphicon-question-sign" [width]="140"  [canAutoResize]="false">
+                            <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" title="状态">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8">状态</div>
+                                                <div class="rel width20 height50">
+                                                    <!-- <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="isPlusSort"></span>
+                                                    <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="!isPlusSort"></span> -->
+                                                    <img src="../../images/zhuangtai.png" alt=""title="状态">
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                            </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                            <div class="ell line-height60">
+                                                    <span *ngIf="row.status=='01'?true:false" title="已暂停">已暂停</span>
+                                                    <span *ngIf="row.status=='02'?true:false" title="投放中">投放中</span>
+                                                    <span *ngIf="row.status=='03'?true:false" title="已结束">已结束</span>
+                                                    <span *ngIf="row.status=='04'?true:false" title="已暂停-未到投放周期">已暂停-未到投放周期</span>
+                                                    <span *ngIf="row.status=='05'?true:false" title="已暂停-不在投放时段">已暂停-不在投放时段</span>
+                                                    <span *ngIf="row.status=='06'?true:false" title="已暂停-已到日KPI">已暂停-已到日KPI</span>
+                                                    <span *ngIf="row.status=='07'?true:false" title="已暂停-已到日成本">已暂停-已到日成本</span>
+                                                    <span *ngIf="row.status=='08'?true:false" title="广告主已暂停">广告主已暂停</span> 
+                                            </div>							
+                                        </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="advertisingAmount" [resizeable]="false" [sortable]="false">
+                            <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" title="投放策略数量">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8">投放策略数量</div>
+                                                <div class="rel width20 height50">
+                                                    <img src="../../images/zhuangtai.png" alt="" title="投放中/全部">
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                            </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60">
+                                            <a class="cursor-point textdecoration" (click)="gotopolicyList(row.id)">{{row.advertisingAmount}}/{{row.totalAmount}}</a>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="物料包数量" prop="packageAmount" [resizeable]="false" [sortable]="false">
+                            <template ngx-datatable-cell-template let-row="row">
+                                            <div class="ell line-height60">
+                                                <a class="cursor-point textdecoration" (click)="gotopackageList(row.id)">{{row.packageAmount}}</a>
+                                            </div>								
+                                        </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="todayImpression" [resizeable]="false" [sortable]="false" [width]="100" [canAutoResize]="false">
+                                <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" (click)="sortTime()" title="总KPI及投放成本">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8 ml0" >总KPI及投放成本</div>
+                                            </div>     
+                                        </div>		
+                                    </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell kpi">
+                                                        <div class="line-height20">
+                                                            <img src="../../images/m.png" alt="" [ngClass]="{'hide':(!row.totalImpression? true:false)}">
+                                                            <span>{{row.totalImpression}}</span>
+                                                        </div>
+                                                        </div>
+                                        <div class="ell kpi textleft">
+                                                        <div class="line-height20">
+                                                                <img src="../../images/c.png" alt="" [ngClass]="{'hide':(!row.totalClick? true:false)}">
+                                                                <span>{{row.totalClick}}</span>
+                                                        </div>
+                                        </div>								
+                                        <div class="ell kpi textleft">
+                                                <div class="line-height20">
+                                                        <img src="../../images/money.png" alt="" [ngClass]="{'hide':(!row.totalBudget? true:false)}">
+                                                        <span [ngClass]="{'hide':(!row.totalBudget? true:false)}">{{row.totalBudget/100}}</span>
+                                                </div>
+                                        </div>							
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="impression" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" (click)="sortTime()" title="展现数">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8">展现数</div>
+                                                <div class="rel width20 height50">
+                                                    <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                    <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                                    </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60">
+                                            <span>{{ row.impression }}</span>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column title="click" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" (click)="sortTime()" title="点击量">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8">点击量</div>
+                                                <div class="rel width20 height50">
+                                                    <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                    <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                                    </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60">
+                                            <span>{{ row.click }}</span>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="ctr" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" (click)="sortTime()" title="CTR">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8">CTR</div>
+                                                <div class="rel width20 height50">
+                                                    <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                    <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                                    </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60">
+                                            <span>{{ row.ctr }}</span>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="成本（元）" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" (click)="sortTime()" title="成本（元）">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8" >成本（元）</div>
+                                                <div class="rel width20 height50">
+                                                    <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                    <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                                    </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60">
+                                            <span>{{ row.cost }}</span>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="ecpm" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" (click)="sortTime()" title="eCPM（元）">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8"  >eCPM（元）</div>
+                                                <div class="rel width20 height50">
+                                                    <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                    <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                                    </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60">
+                                            <span>{{ row.ecpm }}</span>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column  prop="ecpc" [resizeable]="false" [sortable]="false">
+                                <template ngx-datatable-header-template let-row="row">
+                                        <div class="width-100 height50 flex-center pointer" (click)="sortTime()" title="eCPC（元）">
+                                            <div class="flex-base rel height50">
+                                                <div class="ml8" >eCPC（元）</div>
+                                                <div class="rel width20 height50">
+                                                    <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                    <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                </div> 
+                                            </div>     
+                                        </div>		
+                                    </template>
+                            <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell line-height60">
+                                            <span>{{ row.ecpc/100 }}</span>
+                                        </div>								
+                                    </template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                    <ng-page
+                    [isFooter]="true"
+                    [page]="page"
+                    (outerPage)="onPage($event)"
+                     ></ng-page>
+                    <div class="height45 abs top50 left300 z-index10 bgc-white line-height45 width1600 textcenter ml2" id="noDate">
+                        暂无推广活动，<a (click)="gocampaignForm()" class="cursor-point"> 点击新建广告活动>> </a>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+</div>

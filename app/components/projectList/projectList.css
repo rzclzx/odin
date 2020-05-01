@@ -1,0 +1,51 @@
+.prom {
+  padding: 10px 0 0 15px;
+}
+.prom .prom-top .prom-campaign {
+  padding-right: 10px;
+}
+.prom .prom-contain {
+  height: 90px;
+  padding: 25px 0 0px 20px;
+}
+.prom .prom-contain .form-group {
+  margin: 5px 0 0 10px;
+  width: auto!important;
+  left: 0;
+}
+.prom .prom-contain .form-group label {
+  font-weight: 400;
+  width: auto!important;
+}
+.prom .text-data {
+  top: 10px;
+  left: 1230px;
+  display: inline-block;
+  position: relative;
+}
+.prom .prom-data {
+  top: -52px;
+  left: 1235px;
+}
+.prom .prom-tab a:hover {
+  text-decoration: none;
+}
+.prom .prom-tab .dropdown-menu {
+  min-width: 75px;
+  margin-top: -10px;
+  margin-left: 28px;
+}
+.prom .prom-tab .dropdown-menu .ul78 {
+  width: 78px;
+}
+.prom .prom-tab .dropdown-menu .ul78 a {
+  display: inline-block;
+  width: 78px;
+}
+.prom .prom-tab .btn {
+  height: 30px;
+}
+.prom .prom-tab .btn-group,
+.prom .prom-tab .btn-group-vertical {
+  position: static;
+}

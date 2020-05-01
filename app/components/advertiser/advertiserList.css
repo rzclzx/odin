@@ -1,0 +1,55 @@
+.content .adv-header {
+  height: 50px;
+  border: 1px solid #ccc;
+  line-height: 50px;
+  padding-left: 10px;
+}
+.content .adv-header label {
+  color: #666;
+}
+.content .adv-header div {
+  width: 210px;
+  height: 31px;
+  margin-top: 10px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  line-height: 27px;
+  margin-left: 15px;
+}
+.content .adv-header div input {
+  border: none;
+  width: 208px;
+  height: 27px;
+  color: #ccc;
+  font-size: 14px;
+}
+.content .adv-header .adv-form {
+  margin-left: 1130px;
+}
+.content .dropdown-menu {
+  min-width: 75px;
+}
+.content .dropdown-menu .ul78 {
+  width: 78px;
+}
+.content .dropdown-menu .ul78 a {
+  display: inline-block;
+  width: 78px;
+}
+.content .data-header {
+  height: 50px;
+  border: 1px solid #ccc;
+  line-height: 50px;
+  padding-left: 10px;
+}
+.content .data-header label input {
+  margin-right: 0px;
+}
+.content .data-header .glyphicon {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.content .data-header .glyphicon:hover {
+  color: #1a89fb;
+}

@@ -1,0 +1,369 @@
+<div class="content">
+    <div class="add-form-box" (click)="mustOne($event)">
+        <div class="flex-start-center">
+            <div class="flex-start-center width250 radius5 bgc-yellow4 color-white rel top-25">
+                <img src="{{ number1 }}" class="ml15">
+                <img src="{{ yr }}" class="ml10 height50">
+                <div class="ml10">详情审核</div>
+            </div>
+            <div class="flex-start-center width250 radius5 bgc-gray12 color-white rel top-25 ml10">
+                <img src="{{ number2 }}" class="ml15">
+                <img src="{{ gr }}" class="ml10 height50">
+                <div class="ml10">物料包审核</div>
+            </div>
+            <div class="flex-start-center width250 radius5 bgc-gray12 color-white rel top-25 ml10">
+                <img src="{{ number3 }}" class="ml15">
+                <img src="{{ gr }}" class="ml10 height50">
+                <div class="ml10">渠道,媒体及渠道设置</div>
+            </div>
+        </div>
+        <div class="font18 width120 height34 line-height34 textcenter font-bold">基础信息</div>
+        <div class="flex-base">
+            <div class="height2 bgc-blue4 width120"></div>
+            <div class="height1 bgc-gray3 self-flex-end flex-grow1"></div>
+        </div>
+        <div *ngIf="id" class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">推广活动ID：</div>
+            <div class="flex-base width1200 ml20">
+                <div>{{ campaign.id }}</div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright rel required-left">推广活动名称：</div>
+            <div class="flex-base width1200 ml20">
+                <div class="width320">
+                    <input type="text" class="form-control" [(ngModel)]="campaign.name" name="name" validation [validations]="'maxlength:20;required'" placeholder="请输入活动名称">
+                </div>
+                <div class="ml20 font14">限20字以内</div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">广告主：</div>
+            <div class="flex-base width1200 ml20">
+                <div *ngIf="!id" class="width240">
+                    <select class="form-control width240" [(ngModel)]="advertiser" name="advertiser" (change)="selectedAdvertiser()">
+                        <option [ngValue]="undefined">请选择广告主</option>
+                        <option cutString [cutLength]="25" *ngFor="let v of advertisers;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="id">{{ campaign.advertiserName }}</div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">广告项目：</div>
+            <div class="flex-base width1200 ml20">
+                <div *ngIf="!id" class="width240">
+                    <select class="form-control width240" [(ngModel)]="campaign.projectId" name="project">
+                        <option [ngValue]="undefined">请选择项目</option>
+                        <option cutString [cutLength]="25" *ngFor="let v of projects;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="id">{{ campaign.projectName }}</div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright required-left rel">投放周期：</div>
+            <div class="flex-base width1200 ml20">
+                <div class="width240 rel">
+                    <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(campaign.startDate) + (publicService.FormalTimeLine(campaign.startDate) ? ' 至 ' : '') +  publicService.FormalTimeLine(campaign.endDate)}}">
+                    <i class="icon-calendar time-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">投放时段KPI及成本：</div>
+            <div class="flex-start-center width1200 ml20">
+                <div class="flex-start-center">
+                    <img src="{{ m }}" class="mr10" *ngIf="campaign.totalImpression">
+                    <div class="mr20" *ngIf="campaign.totalImpression">{{ campaign.totalImpression }}</div>
+                    <img src="{{ c }}" class="mr10" *ngIf="campaign.totalClick">
+                    <div class="mr20" *ngIf="campaign.totalClick">{{ campaign.totalClick }}</div>
+                    <img src="{{ money }}" class="mr10" *ngIf="campaign.totalBudget">
+                    <div class="mr20" *ngIf="campaign.totalBudget">{{ campaign.totalBudget }}</div>
+                    <img src="{{ d }}" class="mr10" *ngIf="days">
+                    <div class="mr20 font14" *ngIf="days">{{ days + " 天" }}</div>
+                    <img src="{{ h }}" class="mr10" *ngIf="hours">
+                    <div class="mr20 font14" *ngIf="hours">{{ hours + " 小时" }}</div>
+                </div>
+                <button class="btn btn-primary" (click)="toggleKpi()">点击设置</button>
+            </div>
+        </div>
+        <ng-kpi *ngIf="isShowKpi"
+            [kpi]="campaign.kpi"
+            [totalBudget]="campaign.totalBudget"
+            [totalClick]="campaign.totalClick"
+            [totalImpression]="campaign.totalImpression"
+            (outer)="onmessage($event)"
+        ></ng-kpi>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">频次控制：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="campaign.frequencyType" name="frequencyType1" [value]="'0'">无频次控制
+                </label>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="campaign.frequencyType" name="frequencyType2" [value]="'1'">按展现量控制频次
+                </label>
+                <label>
+                    <input type="radio" [(ngModel)]="campaign.frequencyType" name="frequencyType3" [value]="'2'">按点击量控制频次
+                </label>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34" *ngIf="campaign.frequencyType !== '0'">
+            <div class="width220 textright"></div>
+            <div class="flex-base width1200 ml20">
+                <div class="width150 mr20">
+                    <select class="form-control" [(ngModel)]="campaign.objectType" name="objectType">
+                        <option [ngValue]="'1'">全部创意</option>
+                        <option [ngValue]="'2'">单个创意</option>
+                    </select>
+                </div>
+                <div>——</div>
+                <div class="width150 ml20 mr20">
+                    <select class="form-control" [(ngModel)]="campaign.cycleType" name="objectType">
+                        <option [ngValue]="'2'">每天</option>
+                        <option [ngValue]="'3'">每周</option>
+                        <option [ngValue]="'4'">每月</option>
+                        <option [ngValue]="'0'">全投放周期</option>
+                    </select>
+                </div>
+                <div *ngIf="campaign.frequencyType === '1'">限每个用户展示</div>
+                <div *ngIf="campaign.frequencyType === '2'">限每个用户点击</div>
+                <div class="width150 ml20 mr20">
+                    <input *ngIf="campaign.frequencyType === '1'" type="number" class="form-control" [(ngModel)]="campaign.frequencyAmount" name="frequencyAmount" validation [validations]="'noFloat;required'">
+                    <input *ngIf="campaign.frequencyType === '2'" type="number" class="form-control" [(ngModel)]="campaign.frequencyAmount" name="frequencyAmount" validation [validations]="'noFloat;required'">
+                </div>
+                <div>次</div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright rel required-left">单价：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="campaign.bidType" name="bidType1" [value]="'0'">CPM
+                </label>
+                <div class="width150" *ngIf="campaign.bidType === '0'">
+                    <input type="text" class="form-control" [(ngModel)]="campaign.bid" name="bid1" validation [validations]="'rate;required;maxnum:9999.99'">
+                </div>
+                <div *ngIf="campaign.bidType === '0'" class="mr20">元</div>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="campaign.bidType" name="bidType2" [value]="'1'">CPC
+                </label>
+                <div class="width150" *ngIf="campaign.bidType === '1'">
+                    <input type="number" class="form-control" [(ngModel)]="campaign.bid" name="bid2" validation [validations]="'rate;required;maxnum:9999.99'">
+                </div>
+                <div *ngIf="campaign.bidType === '1'">元</div>
+            </div>
+        </div>
+        <div class="font18 width120 height34 line-height34 textcenter font-bold mt34">定向信息</div>
+        <div class="flex-base">
+            <div class="height2 bgc-blue4 width120"></div>
+            <div class="height1 bgc-gray3 self-flex-end flex-grow1"></div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">国家/地区：</div>
+            <div class="flex-base width1200 ml20">
+                <div class="width240">
+                    <select class="form-control">
+                        <option>中国</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">地区选择：</div>
+            <div class="flex-base width1200 ml20">
+                <div class="width240 rel">
+                    <input class="form-control" type="text" name="regionNames" [(ngModel)]="regionNames" (click)="openRegionModal()" placeholder="全部">  
+                    <span class='camadd-caret'></span>             
+                </div>
+                <modal #regionModal [backdrop]="'static'" [animation]="false" class="modalRegion">
+                    <modal-header>
+                        <div class="ng2-modal-header">
+                            <div class="width3 height18 bgc-blue4 ml20"></div> 
+                            <div class="ml10 font16 font-bold color-gray5">选择地区</div>   
+                        </div>
+                    </modal-header>
+                    <modal-body>
+                        <modal-region></modal-region>
+                    </modal-body>
+                    <modal-footer>
+                        <button type="button" class="btn btn-cancel btn-sm height30 width65" (click)="regionCancel()">取消</button>
+                        <button type="button" class="btn btn-primary btn-sm height30 width65" (click)="regionModalSubmit()">确定</button>
+                    </modal-footer>
+                </modal>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">人群包定向：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr65">
+                    <input type="radio" [(ngModel)]="campaign.populationType" name="populationType1" [value]="'0'">不限
+                </label>
+                <!--<label class="mr20">
+                    <input type="radio" [(ngModel)]="campaign.targeting.population.type" name="populationType2" [value]="'02'">黑名单人群包
+                </label>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="campaign.targeting.population.type" name="populationType3" [value]="'03'">只投白名单人群包
+                </label>
+                <label class="mr40">
+                    <input type="radio" [(ngModel)]="campaign.targeting.population.type" name="populationType4" [value]="'04'">优先投白名单人群包
+                </label>
+                <div class="flex-base" *ngIf="campaign.targeting.population.type === '04'">
+                    <div>溢价比例：</div>
+                    <div class="width65 ml10 mr10">
+                        <input type="text" class="form-control" [(ngModel)]="campaign.targeting.population.ratio" name="ratio">
+                    </div>
+                    <div>%</div>
+                </div>     -->
+            </div>
+        </div>
+        <!--<population-selected
+            *ngIf="campaign.targeting.population.type !== '01'"
+        ></population-selected>-->
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">网络环境：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr65">
+                    <input type="radio" [(ngModel)]="isNetwork" name="notNetwork" [value]="false" (click)="deleteRadioTarget('network')">不限
+                </label>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="isNetwork" name="isNetwork" [value]="true" (click)="addRadioTarget('network')">自定义
+                </label>
+                <div class="flex-base" *ngIf="isNetwork">
+                    <label class="mr20">
+                        <input type="checkbox" [(ngModel)]="targetModal.network[0].value" name="network-1">wifi
+                    </label>
+                    <label class="mr20">
+                        <input type="checkbox" [(ngModel)]="targetModal.network[1].value" name="network-2">2G
+                    </label>
+                    <label class="mr20">
+                        <input type="checkbox" [(ngModel)]="targetModal.network[2].value" name="network-3">3G
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="targetModal.network[3].value" name="network-4">4G
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">网络运营商：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr65">
+                    <input type="radio" [(ngModel)]="isCarrier" name="notCarrier" [value]="false" (click)="deleteRadioTarget('carrier')">不限
+                </label>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="isCarrier" name="isCarrier" [value]="true" (click)="addRadioTarget('carrier')">自定义
+                </label>
+                <div class="flex-base" *ngIf="isCarrier">
+                    <label class="mr20">
+                        <input type="checkbox" [(ngModel)]="targetModal.carrier[0].value" name="carrier-1">中国移动
+                    </label>
+                    <label class="mr20">
+                        <input type="checkbox" [(ngModel)]="targetModal.carrier[1].value" name="carrier-2">中国联通
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="targetModal.carrier[2].value" name="carrier-3">中国电信
+                    </label>
+                </div>     
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">设备平台：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr65">
+                    <input type="radio" [(ngModel)]="isDevice" name="notDevice" [value]="false" (click)="deleteRadioTarget('device')">不限
+                </label>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="isDevice" name="isDevice" [value]="true" (click)="addRadioTarget('device')">自定义
+                </label>
+                <div class="flex-base" *ngIf="isDevice">
+                    <label class="mr20">
+                        <input type="checkbox" [(ngModel)]="targetModal.device[0].value" name="device-1">手机
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="targetModal.device[1].value" name="device-2">平板
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">操作系统：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr65">
+                    <input type="radio" [(ngModel)]="isOs" name="notOs" [value]="false" (click)="deleteRadioTarget('os')">不限
+                </label>
+                <label class="mr20">
+                    <input type="radio" [(ngModel)]="isOs" name="isOs" [value]="true" (click)="addRadioTarget('os')">自定义
+                </label>
+                <div class="flex-base" *ngIf="isOs">
+                    <label class="mr20">
+                        <input type="checkbox" [(ngModel)]="targetModal.os[0].value" name="os-1">android
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="targetModal.os[1].value" name="os-2">ios
+                    </label>
+                </div>  
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">手机品牌：</div>
+            <div class="flex-base width1200 ml20">
+                <label class="mr65">
+                    <input type="radio" [(ngModel)]="isCellphone" name="notCellphone" [value]="false" (click)="deleteCellphone()">不限
+                </label>
+                <label class="mr20 pointer">
+                    <input type="radio" [(ngModel)]="isCellphone" name="isCellphone" [value]="true" (click)="showBrand()">自定义
+                </label>
+            </div>
+        </div>
+        <modal #brandModal [backdrop]="'static'" [animation]="false" class="modalBrand">
+            <modal-body>    
+                <div class="ng2-modal-header">
+                    <div class="width3 height18 bgc-blue4 ml20"></div> 
+                    <div class="ml10 font16 font-bold color-gray5">手机品牌</div>   
+                </div>    
+                <mobile-brand *ngIf="isShowBrand"
+                    [brand] = "campaign.targeting.brand"
+                    (outer)="onBrandMessage($event)"
+                ></mobile-brand>
+            </modal-body>
+        </modal>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright">场景定向 - 精度范围：</div>
+            <div class="flex-base width1200 ml20">
+                <div class="width240">
+                    <select class="form-control" [(ngModel)]="campaign.sceneRadius" name="sceneRadius">
+                        <option [ngValue]="undefined">请选择精度范围</option>
+                        <option [ngValue]="'8'">半径19.11m范围内</option>
+                        <option [ngValue]="'7'">半径76m范围内</option>
+                        <option [ngValue]="'6'">半径610m范围内</option>
+                        <option [ngValue]="'5'">半径2.4km范围内</option>
+                        <option [ngValue]="'4'">半径20km范围内</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright"></div>
+            <div class="flex-start-center width1200 ml20">          
+                <label class="pointer mr20">
+                    <input type="file" class="dispaly-none" #file ng2FileSelect [uploader]="uploader">
+                    <button class="btn btn-primary transparent">导入坐标</button>
+                </label>  
+                <div class="flex-start-center" *ngIf="campaign.sceneName">
+                    <span>{{ campaign.sceneName }}</span>
+                    <span class="icon-delete2 ml10 color-bluebtn pointer" (click)="removeExcel()"></span>
+                </div>        
+            </div>
+        </div>
+        <div class="dashed-gray3-1px mt34 mb50"></div>
+        <div class="flex-base mt34 height34 line-height34">
+            <div class="width220 textright"></div>
+            <div class="flex-base width1200 ml20">
+                <button class="btn btn-primary mr20" (click)="save()">通过并下一步</button>
+                <button class="btn btn-cancel" (click)="cancel()">取 消</button>             
+            </div>
+        </div>
+    </div>
+</div>

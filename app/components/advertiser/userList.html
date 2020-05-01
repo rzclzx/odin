@@ -1,0 +1,27 @@
+<div class="row" class="createAdvertisers-wrapper">
+	<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation">
+				<a href="#home" aria-controls="home" role="tab" data-toggle="tab" (click)="goAdvertiserDetail()">广告主详情</a>
+			</li>
+			<li role="presentation" class="active">
+				<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" (click)="goUserList()">用户列表</a>
+			</li>
+			<li role="presentation">
+				<a href="#channelAudit" aria-controls="channelAudit" role="tab" data-toggle="tab" (click)="goChannelAudit()">渠道审核</a>
+			</li>
+			<li role="presentation">
+				<a href="#topUpDetail" aria-controls="topUpDetail" role="tab" data-toggle="tab" (click)="goTopUpDetail()">充值明细</a>
+			</li>
+		</ul>
+		<div class="button-wrapper">
+			<button class="btn btn-primary" (click)="gotoadvertiserList()">返回</button>
+		</div>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane" id="home">...</div>
+            <div role="tabpanel" class="tab-pane active" id="profile"></div>
+			<div role="tabpanel" class="tab-pane" id="channelAudit">...</div>
+			<div role="tabpanel" class="tab-pane" id="topUpDetail">...</div>
+		</div>
+</div>

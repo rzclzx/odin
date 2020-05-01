@@ -1,0 +1,90 @@
+
+<div class="wrap">
+        <div class="wrap-s">
+                <p class="icon-quanju">
+                        <span class="data-center">数据中心</span>
+                        <i>/</i>
+                        <span class="data-chart">数据图表</span>
+                </p>
+                <div class="btns">
+                        <button class="btn" (click)="dataData()">实时数据</button>
+                        <button class="btn" (click)="dataAddress()">地域</button>
+                        <button class="btn"(click)="dataNetwork()">网络</button>
+                        <button class="btn" (click)="dataFacility()">设备</button>
+                        <button class="btn" (click)="dataAdvert()">广告形式</button>
+                        <button class="btn"style="background:rgb(75,144,212);color:#fff">媒体</button>
+                        <button class="btn" (click)="dataPoints()">分日</button>
+                        <a>
+                                <img src="../../images/hint.png">
+                        </a>
+                </div>
+                <div class="selectes">
+                        <div class="select-first">
+                                        <span class="text-date datas">时间选择：</span>
+                                        <div class="rel width220 put-picker">
+                                            <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}" >
+                                            <i class="icon-calendar time-icon"></i>
+                                        </div>
+
+                        </div>
+                        <div class="select-first">
+                                        <label>客户：</label>
+                                        <select>
+                                                <option>全部客户</option>
+                                        </select>
+        
+                                </div>
+                        <div class="select-first">
+                                <label>广告项目：</label>
+                                <select>
+                                        <option>全部广告项目</option>
+                                </select>
+
+                        </div>
+                        <div class="select-first">
+                                <label>推广活动：</label>
+                                <select>
+                                        <option>全部推广活动</option>
+                                </select>
+
+                        </div>
+                        <div class="select-first">
+                                <label>投放策略：</label>
+                                <select>
+                                        <option>全部投放策略</option>
+
+                                </select>
+
+                        </div>
+                        <div class="select-first">
+                                <label>创意：</label>
+                                <select>
+                                        <option>全部广告项目</option>
+                                </select>
+
+                        </div>
+                        <button class="btn btn-primary find">查询</button>
+                </div>
+                <div class="chart">
+                                <div>
+                                        <p>
+                                                <span class="tab-title">按APP分类统计（TOP 10）</span>
+                                        </p>
+                                        <div class="chart-data">
+                                                数据echarts
+        
+                                        </div>
+                                </div>
+                                <div>
+                                                <p>
+                                                        <span class="tab-title">按APP名称统计（TOP 5）</span>
+                                                </p>
+                                                <div class="chart-data">
+                                                        数据echarts
+                
+                                                </div>
+                                        </div>
+        
+                        </div>
+        </div>
+</div>

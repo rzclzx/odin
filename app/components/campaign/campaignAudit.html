@@ -1,0 +1,137 @@
+<div class="prom content">
+        <div class="prom-top">
+            <div class="btn-group prom-campaign">
+                <button class="btn btn-primary " type="button" (click)="gotoprojectForm()">新建广告项目</button>
+            </div>
+            <div class='btn-group'>
+                <button class="btn btn-primary " type="button" (click)="gotocampaignForm()">新建推广活动</button>
+            </div>
+        </div>
+        <div class="put-tab">
+             <div>
+                  <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" [routerLink]="['/home/campaign/campaignAudited']"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">已审核</a></li>
+                        <li role="presentation"  class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">待审核</a></li>                       
+                      </ul>
+                     <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="profile">
+                                    <div class="panel-body">
+                                            <form class="form-inline">
+                                                <div class="form-group poc-date">
+                                                    <label >投放日期：</label>
+                                                    <div class="rel width220 put-picker pl0">
+                                                        <!-- <input id="singalTimeRangePicker" class="form-control" type="text" value="{{publicService.FormalTimeLine(Date)}}"> -->
+                                                        <input id="timeRangePicker1" class="form-control width220" type="text"  value="{{ publicService.FormalTimeLine(startDate1)+ this.zhi +publicService.FormalTimeLine(endDate1)}}" >
+                                                        <i class="icon-calendar time-icon"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ml20">
+                                                    <label >所属广告主：</label>
+                                                    <!-- <select  [(ngModel)]="advertiser" name="advertiser" (change)="selectedAdvertiser()">
+                                                        <option [ngValue]="undefined">  全部  </option>
+                                                        <option *ngFor="let v of advertisers;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                                                    </select> -->
+                                                    <input type="text" class="form-control"  placeholder="" name="advertiserName"  [(ngModel)]="advertiserName">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label >活动ID：</label>
+                                                    <input type="number" class="form-control"  placeholder="仅支持精确搜索" name="ids"  [(ngModel)]="ids">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>活动名称：</label>
+                                                    <input type="name" class="form-control"  placeholder="" name="name"  [(ngModel)]="name">
+                                                </div>
+                                                <button  class="btn btn-primary ml20" (click)="refreshTable({pageNo: 1})">查询</button>
+                                            </form>
+                                            <div class="prom-tab mt20">
+                                                    <ng-page
+                                                    [page]="page"
+                                                    (outerPage)="onPage($event)"
+                                                     ></ng-page>
+                                                    <ngx-datatable [rows]="campaigns"  [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50"  [rowHeight]="50" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo" [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+                                                    (page)="onPage($event)" [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                                                        <ngx-datatable-column name="推广活动ID" prop="id" [resizeable]="false" [sortable]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell" title="{{row.id}}">
+                                                                            <span>{{ row.id }}</span>
+                                                                        </div>							
+                                                                    </template>
+                                                        </ngx-datatable-column>
+                                                        <ngx-datatable-column name="推广活动名称" prop="name" [resizeable]="false" [sortable]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell" title="{{row.name}}">
+                                                                            <span class="glyphicon glyphicon-exclamation-sign red hide"></span>
+                                                                            <a class="cursor-point" (click)="gotoauditDetail(row.id)">{{ row.name }}</a>
+                                                                        </div>								
+                                                                    </template>
+                                                        </ngx-datatable-column>
+                                                        <ngx-datatable-column name="投放日期" [resizeable]="false" [sortable]="false">
+                                                                <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell" title="{{ publicService.FormalTimeLine(row.startDate) + ' 至 ' +  publicService.FormalTimeLine(row.endDate)}}">
+                                                                        <span>{{ publicService.FormalTimeLine(row.startDate) + ' 至 ' +  publicService.FormalTimeLine(row.endDate)}}</span>
+                                                                    </div>								
+                                                                        </template>
+                                                            </ngx-datatable-column>
+                                                        <ngx-datatable-column name="操作" prop="auditStatus" [resizeable]="false" [sortable]="false" [width]="60" [canAutoResize]="false">
+                                                                <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell">
+                                                                            <a class="cursor-point" (click)="gotodetailAudit(row.id)">{{row.auditStatus=="02"?"审核":false}}</a>
+                                                                        </div>								
+                                                                </template>
+                                                        </ngx-datatable-column>                               
+                                                        <ngx-datatable-column name="广告主" prop="advertiserName" [resizeable]="false" [sortable]="false">
+                                                                <template ngx-datatable-cell-template let-row="row">
+                                                                            <div class="ell" title="{{row.advertiserName}}">
+                                                                                <a [routerLink]="['/home/advertiser/advertiserDetail',row.advertiserId]">{{ row.advertiserName }}</a>
+                                                                            </div>								
+                                                                        </template>
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column name="广告项目" prop="projectName" [resizeable]="false" [sortable]="false">
+                                                                    <template ngx-datatable-cell-template let-row="row">
+                                                                                <div class="ell" title="{{row.projectName}}">
+                                                                                    <a class="display-inline-block cursor-point"  (click)="gotoprojectDetail(row.projectId)">{{ row.projectName }}</a>
+                                                                                </div>								
+                                                                            </template>
+                                                                </ngx-datatable-column>                                                           
+                                                        <ngx-datatable-column name="物料包数量" prop="packageAmount" [resizeable]="false" [sortable]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell">
+                                                                            <span class="cursor-point" (click)="gotoauditList(row.id)"><a>{{row.packageAmount}}</a></span>
+                                                                        </div>								
+                                                                    </template>
+                                                        </ngx-datatable-column>
+                                                        <ngx-datatable-column name="总KPI及投放成本" prop="todayImpression" [resizeable]="false" [sortable]="false" [width]="180"  [canAutoResize]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell kpi">
+                                                                                    <div >
+                                                                                            <img src="../../images/m.png" alt="">
+                                                                                            <span>{{row.totalImpression ? row.totalImpression:0}}</span>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <img src="../../images/c.png" alt="">
+                                                                                                <span>{{row.totalClick ? row.totalClick:0}}</span>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                                <img src="../../images/money.png" alt="">
+                                                                                                <span>{{row.totalBudget ? row.totalBudget/100 : 0}}</span>
+                                                                                        </div>
+                                                                        </div>								
+                                                                    </template>
+                                                        </ngx-datatable-column>
+                                                    </ngx-datatable>
+                                                    <ng-page
+                                                    [isFooter]="true"
+                                                    [page]="page"
+                                                    (outerPage)="onPage($event)"
+                                                     ></ng-page>
+                                                </div>
+                                        </div>
+                            </div>
+                     </div>
+             </div>
+        </div>
+                                              
+                                           
+        
+</div>

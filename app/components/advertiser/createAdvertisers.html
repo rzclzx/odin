@@ -1,0 +1,555 @@
+<div class="row" class="createAdvertisers-wrapper">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">客户名称：<span *ngIf="id ? false : true">*</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入客户名称" [(ngModel)]="name" name="name" validation [validations]="'name;required;'" *ngIf="!editBoolean">
+				<p *ngIf="editBoolean">{{name}}</p>
+			</div>
+			<p *ngIf="id ? false : true">*10个字符以内</p>
+		</div>
+		<div class="form-group password">
+			<label class="col-sm-2 control-label">公司名称：<span>*</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入公司名称" [(ngModel)]="companyName" name="companyName" validation [validations]="'coname;required;'">
+			</div>
+			<p>*50个字符以内</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">是否保护客户：<span>*</span></label>
+			<div class="col-sm-8">
+				<input type="radio" name="isProtected" value="1" [(ngModel)]="isProtected" />是
+				<input type="radio" name="isProtected" value="0" [(ngModel)]="isProtected" />否
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">联系人：<span>*</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="contacts" name="contacts" validation [validations]="'concact;required;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">联系电话：<span>*</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入联系电话" [(ngModel)]="contactNum" name="contactNum" validation [validations]="'required;telephone;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">常用邮箱：<span>*</span></label>
+			<div class="col-sm-8">
+				<input type="email" class="form-control" placeholder="常用邮箱" [(ngModel)]="email" name="email" validation [validations]="'required;email;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">QQ号：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入QQ号" [(ngModel)]="qq" name="qq" validation [validations]="'qqcode;'">
+			</div>
+			<p>*在广点通投放Andriod下载广告时必填，取自广告主在腾讯开放平台(oppn.qq.com)登录时的账户QQ</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">所属行业：<span>*</span></label>
+			<div class="col-sm-8">
+				<select name="industryId" class="form-control" [(ngModel)]="industryId" validation [validations]="'required;'">
+					<option value="0">———请选择所属行业——— </option>
+					<option [ngValue]="x.id" *ngFor="let x of elseIndustry">{{x.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">品牌名称：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入品牌名称" [(ngModel)]="brand" name="brand" validation [validations]="'maxlength:14;'">
+			</div>
+			<p>*14个字符以内</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">品牌LOGO：</label>
+			<div class="col-sm-8">
+				<div class="rel">
+					<label *ngIf="!logoPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width120 height120 pointer">
+						<div class="width105 height105 margin-center column-center rel dashed-gray3-1px textcenter">
+							<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+						</div>
+						<input type="file" class="dispaly-none" #logoPath ng2FileSelect [uploader]="logoLoader" id="logo">
+					</label>
+					<div *ngIf="logoPath" class="rel advertiser-upload">
+						<img class="width120 height120" src="{{ logoPath }}">
+						<div class="abs width120 height120 top0 left0 bgc-black pointer visibility-toggle" (click)="removePath('logoPath')">
+							<span class="icon-delete-012 center abs font-size28"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<p class="logo-text">*投放广点通feeds流量时必填，80*80，30k以内，JPG/PNG，品牌名称必须与LOGO同时填写</p>
+		</div>
+		<div class="form-group qualification">
+			<label class="col-sm-2 control-label">资质：</label>
+			<div class="col-sm-8">
+				<section class='basic-qualification'>
+					<p>基本资质</p>
+					<div>
+						<div class="rel">
+							<label *ngIf="!accountLicencePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+								<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+									<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+									<div class="">添加开户许可证</div>
+								</div>
+								<input type="file" class="dispaly-none" #accountLicence ng2FileSelect [uploader]="accountLicenceLoader" id="accountLicence">
+							</label>
+							<div *ngIf="accountLicencePath" class="rel advertiser-upload">
+								<img class="width185 height130" src="{{ accountLicencePath }}">
+								<div class="abs width185 height130 top0 left0 bgc-black opacity08 pointer visibility-toggle" (click)="removePath('accountLicencePath')">
+									<span class="icon-delete-012 center abs font-size28"></span>
+								</div>
+							</div>
+						</div>
+						<div class="rel">
+							<label *ngIf="!businessLicencePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+								<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+									<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+									<div class="">添加营业执照</div>
+								</div>
+								<input type="file" class="dispaly-none" #businessLicencePath ng2FileSelect [uploader]="businessLicenceLoader" id="businessLicence">
+							</label>
+							<div *ngIf="businessLicencePath" class="rel advertiser-upload">
+								<img class="width185 height130" src="{{ businessLicencePath }}">
+								<div class="abs width185 height130 top0 left0 bgc-black opacity08 pointer visibility-toggle" (click)="removePath('businessLicencePath')">
+									<span class="icon-delete-012 center abs font-size28"></span>
+								</div>
+							</div>
+						</div>
+						<div class="rel">
+							<label *ngIf="!organizationCodePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+								<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+									<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+									<div class="">添加组织结构代码证</div>
+								</div>
+								<input type="file" class="dispaly-none" #organizationCodePath ng2FileSelect [uploader]="organizationCodeLoader" id="organizationCode">
+							</label>
+							<div *ngIf="organizationCodePath" class="rel advertiser-upload">
+								<img class="width185 height130" src="{{ organizationCodePath }}">
+								<div class="abs width185 height130 top0 left0 bgc-black opacity08 pointer visibility-toggle" (click)="removePath('organizationCodePath')">
+									<span class="icon-delete-012 center abs font-size28"></span>
+								</div>
+							</div>
+						</div>
+						<div class="rel">
+							<label *ngIf="!icpPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+								<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+									<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+									<div class="">添加网站ICP证</div>
+								</div>
+								<input type="file" class="dispaly-none" #icpPath ng2FileSelect [uploader]="icpLoader" id="icp">
+							</label>
+							<div *ngIf="icpPath" class="rel advertiser-upload">
+								<img class="width185 height130" src="{{ icpPath }}">
+								<div class="abs width185 height130 top0 left0 bgc-black opacity08 pointer  visibility-toggle" (click)="removePath('icpPath')">
+									<span class="icon-delete-012 center abs font-size28"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class='especial-qualification' *ngIf="industryId==1||industryId==2||industryId==3||industryId==4">
+					<p>特殊资质<span>点击收起</span></p>
+					<ul>
+						<li><input type="radio" name="especial-qualification" class="industryId" value="1" [(ngModel)]="industryId" />金融理财</li>
+						<li><input type="radio" name="especial-qualification" class="industryId" value="2" [(ngModel)]="industryId" />化妆品</li>
+						<li><input type="radio" name="especial-qualification" class="industryId" value="3" [(ngModel)]="industryId" />食品酒类</li>
+						<li><input type="radio" name="especial-qualification" class="industryId" value="4" [(ngModel)]="industryId" />药品</li>
+					</ul>
+					<div id="">
+						<div *ngIf="industryId==1">
+							<div class="rel">
+								<label *ngIf="!securitiesBusinessQualificationPermitPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">证券业务资格许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #securitiesBusinessQualificationPermitPath ng2FileSelect [uploader]="securitiesBusinessQualificationPermitLoader" id="securitiesBusinessQualificationPermit">
+								</label>
+								<div *ngIf="securitiesBusinessQualificationPermitPath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ securitiesBusinessQualificationPermitPath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('securitiesBusinessQualificationPermit')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!futuresBusinessLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">期货业务许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #futuresBusinessLicensePath ng2FileSelect [uploader]="futuresBusinessLicenseLoader" id="futuresBusinessLicense">
+								</label>
+								<div *ngIf="futuresBusinessLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ futuresBusinessLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('futuresBusinessLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!fundManagementQualificationCertificatePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">基金管理资格证书</div>
+									</div>
+									<input type="file" class="dispaly-none" #fundManagementQualificationCertificate ng2FileSelect [uploader]="fundManagementQualificationCertificateLoader" id="fundManagementQualificationCertificate">
+								</label>
+								<div *ngIf="fundManagementQualificationCertificatePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ fundManagementQualificationCertificatePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('fundManagementQualificationCertificate')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!financialInstitutionLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">金融机构许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #financialInstitutionLicense ng2FileSelect [uploader]="financialInstitutionLicenseloader" id="financialInstitutionLicense">
+								</label>
+								<div *ngIf="financialInstitutionLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ financialInstitutionLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('financialInstitutionLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!bankApprovalPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">主管银行批件</div>
+									</div>
+									<input type="file" class="dispaly-none" #bankApproval ng2FileSelect [uploader]="bankApprovalLoader" id="bankApproval">
+								</label>
+								<div *ngIf="bankApprovalPath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ bankApprovalPath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('bankApproval')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!actingInsuranceLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">代理保险许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #actingInsuranceLicense ng2FileSelect [uploader]="actingInsuranceLicenseloader" id="actingInsuranceLicense">
+								</label>
+								<div *ngIf="actingInsuranceLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ actingInsuranceLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('actingInsuranceLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!fundManagementQualificationCertificatePath_2" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">基金管理资格证书</div>
+									</div>
+									<input type="file" class="dispaly-none" #fundManagementQualificationCertificate_2 ng2FileSelect [uploader]="fundManagementQualificationCertificateLoader_2" id="fundManagementQualificationCertificate_2">
+								</label>
+								<div *ngIf="fundManagementQualificationCertificatePath_2" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ fundManagementQualificationCertificatePath_2 }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('fundManagementQualificationCertificate_2')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!operatingAStockUnderwritingBusinessLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">经营股票承销业务许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #operatingAStockUnderwritingBusinessLicense ng2FileSelect [uploader]="operatingAStockUnderwritingBusinessLicenseLoader" id="operatingAStockUnderwritingBusinessLicense">
+								</label>
+								<div *ngIf="operatingAStockUnderwritingBusinessLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ operatingAStockUnderwritingBusinessLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('operatingAStockUnderwritingBusinessLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="industryId==2">
+							<div class="rel">
+								<label *ngIf="!sanitaryPermitPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">卫生许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #sanitaryPermit ng2FileSelect [uploader]="sanitaryPermitLoader" id="sanitaryPermit">
+								</label>
+								<div *ngIf="sanitaryPermitPath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ sanitaryPermitPath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('sanitaryPermit')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!productionLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">生产许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #productionLicense ng2FileSelect [uploader]="productionLicenseLoader" id="productionLicense">
+								</label>
+								<div *ngIf="productionLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ productionLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('productionLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!administrativeApprovalDocumentsPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">行政批件</div>
+									</div>
+									<input type="file" class="dispaly-none" #administrativeApprovalDocuments ng2FileSelect [uploader]="administrativeApprovalDocumentsLoader" id="administrativeApprovalDocuments">
+								</label>
+								<div *ngIf="administrativeApprovalDocumentsPath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ administrativeApprovalDocumentsPath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('administrativeApprovalDocuments')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="industryId==3">
+							<div class="rel">
+								<label *ngIf="!sanitaryPermitPath_2" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">卫生许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #sanitaryPermit_2 ng2FileSelect [uploader]="sanitaryPermitLoader_2" id="sanitaryPermit_2">
+								</label>
+								<div *ngIf="sanitaryPermitPath_2" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ sanitaryPermitPath_2 }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('sanitaryPermit_2')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!productionLicensePath_2" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">生产许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #productionLicense_2 ng2FileSelect [uploader]="productionLicenseLoader_2" id="productionLicense_2">
+								</label>
+								<div *ngIf="productionLicensePath_2" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ productionLicensePath_2 }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('productionLicense_2')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!foodDistributionLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">食品流通许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #foodDistributionLicense ng2FileSelect [uploader]="foodDistributionLicenseLoader" id="foodDistributionLicense">
+								</label>
+								<div *ngIf="foodDistributionLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ foodDistributionLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('foodDistributionLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!healthAndQuarantineCertificatePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">卫生检疫合格证</div>
+									</div>
+									<input type="file" class="dispaly-none" #healthAndQuarantineCertificate ng2FileSelect [uploader]="healthAndQuarantineCertificateLoader" id="healthAndQuarantineCertificate">
+								</label>
+								<div *ngIf="healthAndQuarantineCertificatePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ healthAndQuarantineCertificatePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('healthAndQuarantineCertificate')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!entryAndExitInspectionAndQuarantineCertificatePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">出入境检验检疫合格证</div>
+									</div>
+									<input type="file" class="dispaly-none" #entryAndExitInspectionAndQuarantineCertificate ng2FileSelect [uploader]="entryAndExitInspectionAndQuarantineCertificateLoader" id="entryAndExitInspectionAndQuarantineCertificate">
+								</label>
+								<div *ngIf="entryAndExitInspectionAndQuarantineCertificatePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ entryAndExitInspectionAndQuarantineCertificatePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('entryAndExitInspectionAndQuarantineCertificate')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="industryId==4">
+							<div class="rel">
+								<label *ngIf="!sanitaryPermitPath_3" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">卫生许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #sanitaryPermit_3 ng2FileSelect [uploader]="sanitaryPermitLoader_3" id="sanitaryPermit_3">
+								</label>
+								<div *ngIf="sanitaryPermitPath_3" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ sanitaryPermitPath_3 }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('sanitaryPermit_3')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!businessLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">经营许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #businessLicense ng2FileSelect [uploader]="businessLicenseLoader" id="businessLicense">
+								</label>
+								<div *ngIf="businessLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ businessLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('businessLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!theDrugApprovalDocumentsPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">药品批件</div>
+									</div>
+									<input type="file" class="dispaly-none" #theDrugApprovalDocuments ng2FileSelect [uploader]="theDrugApprovalDocumentsLoader" id="theDrugApprovalDocuments">
+								</label>
+								<div *ngIf="theDrugApprovalDocumentsPath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ theDrugApprovalDocumentsPath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('theDrugApprovalDocuments')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!drugAdvertisingReviewFormPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">药品广告审查表</div>
+									</div>
+									<input type="file" class="dispaly-none" #drugAdvertisingReviewForm ng2FileSelect [uploader]="drugAdvertisingReviewFormLoader" id="drugAdvertisingReviewForm">
+								</label>
+								<div *ngIf="drugAdvertisingReviewFormPath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ drugAdvertisingReviewFormPath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('drugAdvertisingReviewForm')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+							<div class="rel">
+								<label *ngIf="!drugInformationServiceLicensePath" class="dispaly-block rel border-gray3-1px bgc-gray1 width185 height130 pointer">
+									<div class="width165 height110 margin-center column-center rel dashed-gray3-1px textcenter">
+										<span class="icon-add22 font30 dispaly-inline-block mt30"></span>
+										<div class="">药品信息服务许可证</div>
+									</div>
+									<input type="file" class="dispaly-none" #drugInformationServiceLicense ng2FileSelect [uploader]="drugInformationServiceLicenseLoader" id="drugInformationServiceLicense">
+								</label>
+								<div *ngIf="drugInformationServiceLicensePath" class="rel advertiser-upload">
+									<img class="width185 height130" src="{{ drugInformationServiceLicensePath }}">
+									<div class="abs width185 height130 top0 left0 bgc-black opacity08 visibility-toggle pointer font22" (click)="removePath('drugInformationServiceLicense')">
+										<span class="icon-delete-012 center abs"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">营业执照编号：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入营业执照编号" [(ngModel)]="licenceNo" name="licenceNo" validation [validations]="'businesscode;'">
+			</div>
+			<p>*百度BLS投放时必填</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">营业执照截止日期：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入营业执照截止时间" [(ngModel)]="licenceDeadline" name="licenceDeadline;"  validation [validations]="'date;'">
+			</div>
+			<p>*百度BLS投放时必填，例2017-09-17</p>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">组织结构代码：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入组织结构代码" [(ngModel)]="organizationCode" name="organizationCode" validation [validations]="'agency;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">固定电话：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入固定电话" [(ngModel)]="telephone" name="telephone" validation [validations]="'telephone;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">公司地址：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入公司地址" [(ngModel)]="address" name="address" validation [validations]="'address;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">邮编：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入邮编" [(ngModel)]="zip" name="zip" validation [validations]="'postcode;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">公司网址：<span>*</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入公司网址" [(ngModel)]="websiteUrl" name="websiteUrl" validation [validations]="'required;http;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">网站名称：<span>*</span></label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="请输入网站名称" [(ngModel)]="websiteName" name="websiteName" validation [validations]="'required;maxlength:100;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">销售：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="saleman" name="saleman" validation [validations]="'maxlength:20;'">
+			</div>
+		</div>
+		<hr align="center" style="border:1px dotted #666666;margin: 30px 0;" />
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-8">
+				<button class="btn btn-default" (click)="back()">取消</button>
+				<button class="btn btn-primary" (click)="submit()">保存</button>
+			</div>
+		</div>
+	</form>
+</div>

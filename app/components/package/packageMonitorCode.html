@@ -1,0 +1,30 @@
+<div class="content">
+        <div class="ml330 font20">√落地页监测代码已生成</div>
+        <div class="mt40">               
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                             <div >
+                                    <div class="pname dispaly-inline-block ml80">
+                                            <span class="display-inline-block">监测脚本：</span>
+                                    </div>
+                                    <textarea class="height140 width700 vertical-align-t ml15" [(ngModel)]="text">
+
+                                    </textarea>
+                                    <span class="display-inline-block color-bluebtn cursor-point" ngxClipboard [cbContent]="text">复制代码</span>
+                             </div>
+                             <div class=" line-height50 ml110">
+                                <div class="pname dispaly-inline-block">
+                                    <span class="display-inline-block">说明：</span>
+                                </div>
+                                <span class="ml10">1.请将代码添加到网站全部页面的&lt;/head&gt;标签前；</span><br>
+                                <span class="display-inline-block ml62">2.建议在header.htm类似的页头模板页面中安装，以达到一处安装，全站皆有的效果；</span><br>
+                                <span class="display-inline-block ml62">3.如需在JS文件中调用统计分析代码，请直接去掉以下代码首尾的 &lt;\script type="text/javascript"&gt;与&lt;/script&gt;后，</span><br>
+                                <span class="display-inline-block ml62">放入JS文件中即可。如果代码安装正确，一般20分钟后，可以查看网站分析数据；代码安装完成后，您可以在网站列表自动检测或手动检测代码安装情况。</span>
+                            </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="btn btn-default ml393 mt20 height38" [routerLink]="['/home/campaign/package/packageCreative',campaignId,packageId]">去添加创意</button>
+</div>

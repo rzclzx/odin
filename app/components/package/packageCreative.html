@@ -1,0 +1,515 @@
+<div class="content-creative">
+    <div class="creative-name text-left">
+        <span>{{headtitletext.campaignName}}</span>
+    </div>
+    <div class="public-list clearfix">
+        <ul>
+            <li class="clearfix">
+                <span class="left">广告主：</span>
+                <span class="pull-right">{{headtitletext.advertiserName}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">广告项目：</span>
+                <span class="pull-right">{{headtitletext.projectName}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">推广活动：</span>
+                <span class="pull-right">{{headtitletext.campaignName}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-pannel clearfix">
+        <div class="tab-option" [class.active]="tab==1" (click)="show(1)"><span class="bottom-l"></span>物料包详情</div>
+        <div class="tab-option" [class.active]="tab==2" (click)="show(2)"><span class="bottom-l"></span>创意</div>
+
+        <div class="pull-right mt10 mr10">
+            <button class="btn btn-primary btn-creative" type="button"  (click)="setpolicy()">管理投放策略</button>
+
+            <span *ngIf="creativeType==1">
+                <button class="btn btn-primary btn-creative" type="button" (click)="importCreative()">导入创意</button>
+                <modal #regionModal [backdrop]="'static'" [animation]="false" class="modalRegion packageCreative">
+                    <modal-header>
+                        <div class="ng2-modal-header">
+                            <div class="width3 height18 bgc-blue4 ml20"></div>
+                            <div class="ml10 font16 font-bold color-gray5">我的创意</div>
+                            <div class="btn-group specilSelect ml20 mr10">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               {{advertiser.name}} <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li *ngFor="let v of advertisers;let i = index;" (click)="selectedAdvertiser(v)" title="{{v.name}}">{{v.name}}</li>
+                              </ul>
+                            </div>
+
+                            <div class="btn-group specilSelect mr10">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               {{campaign.name}} <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li *ngFor="let v of campaigns;let i = index;" (click)="selectedCampaign(v)" title="{{v.name}}">{{v.name}}</li>
+                              </ul>
+                            </div>
+
+                            <div class="btn-group specilSelect mr10">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               {{creative.name}} <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li *ngFor="let v of creatives;let i = index;" (click)="selectedCreative(v)" title="{{v.name}}">{{v.name}}</li>
+                              </ul>
+                            </div>
+
+                            <div class="btn-group specilSelect mr10">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span *ngIf="!size.width && !size.height">{{size.name}}</span>
+                                    <span *ngIf="size.width && size.height">{{ size.width }}*{{size.height}}</span>
+                                    <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu">
+                                  <li *ngFor="let v of sizes;let i = index;" (click)="selectedSize(v)" title="{{ v.width }}*{{v.height}}">
+                                      <span *ngIf="v.width && v.height">{{ v.width }}*{{v.height}}</span>
+                                      <span *ngIf="!v.width && !v.height">{{v.name}}</span>
+                                  </li>
+                              </ul>
+                            </div>
+                        </div>
+                    </modal-header>
+                    <modal-body>
+                        <div class="conentimg" *ngFor="let result of imgresults">
+                            <div class="Imgdescription"  (click)="toggleAppType(result,$index)">
+                                <img src="{{result.path}}"/>
+                                <span class="icon-dg-right22 right0 bottom0 abs font16" *ngIf="result.selected"></span>
+                            </div>
+                            <div class="Textdescription">
+                                <div title="{{result.creativename}}" class="pull-left">{{result.creativename}}</div>
+                                <div title="{{result.width}}*{{result.height}}" class="pull-right">{{result.width}}*{{result.height}}</div>
+                            </div>
+                        </div>
+                    </modal-body>
+                    <modal-footer>
+                        <div class="pull-left">
+                            <button type="button" class="btn btn-primary btn-sm height30 width65" (click)="selectallimg()">全选</button>
+                            <button type="button" class="btn btn-primary btn-sm height30 width65" (click)="clearallimg()">清除</button>
+                        </div>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-cancel btn-sm height30 width65" (click)="regionCancel()">取消</button>
+                            <button type="button" class="btn btn-primary btn-sm height30 width65" (click)="regionModalSubmit()">确定</button>
+                        </div>
+                    </modal-footer>
+                </modal>
+                <button class="btn btn-primary pos-relative inputfile">上传创意
+                    <input type="file" class="form-control import-add-form-file" #file ng2FileSelect [uploader]="uploader">
+                </button>
+                <a>图片创意推荐 >></a>
+            </span>
+
+            <span *ngIf="creativeType==2">
+                <button class="btn btn-primary btn-creative" type="button"  (click)="addVideoCreative()">新增视频创意</button>
+                <a>视频创意推荐 >></a>
+            </span>
+
+            <span *ngIf="creativeType==3">
+                <button class="btn btn-primary btn-creative" type="button"  (click)="addInfoCreative()">新增原生创意</button>
+                <a>原生创意推荐 >></a>
+            </span>
+        </div>
+    </div>
+    <div class="text-center">
+        <div class="pull-left">
+            <input  type="checkbox" (change)="allToggleOuter($event,allCheck)"  [(ngModel)]="allCheck" [value] = "false" />
+            <span class="mr20">全选</span>
+            <a href="javascript:;" class="mr20" (click)="checkCreative('03',row)">审核不通过</a>
+            <a href="javascript:;" class="mr20" (click)="checkCreative('02')">通过并提交渠道</a>
+            <span class="mr20">同步</span>
+        </div>
+        <div class="package-type">
+            <label>
+                <input type="radio" [(ngModel)]="creativeType" [value]="'1'" name="typeDay" (click)="changeCreativeType('1')"/>
+                <span>图片</span>
+            </label>
+            <label>
+                <input type="radio" [(ngModel)]="creativeType" [value]="'2'" name="typeDay" (click)="changeCreativeType('2')"/>
+                <span>视频</span>
+            </label>
+            <label>
+                <input type="radio" [(ngModel)]="creativeType" [value]="'3'" name="typeDay" (click)="changeCreativeType('3')"/>
+                <span>原生</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="prom-tab rel" *ngIf="creativeType == 1">
+    <ng-page *ngIf="datas.length && creativeType == 1"
+            [page]="page"
+            (outerPage)="onPage($event)"
+    ></ng-page>
+    <ngx-datatable #allchangeList
+            [rows]="datas"
+            [columnMode]="'force'"
+            [selected]="selected"
+            [selectionType]="'checkbox'"
+            [draggable]="false"
+            [externalSorting]="true"
+            [externalPaging]="true"
+            [headerHeight]="50"
+           [rowHeight]="50"
+           [limit]="page.pageSize"
+           [count]="page.total"
+           [offset]="page.pageNo"
+            (select)="onSelect($event,page)"
+            [messages]="{  totalMessage: '条' }"
+            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+        <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="" [resizeable]="false" [sortable]="false" [width]="140">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.packageEnable=='1'?true:false)}" (click)="switchChange(row)">
+                        <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.packageEnable=='1'?false:true)}"></span>
+                        <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                        <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.packageEnable=='1'?false:true)}"></span>
+                    </div>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="创意名称" [resizeable]="false" [sortable]="false" [width]="350">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell pdr20">
+                    <a *ngIf="!row.editNameFlag" (click)="showCreativeImg(row,row.$$index)" title="{{row.name}}">{{row.name}}</a>
+                    <a *ngIf="!row.editNameFlag" (click)="switchWrite(row)"><label class="icon-bianji switch-show-box-btn abs right10 top17"></label></a>
+                    <input *ngIf="row.editNameFlag" type="text" [(ngModel)]="row.editNameText" [ngStyle]="{'width':'135px'}"/>
+                    <button *ngIf="row.editNameFlag" class="btn btn-primary"  (click)="creativeOk(row)">确定</button>
+                    <button *ngIf="row.editNameFlag" class="btn btn-cancle"  (click)="creativeCancel(row)">取消</button>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="图片尺寸" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span *ngFor = "let result of row.materials">{{result.width}}*{{result.height}}</span>
+
+                    <!--<span *ngIf="row.materials[0].width && row.materials[0].height">{{ row.materials[0].width}}*{{row.materials[0].height}}</span>-->
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="奥丁审核状态" [resizeable]="false" [sortable]="false">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span>{{ statusfilger(row.auditStatus) }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="1000">
+            <template ngx-datatable-header-template let-row="row">
+                <div class="width-100 height50 flex-center pointer">
+                    <div class="flex-base rel height50">
+                        <div class="ml8">渠道审核状态</div>
+                        <div class="rel width20 height50">
+                            <img src="../../images/zhuangtai.png" alt="" title="白色:未提交&#10;黄色：渠道审核中&#10;浅绿色：机审通过&#10;深绿色：审核通过&#10;浅红色：机审不通过&#10;深红色：审核不通过">
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell define text-left">
+                    <span class="pos-relative" *ngFor="let p of row.creativeAudits" [ngStyle]="auditStatus(p)">
+                        <span ngxClipboard [cbContent]="p.adxName" title="{{p.message}}">{{p.adxName}}</span>
+                    </span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+        <ng-page *ngIf="datas.length && creativeType == 1"
+            [isFooter]="true"
+            [page]="page"
+            (outerPage)="onPage($event)"
+        ></ng-page>
+    <div class="height45 abs top50 left300 z-index99 bgc-white line-height45 width1600 textcenter ml2" *ngIf="!datas.length && creativeType == 1">
+        暂无创意，<a (click)="importCreative()" class="cursor-point"> 立即导入 </a>或
+        <a href="javascript:;" class="cursor-point ipotcrative">上传创意>>
+            <input type="file" class="form-control import-add-form-file" #file ng2FileSelect [uploader]="uploader">
+        </a>
+    </div>
+    </div>
+
+    <div class="prom-tab rel" *ngIf="creativeType == 2">
+        <ng-page *ngIf="datas.length && creativeType == 2"
+                [page]="page"
+                (outerPage)="onPage($event)"
+        ></ng-page>
+    <ngx-datatable #allchangeList
+                   [rows]="datas"
+                   [columnMode]="'force'"
+                   [selected]="selected"
+                   [selectionType]="'checkbox'"
+                   [draggable]="false"
+                   [externalSorting]="true"
+                   [externalPaging]="true"
+                   [headerHeight]="50"
+                   [rowHeight]="50"
+                   [limit]="page.pageSize"
+                   [count]="page.total"
+                   [offset]="page.pageNo"
+                   (select)="onSelect($event,page)"
+                   [messages]="{totalMessage: '条' }"
+                   [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+        <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="" [resizeable]="false" [sortable]="false" [width]="90"  [canAutoResize]='false'>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.packageEnable=='1'?true:false)}" (click)="switchChange(row)">
+                        <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.packageEnable=='1'?false:true)}"></span>
+                        <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                        <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.packageEnable=='1'?false:true)}"></span>
+                    </div>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="创意名称" [resizeable]="false" [sortable]="false" [width]="300" [canAutoResize]='false'>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell pdr20">
+                    <a *ngIf="!row.editNameFlag" (click)="showCreativeImg(row,row.$$index)" title="{{row.name}}">{{row.name}}</a>
+                    <a *ngIf="!row.editNameFlag" (click)="switchWrite(row)"><label class="icon-bianji switch-show-box-btn abs right10 top17"></label></a>
+
+                    <input *ngIf="row.editNameFlag" type="text" [(ngModel)]="row.editNameText" [ngStyle]="{'width':'135px'}"/>
+                    <button *ngIf="row.editNameFlag" class="btn btn-primary"  (click)="creativeOk(row)">确定</button>
+                    <button *ngIf="row.editNameFlag" class="btn btn-cancle"  (click)="creativeCancel(row)">取消</button>
+
+                    <!--<modal #creativeImgModal [backdrop]="'static'" [animation]="false" class="modalRegion">
+                        <modal-header>
+                            <div class="ng2-modal-header">
+                                <div class="width3 height18 bgc-blue4 ml20"></div>
+                                <div class="ml10 font16 font-bold color-gray5">{{row.name}}</div>
+                                <div class="close-open" (click)="creativeImgCancel()">X</div>
+                            </div>
+                        </modal-header>
+                        <modal-body>
+                            <div class="videodescription">
+                                <span *ngFor="let obj of row.materials"><video [style.width.%]="100"  [style.height.%]="100" src="{{obj.path}}"></video></span>
+                            </div>
+                        </modal-body>
+                    </modal>-->
+
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="视频尺寸" [resizeable]="false" [sortable]="false" [width]="100" [canAutoResize]='false'>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{row.materials[0].width}}*{{row.materials[0].height}}">{{row.materials[0].width}}*{{row.materials[0].height}}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="视频时长(秒)" [resizeable]="false" [sortable]="false" [width]="100" [canAutoResize]='false'>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{ row.materials[0].timeLength }}">{{ row.materials[0].timeLength }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="文件大小(M)" [resizeable]="false" [sortable]="false" [width]="100" [canAutoResize]='false'>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{ (row.materials[0].volume/1024).toFixed(2) }}">{{ (row.materials[0].volume/1024).toFixed(2) }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="文件格式" [resizeable]="false" [sortable]="false" [width]="100" [canAutoResize]='false'>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{videosupport(row.materials[0].format)}}">{{videosupport(row.materials[0].format)}}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="奥丁审核状态" [canAutoResize]='false' [resizeable]="false" [sortable]="false" [width]="120">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span>{{ statusfilger(row.auditStatus) }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="850">
+            <template ngx-datatable-header-template let-row="row">
+                <div class="width-100 height50 flex-center pointer">
+                    <div class="flex-base rel height50">
+                        <div class="ml8">渠道审核状态</div>
+                        <div class="rel width20 height50">
+                            <img src="../../images/zhuangtai.png" alt="" title="白色:未提交&#10;黄色：渠道审核中&#10;浅绿色：机审通过&#10;深绿色：审核通过&#10;浅红色：机审不通过&#10;深红色：审核不通过">
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell define text-left">
+                    <span class="pos-relative" *ngFor="let p of row.creativeAudits" [ngStyle]="auditStatus(p)">
+                        <span ngxClipboard [cbContent]="p.adxName" title="{{p.message}}">{{p.adxName}}</span>
+                    </span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="height45 abs top50 left300 z-index99 bgc-white line-height45 width1600 textcenter ml2" *ngIf="!datas.length && creativeType == 2">
+        暂无创意，<a (click)="addVideoCreative()" class="cursor-point"> 立即新增 </a>
+    </div>
+        <ng-page *ngIf="datas.length && creativeType == 2"
+           [isFooter]="true"
+           [page]="page"
+           (outerPage)="onPage($event)"
+        ></ng-page>
+    </div>
+
+    <div class="prom-tab rel" *ngIf="creativeType == 3">
+    <ng-page *ngIf="datas.length && creativeType == 3"
+            [page]="page"
+            (outerPage)="onPage($event)"
+    ></ng-page>
+    <ngx-datatable #allchangeList
+                   [rows]="datas"
+                   [columnMode]="'force'"
+                   [selected]="selected"
+                   [selectionType]="'checkbox'"
+                   [draggable]="false"
+                   [externalSorting]="true"
+                   [externalPaging]="true"
+                   [headerHeight]="50"
+                   [rowHeight]="50"
+                   [limit]="page.pageSize"
+                   [count]="page.total"
+                   [offset]="page.pageNo"
+                   (select)="onSelect($event,page)"
+                   [messages]="{ emptyMessage: '暂无创意，立即新增', totalMessage: '条' }"
+                   [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+        <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="" [resizeable]="false" [sortable]="false" [width]="150">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.packageEnable=='1'?true:false)}" (click)="switchChange(row)">
+                        <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.packageEnable=='1'?false:true)}"></span>
+                        <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                        <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.packageEnable=='1'?false:true)}"></span>
+                    </div>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="创意名称" [resizeable]="false" [sortable]="false" [width]="350">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell pdr20">
+                    <a *ngIf="!row.editNameFlag" (click)="showCreativeImginfo(row)" title="{{row.name}}">{{row.name}}</a>
+                    <a *ngIf="!row.editNameFlag" (click)="switchWrite(row)"><label class="icon-bianji switch-show-box-btn abs right10 top17"></label></a>
+
+                    <input *ngIf="row.editNameFlag" type="text" [(ngModel)]="row.editNameText" [ngStyle]="{'width':'135px'}" />
+                    <button *ngIf="row.editNameFlag" class="btn btn-primary"  (click)="creativeOk(row)">确定</button>
+                    <button *ngIf="row.editNameFlag" class="btn btn-cancle"  (click)="creativeCancel(row)">取消</button>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="标题" [resizeable]="false" [sortable]="false" [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span title="{{row.title}}">{{ row.title }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="奥丁审核状态" [canAutoResize]='false' [resizeable]="false" [sortable]="false" [width]="120">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span>{{ statusfilger(row.auditStatus) }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false" [sortable]="false" [width]="900">
+            <template ngx-datatable-header-template let-row="row">
+                <div class="width-100 height50 flex-center pointer">
+                    <div class="flex-base rel height50">
+                        <div class="ml8">渠道审核状态</div>
+                        <div class="rel width20 height50">
+                            <img src="../../images/zhuangtai.png" alt="" title="白色:未提交&#10;黄色：渠道审核中&#10;浅绿色：机审通过&#10;深绿色：审核通过&#10;浅红色：机审不通过&#10;深红色：审核不通过">
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell define text-left">
+                    <span class="pos-relative" *ngFor="let p of row.creativeAudits" [ngStyle]="auditStatus(p)">
+                        <span ngxClipboard [cbContent]="p.adxName" title="{{p.message}}">{{p.adxName}}</span>
+                    </span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="height45 abs top50 left300 z-index99 bgc-white line-height45 width1600 textcenter ml2" *ngIf="!datas.length && creativeType == 3">
+        暂无创意，<a (click)="addInfoCreative()" class="cursor-point"> 立即新增 </a>
+    </div>
+    <ng-page *ngIf="datas.length && creativeType == 3"
+            [isFooter]="true"
+            [page]="page"
+            (outerPage)="onPage($event)"
+    ></ng-page>
+    </div>
+
+    <!--图片视频弹窗-->
+    <modal #creativeImgModal [backdrop]="'static'" [animation]="false" class="modalRegion">
+        <modal-header>
+            <div class="ng2-modal-header">
+                <div class="width3 height18 bgc-blue4 ml20"></div>
+                <div class="ml10 font16 font-bold color-gray5">{{showcreativemodel.name}}</div>
+                <div class="close-open" (click)="creativeImgCancel()">X</div>
+            </div>
+        </modal-header>
+        <modal-body>
+            <div class="showcreativename">
+                <span *ngFor="let obj of showcreativemodel.materials;let i = index">
+                    <img *ngIf="creativeType == 1" src="{{obj.path}}"/>
+                    <video *ngIf="creativeType == 2"  [style.width.%]="100"  [style.height.%]="100" controls="controls" src="{{obj.path}}"></video>
+                </span>
+            </div>
+        </modal-body>
+    </modal>
+    <!--<modal #creativeImgModal [backdrop]="'static'" [animation]="false" class="modalRegion">
+        <modal-header>
+            <div class="ng2-modal-header">
+                <div class="width3 height18 bgc-blue4 ml20"></div>
+                <div class="ml10 font16 font-bold color-gray5">{{row.name}}</div>
+                <div class="close-open" (click)="creativeImgCancel()">X</div>
+            </div>
+        </modal-header>
+        <modal-body>
+            <div class="videodescription">
+                <span *ngFor="let obj of row.materials"><video [style.width.%]="100"  [style.height.%]="100" src="{{obj.path}}"></video></span>
+            </div>
+        </modal-body>
+    </modal>-->
+
+
+    <!--信息流弹窗-->
+     <modal #creativeImgModalinfo [backdrop]="'static'" [animation]="false" class="modalRegion">
+        <modal-header>
+            <div class="ng2-modal-header">
+                <div class="width3 height18 bgc-blue4 ml20"></div>
+                <div class="ml10 font16 font-bold color-gray5">{{showcreativemodelinfo.name}}</div>
+                <div class="close-open" (click)="creativeImgCancel()">X</div>
+            </div>
+        </modal-header>
+        <modal-body>
+            <div class="Infodescription clearfix">
+                <div>{{showcreativemodelinfo.title}}</div>
+                <span *ngFor="let obj of showcreativemodelinfo.materials;let i = index">
+                    <img src="{{obj.path}}" />
+                </span>
+            </div>
+        </modal-body>
+    </modal>
+
+</div>
+

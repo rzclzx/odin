@@ -1,0 +1,36 @@
+
+
+<div class="content">
+   <div class="add">
+        <div class="add-length">
+            <span>长度(px)：</span>
+            <i>&nbsp;*</i>
+            <input type="number" [(ngModel)]="width" name="width" validation [validations]="'widthrequired;widthNumber;maxminsize'">
+        </div>
+        <div class="add-length">
+                <span>高度(px)：</span>
+                <i>&nbsp;*</i>
+                <input type="number" [(ngModel)]="height" name="height" validation [validations]="'heightrequired;heightNumber;maxminsize'">
+            </div>
+            <div class="add-length">
+                    <span>展现形式：</span>
+                    <i>*</i>
+                    <select [(ngModel)]="adtypeId" name="adtypeId">
+                        <option [ngValue]="undefined">请选择展现形式</option>
+                        <option [ngValue]="'0'">横幅</option>
+                        <option [ngValue]="'1'">全插屏</option>
+                        <option [ngValue]="'3'">开屏</option>
+                    </select>
+            </div>
+            <div class="add-length span-error">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注：</span>
+                    <textarea [(ngModel)]="remark" name="remark" validation [validations]="'remarkName'">
+
+                    </textarea>
+                    <div>限50字以内</div>
+            </div>
+            <button class="btn btn-default btn1" (click)="cancel()">取消</button>
+            <button class=" btn btn-primary" (click)="save()">确定</button>
+   </div>    
+</div>
+

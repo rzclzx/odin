@@ -1,0 +1,68 @@
+<div class="adv content">
+    <ul class="adv-in" >
+            <li id="projectId">
+                    <div>
+                        <span>广告项目ID：</span>
+                    </div>
+                    <i class="rel top-33 left15 font14">{{project.id}}</i>
+                        <!-- <input type="text" class="input-name" [(ngModel)]="" name="id" validation [validations]="'advname;required'"> -->
+                </li>
+        <li class="adv-name">
+            <div>
+                <span>广告项目名称：</span>
+            </div>
+            <div class="adv-input itemName">
+                <i>*</i>
+                <input type="text" class="input-name" [(ngModel)]="project.name" name="name" validation [validations]="'advname;required'">
+            </div>
+            <div class="adv-tips">限20个字以内</div>
+        </li>
+        <li class="adv-er">
+            <div>
+                <span>所属广告主：</span>
+            </div>
+            <div class="adv-input">
+                <i [ngClass]="{'hide':(project.id?true:false)}">*</i>
+                <select [(ngModel)]="advertiser" name="advertiser" (change)="selectedAdvertiser()" [ngClass]="{'select11':(project.id?true:false)}" class="width240 height38 line-height38" id="selectid" validation [validations]="'required'">
+                        <option *ngFor="let v of advertisers;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                    </select>
+            </div>
+        </li>
+        <li class="adv-num">
+            <div>
+                <span>项目编号：</span>
+            </div>
+            <div class="adv-input project-num">
+                <i>*</i>
+                <input type="text" [(ngModel)]="project.code" name="code" validation [validations]="'projectnumber;required'">
+            </div>
+            <div class="adv-tips">限14位的字母、数字、中划线组成</div>
+        </li>
+        <li class="adv-industry">
+            <div>
+                <span>广告行业：</span>
+            </div>
+            <div class="adv-input">
+                <i>*</i>
+                <select [(ngModel)]="industry" name="industry" (change)="selectedIndustry()" validation [validations]="'required'">
+                            <option *ngFor="let v of industrys;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                    </select>
+            </div>
+        </li>
+        <li class="adv-budge">
+            <div>
+                <span>总预算：</span>
+            </div>
+            <div class="adv-input bdeyuan">
+                <i>*</i>
+                <input type="text" [(ngModel)]="project.capital" name="capital" validation [validations]="'noFloat;required'">
+                <span class="yuan">元</span>
+            </div>
+            <div class="adv-tips">限正整数</div>
+        </li>
+    </ul>
+    <div class="adv-button">
+        <button class="btn adv-default btn-cancel" (click)="cancel()">取消</button>
+        <button class="btn adv-save btn-primary" (click)="save()">保存</button>
+    </div>
+</div>

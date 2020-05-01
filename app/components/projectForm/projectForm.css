@@ -1,0 +1,90 @@
+.adv {
+  padding: 30px 0 50px 145px;
+}
+.adv ul li {
+  height: 80px;
+  line-height: 80px;
+  border-bottom: 1px dotted #8e9299;
+}
+.adv ul li div {
+  display: inline-block;
+  font-size: 14px;
+  color: #8e9299;
+  width: 180px;
+  overflow: hidden;
+}
+.adv ul li div span {
+  float: right;
+  display: inline-block;
+}
+.adv ul li .adv-input {
+  width: 600px!important;
+}
+.adv ul li .adv-input i {
+  display: inline-block;
+  width: 10px;
+  color: #1a89fb;
+  position: relative;
+  top: -8px;
+}
+.adv ul li .adv-input input {
+  height: 38px!important;
+  width: 240px;
+  border: 1px solid #DCDCDC;
+}
+.adv ul li .adv-input .input-name {
+  width: 320px;
+}
+.adv ul li .adv-input .err-tip-span {
+  width: 200px!important;
+}
+.adv ul li .adv-input select {
+  width: 240px;
+  height: 38px!important;
+  background-color: #fff;
+  border: 1px solid #DCDCDC;
+}
+.adv ul li .adv-input select option {
+  background-color: #fff;
+}
+.adv ul li .project-num .err-tip-span {
+  width: 200px!important;
+}
+.adv ul li .itemName .err-tip-span {
+  width: 200px!important;
+}
+.adv ul li .bdeyuan input {
+  text-align: center;
+}
+.adv ul li .bdeyuan .yuan {
+  display: inline-block;
+  float: none;
+  position: relative;
+  top: 0;
+  left: -25px;
+}
+.adv ul li .adv-tips {
+  width: 500px;
+  font-size: 12px;
+  color: #bbbbbb;
+}
+.adv .adv-button {
+  margin-left: 200px;
+  margin-top: 15px;
+}
+.adv .adv-button button {
+  width: 65px;
+  height: 30px;
+  line-height: 14px;
+  font-size: 14px;
+  outline: none;
+  border-radius: 5px;
+  border-color: #fff;
+}
+.adv .adv-button .adv-save {
+  background-color: #2b92fc;
+  color: #fff;
+}
+.adv .adv-button .adv-default {
+  background-color: #dbdbdb;
+}

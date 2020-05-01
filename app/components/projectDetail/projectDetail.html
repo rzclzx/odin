@@ -1,0 +1,50 @@
+<div class="content pd-content">
+    <div class="pd-header">
+        <h4>{{projects.name}}</h4>
+        <div class="pd-back">
+            <button class="btn btn-primary" (click)="back()">返回</button>
+        </div>
+    </div>
+
+    <div class="pd-tab">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">项目详情</a></li>
+            <li role="presentation" [routerLink]="['/home/project/campaignList',id]"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">推广活动</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <button class="btn btn-primary" (click)="gotoEditItem(id)">编辑</button>
+                <div class="tab-one"  >
+                    <div class="tab-id" >
+                        <span>广告项目ID：</span>
+                        <span>{{projects.id}}</span>
+                    </div>
+                    <div class="tab-name">
+                        <span>广告项目名称：</span>
+                        <span>{{projects.name}}</span>
+                    </div>
+                </div>
+                <div class="tab-two">
+                    <div class="tab-er">
+                        <span>所属广告主：</span>
+                        <span>{{projects.advertiserName}}</span>
+                    </div>
+                    <div class="tab-code">
+                        <span>项目编号：</span>
+                        <span>{{projects.code}}</span>
+                    </div>
+                </div>
+                <div class="tab-three">
+                    <div class="tab-industry">
+                        <span>广告行业：</span>
+                        <span>{{projects.industryName}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

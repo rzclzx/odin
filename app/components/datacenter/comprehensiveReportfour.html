@@ -1,0 +1,58 @@
+<div class="content-creative">
+
+    <ul class="li-btn-primary" [ngStyle]="{'margin-bottom':'50px'}">
+        <li *ngFor="let t of title;let i = index" class="mr30" [ngClass]="{'active':i == 3}" (click)="selecttitle(i)">{{t.name}}</li>
+    </ul>
+    <div>
+    <ngx-datatable #allchangeList
+                   [rows]="datas"
+                   [selected]="selected"
+                   [selectionType]="'checkbox'"
+                   [columnMode]="'force'"
+                   [draggable]="false"
+                   [externalSorting]="true"
+                   [externalPaging]="true"
+                   [headerHeight]="50"
+                   [rowHeight]="50"
+                   [limit]="page.pageSize"
+                   [count]="page.total"
+                   [offset]="page.pageNo"
+                   (page)="onPage($event)"
+                   [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+                   [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+        <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="查询名称" [resizeable]="false" [sortable]="false"  [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.name }}">{{ row.adxId }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="来源" [resizeable]="false" [sortable]="false"[width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.name }}">{{ row.name }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="创建时间" [resizeable]="false" [sortable]="false"  [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell">
+                    <span  title="{{ row.name }}">{{ row.name }}</span>
+                </div>
+            </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false"  [width]="200">
+            <template ngx-datatable-cell-template let-row="row">
+                <div class="ell reportfour">
+                    <a href="javascript:;" class="mr20"  title="{{ row.name }}">应用</a>
+                    <a href="javascript:;" title="{{ row.name }}">删除</a>
+                </div>
+            </template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    </div>
+</div>
+

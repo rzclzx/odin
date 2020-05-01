@@ -1,0 +1,245 @@
+<div class="content-creative">
+    <div class="creative-name text-left">
+        <span>{{headtitletext.campaignName}}</span>
+    </div>
+    <div class="public-list clearfix">
+        <ul>
+            <li class="clearfix">
+                <span class="left">广告主：</span>
+                <span class="pull-right">{{headtitletext.advertiserName}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">广告项目：</span>
+                <span class="pull-right">{{headtitletext.projectName}}</span>
+            </li>
+        </ul>
+        <ul>
+            <li class="clearfix">
+                <span class="left">推广活动：</span>
+                <span class="pull-right">{{headtitletext.campaignName}}</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-pannel clearfix">
+        <div class="tab-option"><span class="bottom-l"></span>物料包详情</div>
+        <div class="tab-option active"><span class="bottom-l"></span>创意</div>
+
+        <div class="pull-right mt10 mr10" *ngIf="false">
+            <span>
+                <a>信息流创意推荐 >></a>
+            </span>
+        </div>
+    </div>
+    <div class="text-center">
+        <div class="pull-left">
+        </div>
+        <div class="package-type">
+            <label (click)="goBack(1)">
+                <input type="radio" name="type"/>
+                <span>图片</span>
+            </label>
+            <label (click)="goBack(2)">
+                <input type="radio" name="type"/>
+                <span>视频</span>
+            </label>
+            <label (click)="goBack(3)">
+                <input type="radio" checked="checked" name="type"/>
+                <span>原生</span>
+            </label>
+            <button class="btn btn-default" (click)="goBack(3)">返回</button>
+        </div>
+    </div>
+	<ngx-datatable
+		#mydatatable
+		[rows]="data"
+		[columnMode]="'force'"
+		[rowHeight]="'auto'"
+		[detailRowHeight]="'auto'"
+		[headerHeight]="'50'"
+		[footerHeight]="50"
+		[limit]="page.pageSize"
+	    [count]="page.total"
+	    [offset]="page.pageNo"
+		[rowDetailTemplate]="rowDtlTmpl"
+		[messages]="{ emptyMessage: '暂无数据', totalMessage: '条记录' }"
+		(activate)="onActivate($event)">
+		<ngx-datatable-column  name="广告位名称" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div class="ell addvideopackage">
+                    <span title="{{row.name}}">{{ row.name }}</span>
+                    <span class="icon-alert-01 color-blue2 font16 campaign-appType-alertshow"></span>
+                    <div class="campaign-appType-alert">展开详情，上传创意及相应信息</div>
+                </div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column  name="渠道" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				{{row.adxName ? row.adxName : "--.--"}}
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column  name="大图尺寸" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<ng-container *ngFor="let x of row.infoflowTmpl.imageTmpls;let i = index;"><span *ngIf="x.type=='1'" class="i">{{x.width + "*"+ x.height}}<i>,</i></span></ng-container>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column  name="icon尺寸" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<ng-container *ngFor="let v of row.infoflowTmpl.imageTmpls;let i = index;"><span *ngIf="v.type=='3'" class="i">{{v.width + "*"+ v.height}}<i>,</i></span></ng-container>
+			</template>
+		</ngx-datatable-column>
+	</ngx-datatable>
+	<!-- 详情模板 -->
+<template #rowDtlTmpl let-row="row" let-value="value" let-index="index">
+	<!--<h2 class="detail-import">
+		户外活动
+	</h2>-->
+    <div class="creative-dtl clearfix" [ngSwitch]="type" style="padding: 20px 0;">
+		<div class="upload-list clearfix" >		
+			<div class="originality-box" >
+				<div class="rel margin-top-25 margin-bottom-15 height150"  *ngFor="let v of detailData.infoflowTmpl.imageTmpls;let i = index;" >
+					<p class="margintb3 absolute-title">{{v.width+'px'}}*{{v.height+'px图片创意'}}</p>
+					<label *ngIf="!imgPath[i]" class="dispaly-block rel border-gray3-1px bgc-gray1 width150 height150 pointer">	
+						<div class="wh100 margin-center column-center rel  textcenter padding-top15">
+							<p class="margintb3"><span>{{v.width+'px'}}</span>*<span>{{v.height+'px'}}</span></p>
+							<p class="margintb3">(创意支持JPG/PNG/GIF)</p>
+							<button class="btn btn-primary margintb3">
+								上传创意
+								<input type="file" class="file" ng2FileSelect [uploader]="imgPathLoader[i]">
+							</button>
+							<button class="btn btn-primary margintb3"  (click)="importCreative(i,v.type,v.orderNo,v.width,v.height)">导入创意</button>	 
+						</div>			
+					</label>
+					<div *ngIf="imgPath[i]" class="advertiser-upload width150 height150 pos-relative">
+						<img class="width150 pos-abs-center" src="{{ imgPath[i] }}">
+						<div class="abs width150 height150 top0 left0 bgc-black opacity08 pointer visibility-toggle" (click)="removePath(i)">
+							<span class="icon-delete-012 center abs font-size28"></span>
+						</div>
+					</div>
+					<p class="margintb3 absolute-bottom"><span class="icon-alert-01 font16 campaign-appType-alertshow"></span> 此图出现在{{ v.type == "1" ? "大图" : "icon" }}位置</p>
+				</div>
+				<div class="originality-submit">
+					<button class="btn btn-primary" type="button" (click)="save()">保存并提交审核</button>
+				</div>
+			</div>
+			<div class="originality-right">
+				<form class="form-horizontal">
+					<div class="clearfix mb30 form-group" >
+						<label class="col-sm-2 control-label">推广标题：<span class="request">*</span></label>
+						<div class="col-sm-8">
+							<input type="text" [(ngModel)]="title" [validName]="'价格'" validation [validations]="'required;maxlength:15;'" name="title" class="form-control l320" placeholder="不超过15个字符">
+						</div>
+					</div>
+					<div class="clearfix mb30 form-group" *ngIf=" detailData.infoflowTmpl.ctaDescRequire != '1' ">
+						<label class="col-sm-2 control-label">行为按钮：<span class="request" *ngIf=" detailData.infoflowTmpl.ctaDescRequire == '3' ">*</span></label>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.ctaDescRequire == '3' ">
+							<input type="text" [(ngModel)]="ctaDesc" [validName]="'推广标题'" validation [validations]="'required;maxlength:20;'" name="ctaDesc" class="form-control l320" placeholder="不超过20个字符">
+						</div>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.ctaDescRequire == '2' ">
+							<input type="text" [(ngModel)]="ctaDesc" [validName]="'推广标题'" validation [validations]="'maxlength:20;'" name="ctaDesc" class="form-control l320" placeholder="不超过20个字符">
+						</div>
+					</div>
+					<div class="clearfix mb30 form-group" *ngIf=" detailData.infoflowTmpl.descriptionRequire != '1' ">
+						<label class="col-sm-2 control-label">推广描述：<span class="request" *ngIf=" detailData.infoflowTmpl.descriptionRequire == '3' ">*</span></label>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.descriptionRequire == '3' ">
+							<textarea [(ngModel)]="description" [validName]="'描述'" validation [validations]="'required;maxlength:20;'" name="description" class="form-control l320 h110" placeholder="不超过20个字符"></textarea>
+						</div>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.descriptionRequire == '2' ">
+							<textarea [(ngModel)]="description" [validName]="'描述'" validation [validations]="'maxlength:20;'" name="description" class="form-control l320 h110" placeholder="不超过20个字符"></textarea>
+						</div>
+					</div>
+					<div class="clearfix mb30 form-group" *ngIf=" detailData.infoflowTmpl.needGoodsStar != '1' ">
+						<label class="col-sm-2 control-label">产品评分：<span class="request" *ngIf=" detailData.infoflowTmpl.needGoodsStar == '3' ">*</span></label>
+						<div class="col-sm-8 originality-star">
+							<i class="icon-star-full3" (click)="starChange(1)" [class.star-blue]="goodsStar >= 1 "></i>
+							<i class="icon-star-full3" (click)="starChange(2)" [class.star-blue]="goodsStar >= 2 "></i>
+							<i class="icon-star-full3" (click)="starChange(3)" [class.star-blue]="goodsStar >= 3 "></i>
+							<i class="icon-star-full3" (click)="starChange(4)" [class.star-blue]="goodsStar >= 4 "></i>
+							<i class="icon-star-full3" (click)="starChange(5)" [class.star-blue]="goodsStar >= 5 "></i>
+						</div>
+					</div>
+					<div class="clearfix mb30 form-group" *ngIf=" detailData.infoflowTmpl.needOriginalPrice != '1' ">
+						<label class="col-sm-2 control-label">产品原价：<span class="request" *ngIf=" detailData.infoflowTmpl.needOriginalPrice == '3' ">*</span></label>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.needOriginalPrice == '3' ">
+							<input type="number" [(ngModel)]="originalPrice" [validName]="'产品原价'" validation [validations]="'required;maxnum:99999999;oldPrice'" id="originalPrice" name="originalPrice" class="form-control l320 h110" />
+						</div>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.needOriginalPrice == '2' ">
+							<input type="number" [(ngModel)]="originalPrice" [validName]="'产品原价'" validation [validations]="'maxnum:99999999;oldPrice'" id="originalPrice" name="originalPrice" class="form-control l320 h110" />
+						</div>
+					</div>
+					<div class="clearfix mb30 form-group" *ngIf=" detailData.infoflowTmpl.needDiscountPrice != '1' ">
+						<label class="col-sm-2 control-label">折后价：<span class="request" *ngIf=" detailData.infoflowTmpl.needDiscountPrice == '3' ">*</span></label>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.needDiscountPrice == '3' ">
+							<input type="number" [(ngModel)]="discountPrice" [validName]="'推广描述'" validation [validations]="'required;maxnum:99999999;oldPrice'" id="discountPrice" name="discountPrice" class="form-control l320 h110" />
+						</div>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.needDiscountPrice == '2' ">
+							<input type="number" [(ngModel)]="discountPrice" [validName]="'推广描述'" validation [validations]="'maxnum:99999999;oldPrice'" id="discountPrice" name="discountPrice" class="form-control l320 h110" />
+						</div>
+					</div><div class="clearfix mb30 form-group" *ngIf=" detailData.infoflowTmpl.needSalesVolume != '1' ">
+						<label class="col-sm-2 control-label">产品销量：<span class="request" *ngIf=" detailData.infoflowTmpl.needSalesVolume == '3' ">*</span></label>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.needSalesVolume == '3' ">
+							<input type="number" [(ngModel)]="salesVolume" [validName]="'推广描述'" validation [validations]="'required;selectNumber;maxnum:99999999;'" id="salesVolume" name="salesVolume" class="form-control l320 h110" />
+						</div>
+						<div class="col-sm-8" *ngIf=" detailData.infoflowTmpl.needSalesVolume == '2' ">
+							<input type="number" [(ngModel)]="salesVolume" [validName]="'推广描述'" validation [validations]="'selectNumber;maxnum:99999999;'" id="salesVolume" name="salesVolume" class="form-control l320 h110" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+    </div>
+</template>
+<modal #regionModal [backdrop]="'static'" [animation]="false" class="modalRegion packageCreative">
+                    <modal-header>
+                        <div class="ng2-modal-header">
+                            <div class="width3 height18 bgc-blue4 ml20"></div>
+                            <div class="ml10 font16 font-bold color-gray5">我的创意</div>
+                            <div class="width160 ml20 mr10">
+                                <select class="form-control width160" [(ngModel)]="advertiser" name="advertiser" (change)="selectedAdvertiser(advertiser)">
+                                    <option [ngValue]="undefined" cutString [cutLength]="12">请选择广告项目</option>
+                                    <option *ngFor="let v of advertisers;let i = index;" [ngValue]="v" cutString [cutLength]="12">{{ v.name }}</option>
+                                </select>
+                            </div>
+                            <div class="width160 mr10">
+                                <select class="form-control width160" [(ngModel)]="campaign" name="campaign" (change)="selectedCampaign(campaign)">
+                                    <option [ngValue]="undefined" cutString [cutLength]="12">请选择推广活动</option>
+                                    <option *ngFor="let v of campaigns;let i = index;" [ngValue]="v" cutString [cutLength]="25">{{ v.name }}</option>
+                                </select>
+                            </div>
+                            <div class="width160 mr10">
+                                <select class="form-control width160" [(ngModel)]="creative" name="creative" (change)="selectedCreate(creative)">
+                                    <option [ngValue]="undefined" cutString [cutLength]="12">请选择创意</option>
+                                    <option *ngFor="let v of creatives;let i = index;" [ngValue]="v" cutString [cutLength]="12">{{ v.name }}</option>
+                                </select>
+                            </div>
+                            <!--<div class="width160 mr10">
+                                <select class="form-control width160" [(ngModel)]="size" name="size" (change)="selectedAdvertiser(size)">
+                                    <option [ngValue]="undefined">请选择尺寸</option>
+                                    <option *ngFor="let v of sizes;let i = index;" [ngValue]="v">{{ v.name }}</option>
+                                </select>
+                            </div>-->
+                        </div>
+                    </modal-header>
+                    <modal-body>
+                        <div class="conentimg" *ngFor="let result of imgresults">
+                            <div class="Imgdescription"  (click)="toggleAppType(result,$index)">
+                                <span><img src="{{result.path}}"/></span>
+                                <span class="icon-dg-right22 right0 bottom0 abs font16" *ngIf="result.selected"></span>
+                            </div>
+                            <div class="Textdescription">
+                                <div title="{{result.creativename}}" class="pull-left">{{result.creativename}}</div>
+                                <div title="{{result.length}}*{{result.height}}" class="pull-right">{{result.width}}*{{result.height}}</div>
+                            </div>
+                        </div>
+                    </modal-body>
+                    <modal-footer>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-cancel btn-sm height30 width65" (click)="regionCancel()">取消</button>
+                            <button type="button" class="btn btn-primary btn-sm height30 width65" (click)="regionModalSubmit()">确定</button>
+                        </div>
+
+                    </modal-footer>
+                </modal>
+</div>

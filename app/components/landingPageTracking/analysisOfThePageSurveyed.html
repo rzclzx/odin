@@ -1,0 +1,130 @@
+<div class="landing-page-tracking-wrapper">
+	<ul class="nav nav-tabs navTabs" role="tablist">
+		<li role="presentation">
+			<button href="#duringAnalysis" aria-controls="duringAnalysis" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('duringAnalysis')">时段分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#spatialAnalysis" aria-controls="spatialAnalysis" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('spatialAnalysis')">地域分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#networkAnalysis" aria-controls="networkAnalysis" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('networkAnalysis')">网络分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#equipmentAnalysis" aria-controls="equipmentAnalysis" role="tab" data-toggle="tab" class="btn btn-primary paddingTB10 btn-lg" (click)="goRouter('equipmentAnalysis')">设备分析</button>
+		</li>
+		<li role="presentation" class="active">
+			<button href="#analysisOfThePageSurveyed" aria-controls="analysisOfThePageSurveyed" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('analysisOfThePageSurveyed')">受访页面分析</button>
+		</li>
+		<li role="presentation">
+			<button href="#analysisOfRetentionData" aria-controls="analysisOfRetentionData" role="tab" data-toggle="tab" class="btn btn-primary btn-lg" (click)="goRouter('analysisOfRetentionData')">留资数据分析</button>
+		</li>
+	</ul>
+	<div class="row">
+		<form class="form-inline">
+		    <div class="form-group col-sm-3">
+			    <label for="" class="control-label">时间选择：</label>
+			    <div class="rel width220 display-inline-block">
+                    <input id="timeRangePicker" class="form-control width220" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}" >
+                    <i class="icon-calendar time-icon"></i>
+                </div>
+		    </div>
+		    <div class="form-group col-sm-3">
+			    <label for="" class="control-label">客户：</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部客户</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-3">
+			     <label for="" class="control-label">广告项目：</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部广告项目</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-3">
+			     <label for="" class="control-label">推广活动：</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部推广活动</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-3">
+			    <label for="" class="control-label">物料包:</label>
+			    <select name="" class="form-control width220" >
+			    	<option value="">全部物料包</option>
+			    </select>
+		    </div>
+		    <div class="form-group col-sm-4">
+		    	<button type="button" class="btn btn-primary">查询</button>
+		    </div>
+		</form>
+	</div>
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane " id="duringAnalysis">duringAnalysis</div>
+		<div role="tabpanel" class="tab-pane" id="spatialAnalysis">spatialAnalysis</div>
+		<div role="tabpanel" class="tab-pane" id="networkAnalysis">networkAnalysis</div>
+		<div role="tabpanel" class="tab-pane" id="equipmentAnalysis">equipmentAnalysis</div>
+		<div role="tabpanel" class="tab-pane active" id="analysisOfThePageSurveyed">
+			<div class="width-100">
+	            <div class="add-head-line height50 line-height50 border-gray3-1px">
+					<i class="width3 height15 bgc-blue4 display-inline-block mt20 ml10"></i>
+					<span class="line-height38">受访页面统计列表</span>
+					<span class="glyphicon glyphicon-download-alt cursor-point ml1350 loadlist"></span>
+					<span>导出数据</span>
+				</div>
+	            <!-- <div #analysisOfThePageSurveyedEcharts class="width-100 "></div> -->
+	        </div>
+			<ngx-datatable #analysisOfThePageSurveyedTable [rows]="analysisOfThePageSurveyedData" [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo" (page)="onPage($event)" [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }" [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+				<ngx-datatable-column name="受访页面URL" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="时间" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="浏览量PV" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="访客数UV" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>			
+				<ngx-datatable-column name="跳出率" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="二跳次数" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+				<ngx-datatable-column name="平均访问时长" [resizeable]="false" [sortable]="false">
+					<template ngx-datatable-cell-template let-row="row">
+						<div class="ell">
+							
+						</div>
+					</template>
+				</ngx-datatable-column>
+			</ngx-datatable>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="analysisOfRetentionData">analysisOfRetentionData</div>
+	</div>
+</div>

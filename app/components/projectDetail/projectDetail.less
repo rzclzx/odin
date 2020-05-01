@@ -1,0 +1,182 @@
+.content{
+    margin: 22px!important;
+    .pd-header{
+        overflow: hidden;
+        h2{
+        float:left;
+        display: inline-block;
+        font-weight: 700;
+        }
+        .pd-back{
+            float:right;
+        }
+    }
+    .pd-tab{
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+            color: #555;
+            cursor: default;
+            background-color: #fff;
+            // border: 1px solid transparent;
+            // border-bottom: 3px solid #1a89fb;
+        }
+        .tab-content{
+            button{
+                margin-top:-35px;
+            }
+            .tab-one{
+                margin-top:60px;
+                .tab-id{
+                    float:left;
+                }
+                .tab-name{
+                    margin-left:350px;
+                }
+            }
+            .tab-two{
+                 margin:60px 0;;
+                .tab-er{
+                    float: left;
+                }
+                .tab-code{
+                    margin-left:350px;
+                }
+            }
+            .pro-container{
+                position: absolute;
+                margin-left:-7px;
+                .text {
+                    display: none;
+                }
+                
+                .on {
+                    color: #333;
+                }
+                
+                .off {
+                    color: #eee;
+                }
+                
+                .circle {
+                    position: absolute;
+                    display: inline-block;
+                }
+                
+                #radio~label {
+                    background-color: grey;
+                }
+                
+                #radio~label .circle {
+                    left: 0;
+                    transition: all 0.3s;
+                    --webkit-transition: all 0.3s;
+                }
+                
+                #radio~label .on {
+                    display: none;
+                }
+                
+                #radio~label .off {
+                    display: inline-block;
+                }
+                
+                #radio:checked~label {
+                    background: #458dd6;
+                }
+                
+                #radio:checked~label .circle {
+                    left: 50px;
+                }
+                
+                #radio:checked~label .on {
+                    display: inline-block;
+                }
+                
+                #radio:checked~label .off {
+                    display: none;
+                }
+                
+                label {
+                    display: inline-block;
+                    position: relative;
+                    height: 36px;
+                    width: 90px;
+                    top: -2px;
+                    left: -52px;
+                    line-height: 50px;
+                }
+                
+                label .circle {
+                    display: inline-block;
+                    height: 28px;
+                    width: 28px;
+                    line-height: 26px;
+                    background-color: #fff;
+                    margin-top:4px;
+                    margin-left:4px;
+                }
+                
+                label .text {
+                    text-indent: 30px;
+                    line-height: 28px;
+                    font-size: 18px;
+                    font-family: sans-serif;
+                    text-shadow: 0 0 2px #ddd;
+                }
+                input{
+                    width: 61px;
+                    height:10px;
+                    position: relative;
+                    top:-14px;
+                    left:25px;
+                    border-color: transparent;
+                    z-index: 5;
+                }
+                input[input="checkbox"]:checked{
+                    content: '\2713';
+                    background: yellowgreen;
+                }
+            }
+            .ell{
+                >div{
+                    font-size:0px;
+                    line-height: 24px;
+                    float: left;
+                    span{
+                        font-size: 13px;
+                        vertical-align: middle;
+                    }
+                    img{
+                        width: 14px;
+                        height: 14px;
+                    }
+                }
+            }
+            .datatable .datatable-body-cell-label, .datatable .datatable-header-cell-label {
+                padding: 0px 1px;
+            }
+            #profile{
+                .tab-nav{
+                    float:right;
+                    margin:15px 0;
+                    button{
+                        margin-left:15px;
+                    }
+                    .text-date{
+                        display: inline-block;
+                        margin-left:10px;
+                    }
+                    .put-picker{
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+}
+.content .pd-tab .tab-content button {
+    float: right;
+    margin-top:0;
+}
+.ml0{
+    margin-left:-2px!important;
+}

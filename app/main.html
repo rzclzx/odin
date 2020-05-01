@@ -1,0 +1,56 @@
+<div class="rel">
+    <div class="main-left disSelcted">
+        <div class="icon-pengjing color-white font40 textcenter height70 line-height70 border-bottom-black-1px"></div>
+        <div class="color-gray4" *ngFor="let v of leftMenus;let i = index">   
+            <div class="transition500 flex-start-center height60 line-height60 border-bottom-black-1px pointer bgc-bluebtn color-white" [class.color-white]="currentParent[0] === i" [class.bgc-bluebtn]="currentParent[0] === i"  (click)="changeCurrent('main',i)">
+                <div class="{{ v.icon }} width-25 textcenter font20"></div>
+                <div class="width-50 font18">{{ v.name }}</div>
+                <span class="icon-xiangyou2 width-25 height60 line-height60 textcenter font16 transform-origin-center transition500" [class.rotate90]="currentParent[0] === i"></span>
+            </div>
+            <div [ngStyle]="{ height: v.childs.length*50 + 'px' }" class="border-bottom-black-1px transition500 ofh" [class.height0]="currentParent[0] !== i" [class.opacity0]="currentParent[0] !== i">
+                <div class="flex-start-center pointer height50 line-height50" *ngFor="let n of v.childs;let j = index"  [routerLink]="[n.nav]"  (click)="changeCurrent('child',i,j)">
+                    <div *ngIf="j === 0" class="width1 height25 bgc-gray4 ml60 rel top-13" [class.opacity0]="v.childs.length > 1"></div>
+                    <div *ngIf="j !== 0" class="width1 height50 bgc-gray4 ml60 rel top-25"></div>
+                    <div class="width12 height1 bgc-gray4 rel left-1" *ngIf="currentChilds[0] !== i || currentChilds[1] !== j"></div>
+                    <div class="width25 height25 bgc-gray11 flex-center ml-13 rel z-index99" *ngIf="currentChilds[0] === i && currentChilds[1] === j">
+                        <div class="height15 width15 bgc-bluebtn radius50"></div>
+                    </div>
+                    <div class="width-60 font16 ml10">{{ n.name }}</div>
+                </div>  
+            </div>
+        </div>
+    </div>
+    <div class="main-right-header">
+        <div class="height70 flex-start-center line-height70" *ngIf="menus.length !== 0">
+            <div *ngFor="let v of menus;let i = index" class="flex-start-center">
+                <div *ngIf="v.name == '返回'" [ngStyle]="{'display':'inline-block','font-size':'16px', 'text-align': 'center','width': '150px','border-right': '1px solid #ddd'}">
+                    <span> <- </span>
+                    <span [class.hover]="v.value" [routerLink]="[v.value]" [ngStyle]="{'cursor': 'pointer'}"> {{v.name}}</span>
+                </div>
+
+                <span *ngIf="i === 0" class="icon-home33 color-blue3 font16 ml40 mb2"></span>
+                <span *ngIf="i !== 0" class="font14 ml5">/</span>
+                <div *ngIf="i !== menus.length-1 && menus.length !== 1" class="font14 ml5" [class.hover]="v.value" [routerLink]="[v.value]">{{ v.name }}</div>
+                <div *ngIf="i === menus.length-1" class="font14 ml5 color-blue3">{{ v.name }}</div>
+            </div>
+        </div>
+        <div class="flex-start-center abs right0 mr45">
+            <div class="font14 mr20 hover">您好！admin</div>
+            <div class="flex-base font14 mr20  hover">
+                <i class="icon-msg-01 mr5"></i>
+                <div>消息通知</div>
+            </div>
+            <div class="flex-base font14 mr20  hover">
+                <i class="icon-help mr5"></i>
+                <div>帮助中心</div>
+            </div>
+            <div class="flex-base font14 mr20  hover">
+                <span class="icon-exit mr5"></span>
+                <div>退出</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-right-body">
+        <router-outlet (activate)="onActivate($event)"></router-outlet>
+    </div>
+</div>

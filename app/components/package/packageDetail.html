@@ -1,0 +1,129 @@
+<div class="content">
+        <div class="put-top">
+                <h2>{{package.campaignName}}</h2>
+        </div>
+        <div class="put-del" >
+                <div class="adver dashed-bottom-1px pb10">
+                    <span>广告主：</span>
+                    <input type="text" value="honda" class="width360 bgc-white" [(ngModel)]="package.advertiserName" name="advertiserName" disabled="disabled">
+                </div>
+                <div class="adv-pro ml40 dashed-bottom-1px pb10">
+                    <span>广告项目：</span>
+                    <input type="text" value="honda" class="width360 bgc-white" [(ngModel)]="package.projectName" name="projectName" disabled="disabled">
+                </div>
+                <div class="base-name base-left ml40 dashed-bottom-1px pb10">
+                    <span>推广活动名称：</span>
+                    <input type="text" value="honda" class="width360 bgc-white" [(ngModel)]="package.campaignName" name="campaignName" disabled="disabled">
+                </div>
+        </div>
+        <div class="mt40">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">物料包详情</a></li>
+                    <li role="presentation" [routerLink]="['/home/campaign/package/packageCreative',campaignId,packageId]"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">创意</a></li>
+                  </ul>
+                
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                            <div class="ml80 mt30">
+                                    <div class="rel display-inline-block left1360">
+                                            <button class="btn btn-primary ml20 mt-135" (click)="gotopackageList(campaignId)">返回</button>
+                                        </div>
+                                    <div class="line-height50 ">
+                                               <div class="pname dispaly-inline-block .abs width135">
+                                                   <span class="display-inline-block rel left0">物料包ID：</span>
+                                               </div>
+                                               <input type="text" class="width240 dispaly-inline-block border-none bgc-white"  [(ngModel)]="package.id" name="id" disabled="disabled">
+                                           </div>
+                                    <div class="line-height50 ">
+                                        <div class="pname dispaly-inline-block .abs width135">
+                                            <span class="display-inline-block rel left0">物料包名称：</span>
+                                        </div>
+                                        <input type="text" class="width240 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.name" name="name" disabled="disabled">
+                                    </div>
+                                    <div class="line-height50 ">
+                                           <div class="pname dispaly-inline-block .abs width135">
+                                               <span class="display-inline-block rel left0">所属广告主：</span>
+                                           </div>
+                                           <input type="text" class="width240 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.advertiserName" name="advertiserName" disabled="disabled">
+                                    </div>
+                                    <div class="line-height50 ">
+                                               <div class="pname dispaly-inline-block .abs width135">
+                                                   <span class="display-inline-block rel left0">广告项目：</span>
+                                               </div>
+                                               <input type="text" class="width240 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.projectName" name="projectName" disabled="disabled">
+                                    </div>
+                                    <div class="line-height50 ">
+                                                   <div class="pname dispaly-inline-block .abs width135">
+                                                       <span class="display-inline-block rel left0">推广活动：</span>
+                                                   </div>
+                                                   <input type="text" class="width240 dispaly-inline-block border-none bgc-white"  [(ngModel)]="package.campaignName" name="campaignName" disabled="disabled">
+                                    </div>
+                                    <div class=" line-height50">
+                                        <div class="pname dispaly-inline-block .abs width135">
+                                            <span class="display-inline-block rel left0">展现监测地址1：</span>
+                                        </div>
+                                        <!-- <input type="text"  class="width370 dispaly-inline-block border-none" value="http//:ad.miaozhen.com/wxxxxxxxxxx"> -->
+                                        <input type="text" class="width370 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.impressionUrl1" name="impressionUrl1" disabled="disabled">
+                                        <div class="ml20 dispaly-inline-block color-bluebtn cursor-point" ngxClipboard [cbContent]="package.impressionUrl1">复制</div>
+                                    </div>
+                                    <div class=" line-height50">
+                                        <div class="pname dispaly-inline-block width135">
+                                            <span class="display-inline-block">展现监测地址2：</span>
+                                        </div>
+                                        <input type="text" class="width370 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.impressionUrl2" name="impressionUrl2" disabled="disabled">
+                                        <div class="ml20 dispaly-inline-block color-bluebtn cursor-point" ngxClipboard [cbContent]="package.impressionUrl2">复制</div>
+                                    </div>
+                                    <div class=" line-height50">
+                                        <div class="pname dispaly-inline-block width135">
+                                            <span class="display-inline-block rel">点击监测地址：</span>
+                                        </div>
+                                        <input type="text" class="width370 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.clickUrl" name="clickUrl" disabled="disabled">
+                                        <div class="ml20 dispaly-inline-block color-bluebtn cursor-point" ngxClipboard [cbContent]="package.clickUrl">复制</div>
+                                    </div>
+                                    <div class=" line-height50">
+                                        <div class="pname dispaly-inline-block width135">
+                                            <span class="display-inline-block">落地页地址：</span>
+                                        </div>
+                                        <input type="text" class="width370 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.landpageUrl" name="landpageUrl" disabled="disabled">
+                                        <div class="ml20 dispaly-inline-block color-bluebtn cursor-point" ngxClipboard [cbContent]="package.landpageUrl">复制</div>
+                                    </div>
+                                    <div class=" line-height50">
+                                        <div class="pname dispaly-inline-block width135">
+                                            <span class="display-inline-block">deeplink地址：</span>
+                                        </div>
+                                        <input type="text" class="width370 dispaly-inline-block border-none bgc-white" [(ngModel)]="package.deeplinkUrl" name="deeplinkUrl" disabled="disabled">
+                                        <div class="ml20 dispaly-inline-block color-bluebtn cursor-point" ngxClipboard [cbContent]="package.deeplinkUrl">复制</div>
+                                    </div>
+                               </div>
+                               <div class=" line-height50 ml80">
+                                       <div class="pname dispaly-inline-block">
+                                           <span class="display-inline-block">是否生成落地页监控代码：</span>
+                                       </div>
+                                       <span>&nbsp;&nbsp;&nbsp;{{package.needMonitorCode=="1"?"是":"否"}}</span>
+                              </div>
+                             <div >
+                                    <div class="pname dispaly-inline-block ml80">
+                                            <span class="display-inline-block">监测脚本：</span>
+                                    </div>
+                                    <textarea class="height140 width700 vertical-align-t ml15" [(ngModel)]="text">
+
+
+                                    </textarea>
+                                    <span class="display-inline-block color-bluebtn cursor-point" ngxClipboard [cbContent]="text">复制</span>
+                             </div>
+                             <div class=" line-height50 ml150">
+                                <div class="pname dispaly-inline-block">
+                                    <span class="display-inline-block">说明：</span>
+                                </div>
+                                <span>1.请将代码添加到网站全部页面的&lt;/head&gt;标签前；</span><br>
+                                <span class="display-inline-block ml52">2.建议在header.htm类似的页头模板页面中安装，以达到一处安装，全站皆有的效果；</span><br>
+                                <span class="display-inline-block ml52">3.如需在JS文件中调用统计分析代码，请直接去掉以下代码首尾的 &lt;\script type="text/javascript"&gt;与&lt;/script&gt;后，<br>
+                                     放入JS文件中即可。如果代码安装正确，一般20分钟后，可以查看网站分析数据；代码安装完成后，您可以在网站列表自动检测或手动检测代码安装情况。</span>
+                            </div>
+                    </div>
+                  </div>
+                
+                </div>
+</div>

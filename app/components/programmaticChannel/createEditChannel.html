@@ -1,0 +1,216 @@
+<div class="content">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class=" control-label">名称<span>*</span>：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="name" name="name" validation [validations]="'required;adxName'">
+			</div>
+			<p>*20个字符以内</p>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">Logo：</label>
+			<div class="">
+				<div class="rel">
+					<label *ngIf="!logoPath" class="dispaly-block rel border-gray3-1px bgc-gray1 width286 height96 pointer">
+						<div class="width271 height81 margin-center column-center rel dashed-gray3-1px textcenter">
+							<span class="icon-add22 font30 dispaly-inline-block mt25"></span>
+						</div>
+						<input type="file" class="dispaly-none" #logoPath ng2FileSelect [uploader]="logoLoader" id="logo">
+					</label>
+					<div *ngIf="logoPath" class="rel advertiser-upload">
+						<img class="width286 height96" src="{{ logoPath }}">
+						<div class="abs width286 height96 top0 left0 bgc-black pointer visibility-toggle" (click)="removePath()">
+							<span class="icon-delete-012 center abs font-size28"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<p>*图片286*96px，格式为jpg或png，大小在150kb以内</p>
+		</div>
+		<div class="form-group" *ngIf="id">
+			<label class=" control-label">编号：</label>
+			<div class="line-height34">
+				{{this.id}}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">人民币汇率<span>*</span>：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="exchangeRate" name="exchangeRate" validation [validations]="'required;adxRate'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">公司名称<span>*</span>：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="campanyName" name="campanyName" validation [validations]="'required;adxCompanyName'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">公司地址：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="address" name="address" validation [validations]="'adxAddress'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">域名：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="domain" name="domain" validation [validations]="'adxDomainName'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">联系人：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="contacts" name="contacts" validation [validations]="'concact'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">邮箱：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="email" name="email" validation [validations]="'adxEmail'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">支持的投放方式：</label>
+			<div class="">
+				<input type="checkbox" name="admode" (click)="admodeChange('bidding')" class="bidding"/>竞价
+				<input type="checkbox" name="admode" (click)="admodeChange('pricing')" class="pricing"/>定价
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">支持的图片格式：</label>
+			<div class="">
+				<input type="checkbox" name="formats" (click)="formatsChange('jpg')" class="jpg"/>jpg
+				<input type="checkbox" name="formats" (click)="formatsChange('png')" class="png"/>png
+				<input type="checkbox" name="formats" (click)="formatsChange('gif')" class="gif"/>gif
+				<input type="checkbox" name="formats" (click)="formatsChange('jpeg')" class="jpeg"/>jpeg
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">点击监测<span>*</span>：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="cturl" name="cturl" validation [validations]="'required;adxClickTestAddress'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">展现监测<span>*</span>：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="iurl" name="iurl" validation [validations]="'required;adxTestAdress'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">激活监测：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="aurl" name="aurl" validation [validations]="'adxActivationTestAddress'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">结算地址：</label>
+			<div class="">
+				<input type="text" class="form-control" placeholder="" [(ngModel)]="nurl" name="nurl" validation [validations]="'adxBillingAddress'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">推广类型：</label>
+			<div class="">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">编辑</button>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">是否需要广告主审核：</label>
+			<div class="padding5">
+				<input type="radio" name="needAdvertiserAudit" value="1" [(ngModel)]="needAdvertiserAudit" (click)="needAdvertiserAuditChange()"/>是
+			</div>
+			<section class="auditAbsolute" *ngIf=" needAdvertiserAudit == '1' ? true : false ">
+				<input type="text" class="form-control key" placeholder="广告主审核URL"  name="advertiserAuditUrl" [(ngModel)]="advertiserAuditUrl" validation [validations]="'adxUrl'" class="width150"><span> — </span>
+				<input type="text" class="form-control key" placeholder="资质审核URL"  name="qualificationAuditUrl" [(ngModel)]="qualificationAuditUrl" validation [validations]="'adxUrl'" class="width150"><span> — </span>
+				<input type="text" class="form-control key" placeholder="广告主审核结果URL"  name="advertiserSyncUrl" [(ngModel)]="advertiserSyncUrl" validation [validations]="'adxUrl'" class="width150"><span> — </span>
+				<input type="text" class="form-control key" placeholder="广告主更新URL"  name="advertiserUpdateUrl" [(ngModel)]="advertiserUpdateUrl" validation [validations]="'adxUrl'" class="width150"><span> — </span>
+				<input type="text" class="form-control key" placeholder="广告主资质更新URL"  name="qualificationUpdateUrl" [(ngModel)]="qualificationUpdateUrl" validation [validations]="'adxUrl'" class="width150"><p>*开头以http://或者https://</p>	
+			</section>
+		</div>
+		<div class="form-group height100">
+			<label class=" control-label">是否需要创意审核：</label>
+			<div class="padding5">
+				<input type="radio" name="needCreativeAudit" value="1" [(ngModel)]="needCreativeAudit" (click)="needCreativeAuditChange()"/>是
+			</div>
+			<section class="auditAbsoluteT" *ngIf=" needCreativeAudit == '1' ? true : false ">
+				<div>
+					<input type="text" class="form-control key" placeholder="创意审核URL"  name="creativeAuditUrl" [(ngModel)]="creativeAuditUrl" validation [validations]="'adxUrl'" class="width150"><span> — </span>
+					<input type="text" class="form-control key" placeholder="创意审核结果URL"  name="creativeSyncUrl" [(ngModel)]="creativeSyncUrl" validation [validations]="'adxUrl'" class="width150"><span> — </span>
+					<input type="text" class="form-control key" placeholder="创意更新URL"  name="creativeUpdateUrl" [(ngModel)]="creativeUpdateUrl" validation [validations]="'adxUrl'" class="width150"><p>*开头以http://或者https://</p>
+				</div>
+				<p>
+					图片：<input type="radio" name="imageAuditType" value="0" [(ngModel)]="imageAuditType" (click)="typeChange('imageAuditType','0')"/>不需要审核&nbsp;&nbsp;
+					<input type="radio" name="imageAuditType" value="1" [(ngModel)]="imageAuditType" (click)="typeChange('imageAuditType','1')"/>先投后审&nbsp;&nbsp;
+					<input type="radio" name="imageAuditType" value="2" [(ngModel)]="imageAuditType" (click)="typeChange('imageAuditType','2')"/>先审后投
+				</p>
+				<p>
+					视频：<input type="radio" name="videoAuditType" value="0" [(ngModel)]="videoAuditType" (click)="typeChange('videoAuditType','0')"/>不需要审核&nbsp;&nbsp;
+					<input type="radio" name="videoAuditType" value="1" [(ngModel)]="videoAuditType" (click)="typeChange('videoAuditType','1')"/>先投后审&nbsp;&nbsp;
+					<input type="radio" name="videoAuditType" value="2" [(ngModel)]="videoAuditType" (click)="typeChange('videoAuditType','2')"/>先审后投
+				</p>
+				<p>
+					原生：<input type="radio" name="infoflowAuditType" value="0" [(ngModel)]="infoflowAuditType" (click)="typeChange('infoflowAuditType','0')"/>不需要审核&nbsp;&nbsp;
+					<input type="radio" name="infoflowAuditType" value="1" [(ngModel)]="infoflowAuditType" (click)="typeChange('infoflowAuditType','1')"/>先投后审&nbsp;&nbsp;
+					<input type="radio" name="infoflowAuditType" value="2" [(ngModel)]="infoflowAuditType" (click)="typeChange('infoflowAuditType','2')"/>先审后投
+				</p>
+			</section>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">是否支持安全链接：</label>
+			<div class="padding5">
+				<input type="radio" name="supportSsl" value="1" [(ngModel)]="supportSsl" (click)="supportSslChange()"/>是
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label">私密key：</label>
+			<div>
+				<button class="btn btn-primary button-absolute" (click)="addKey()">增加</button>
+				<label class="keyPass" *ngFor="let v of keyArray;let i = index;">
+					<input type="text" class="form-control key" placeholder="ADX专属Key" name="{{v.key}}" validation [validations]="''" value="{{v.key}}"><span> — </span>
+					<input type="text" class="form-control pass" placeholder="该ADX对应的值" name="{{v.value}}" validation [validations]="''" value="{{v.value}}">
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class=" control-label"></label>
+			<div class="">
+				<button class="btn btn-default" (click)="back()">取消</button>
+				<button class="btn btn-primary" (click)="save()">确定</button>
+			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">推广类型</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p class="padding5">图片广告</p>
+		        <div>
+		        	<textarea name="andrImageTmpl" [(ngModel)]="andrImageTmpl" rows="7" cols="25" placeholder=" Android模板内容"></textarea>
+		        	<textarea name="iosImageTmpl" [(ngModel)]="iosImageTmpl" rows="7" cols="25" placeholder=" ios模板内容"></textarea>
+		        </div>
+		        <p class="padding5">视频广告</p>
+		        <div>
+		        	<textarea name="andrVideoTmpl" [(ngModel)]="andrVideoTmpl" rows="7" cols="25" placeholder=" Android模板内容"></textarea>
+		        	<textarea name="iosVideoTmpl" [(ngModel)]="iosVideoTmpl" rows="7" cols="25" placeholder=" ios模板内容"></textarea>
+		        </div>
+		        <p class="padding5">信息流广告</p>
+		        <div>
+		        	<textarea name="andrInfoflowTmpl" [(ngModel)]="andrInfoflowTmpl" rows="7" cols="25" placeholder=" Android模板内容"></textarea>
+		        	<textarea name="iosInfoflowTmpl" [(ngModel)]="iosInfoflowTmpl" rows="7" cols="25" placeholder=" ios模板内容"></textarea>
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button type="button" class="btn btn-primary">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</form>
+</div>

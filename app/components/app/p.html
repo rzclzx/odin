@@ -1,0 +1,90 @@
+
+
+<div class="content">
+    <div class="width240 rel">
+        <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + (publicService.FormalTimeLine(startDate) ? ' 至 ' : '') +  publicService.FormalTimeLine(endDate)}}">
+        <i class="icon-calendar time-icon"></i>
+    </div>
+    <div class="flex-start-center">
+        <label class="mr20" *ngFor="let v of shows;let i = index" >
+            <input type="checkbox" [(ngModel)]="v.value" [attr.name]="'a' + i" (change)="refesh()">你好
+        </label>
+        
+    </div>
+    <ng-page
+        [page]="page"
+        (outerPage)="onPage($event)"
+    ></ng-page>
+    <div [class.table-scroll]="isShowScroll">
+        <ngx-datatable
+            [rows]="datas"
+            [columnMode]="'force'"
+            [draggable]="false"
+            [externalSorting]="true"
+            [externalPaging]="true"
+            [headerHeight]="50"
+            [rowHeight]="50"
+            [limit]="page.pageSize"
+            [count]="page.total"
+            [offset]="page.pageNo"
+            [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+            <ngx-datatable-column *ngIf="shows[0].value" name="名称" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="shows[1].value" name="ID" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.id }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="shows[2].value" name="ADX" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.adx }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="shows[3].value" name="ADX" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.adx }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="shows[4].value" name="ADX" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.adx }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="shows[5].value" name="ADX" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.adx }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column *ngIf="shows[6].value" name="ADX" [resizeable]="false" [sortable]="false" [width]="400" [canAutoResize]="!isShowScroll">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.adx }}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    
+    <ng-page
+        [isFooter]="true"
+        [page]="page"
+        (outerPage)="onPage($event)"
+    ></ng-page>
+</div>
+

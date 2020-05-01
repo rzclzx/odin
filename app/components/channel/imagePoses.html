@@ -1,0 +1,91 @@
+
+<div class="content">
+    <div class="size-top">
+        <span class="line1"></span>
+        <ul>
+            <li (click)="gotoimageSize()">图片尺寸</li>
+            <li class="active">图片广告位</li>
+            <li (click)="gotovideoPoses()">视频广告位</li>
+            <li (click)="gotoinfoflowPoses()">原生广告位</li>
+        </ul>
+    </div>
+    <div class="add-size">
+        <button class="btn btn-primary imagebtn" (click)="gotoaddimagePoses()">新增图片广告位</button>
+    </div>
+    <div class="adxselect">
+        <input type="checkbox"  [(ngModel)]="imagePosesAllcheck" name="imagePosesAllcheck" (change)="allCheckFire(0)"><span>全选</span>
+        <span class="circle cursor-point" (click)="start()">开始</span>
+        <span class="circle  cursor-point" (click)="stop()">暂停</span>
+    </div>
+    <div class="size-list">
+            <ngx-datatable #imagePosesDatatable
+            [rows]="images"
+            [columnMode]="'force'"
+            [selected]="imagePosesSelected"
+            [selectionType]="'checkbox'"
+            [draggable]="false"
+            [externalSorting]="true"
+            [externalPaging]="true"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [limit]="page.pageSize"
+            [count]="page.total"
+            [offset]="page.pageNo"
+            (page)="onPage($event)"
+            (select)="onSelect($event,0)"
+            [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+            <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="" [resizeable]="false" [sortable]="false" [width]="120"  [canAutoResize]="false">
+            <template ngx-datatable-cell-template let-row="row">
+            <div class="ell">
+            <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.enable=='1'?true:false)}" (click)="switchChange(row)">
+                <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.enable=='1'?false:true)}"></span>
+                <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.enable=='1'?false:true)}"></span>
+            </div>
+            </div>
+            </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="标识" prop="row.id" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="240"> 
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.id }}</span>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="尺寸(px)" prop="row.width" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="160">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.width }} * {{row.height}}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="状态" prop="row.status" [resizeable]="false" [sortable]="false" >
+                    <template ngx-datatable-cell-template let-row="row">
+                        <div class="ell">
+                            <span>{{ row.enable=="1"?"开启":"暂停" }}</span>
+                        </div>								
+                    </template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="渠道" prop="row.adxName" [resizeable]="false" [sortable]="false" >
+                        <template ngx-datatable-cell-template let-row="row">
+                            <div class="ell">
+                                <span>{{ row.adxName }}</span>
+                            </div>								
+                        </template>
+                    </ngx-datatable-column>
+            <ngx-datatable-column name="展现形式" prop="row.adtypeId" [resizeable]="false" [sortable]="false" [canAutoResize]="false" [width]="160">
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.adtypeId=="0"?'横幅':( row.adtypeId=="1"?'全插屏':'开屏')}}</span>
+                    </div>								
+                </template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>   
+</div>
+

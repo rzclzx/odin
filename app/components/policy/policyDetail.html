@@ -1,0 +1,154 @@
+<div class="content">
+    <div class="put-top">
+        <h4>{{campaign.name}}</h4>
+    </div>
+    <div class="put-del">
+            <div class="adver">
+                    <span>广告主：</span>
+                    <input type="text" [(ngModel)]="campaign.advertiserName" name="advertiserName" disabled="disabled" class="bgc-white">
+                 </div>
+                <div class="adv-pro">
+                    <span>广告项目：</span>
+                    <input type="text"  [(ngModel)]="campaign.projectName" name="projectName" disabled="disabled" class="bgc-white">
+                </div>
+                <div class="base-name base-left">
+                        <span>推广活动名称：</span>
+                        <input type="text" [(ngModel)]="campaign.name" name="name" disabled="disabled" class="bgc-white">
+                </div>
+    </div>
+    <div class="put-tab">    
+    <div>
+                    
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">策略详情</a></li>
+                        <li role="presentation" [routerLink]="['/home/campaign/policy/policyCreate',campaignId,id]"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">创意</a></li>
+                      </ul>
+                    
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+                                <div class="edit-head">
+                                    <button class="btn btn-primary poc-btn top15 left1441" (click)="gopolicyForm()">编辑</button>
+                                    <button class="btn btn-primary poc-btn" (click)="gopolicyList()">返回</button>
+                                </div>
+                                <div class="edit-base">
+                                    <div class="base-text poy-text">基本信息</div>
+                                        <div>
+                                            <div class="base-id base-left">
+                                                <span>策略名称：</span>
+                                                <input type="text" [(ngModel)]="policy.name" name="name" disabled="disabled" class="bgc-white width350"> 
+                                            </div>
+                                            <div class="base-name base-left ml120">
+                                                    <span>投放周期：</span>
+                                                    <input type="text"  value="{{ publicService.FormalTimeLine(policy.startDate) + ' 至 ' +  publicService.FormalTimeLine(policy.endDate)}}" disabled="disabled" class="bgc-white">
+                                            </div>
+                                            <div class="base-kpi base-left poc-kpi dispaly-block">
+                                                    <span>投放时间、KPI及成本：</span>
+                                                    <img src="../../images/m.png" alt="" [ngClass]="{'hide':(!policy.totalImpression? true:false)}">
+                                                    <input type="text" [(ngModel)]="policy.totalImpression" name="totalImpression" disabled="disabled" class="bgc-white" [ngClass]="{'hide':(!policy.totalImpression? true:false)}">
+                                                    <img src="../../images/c.png" alt="" [ngClass]="{'hide':(!policy.totalClick? true:false)}">
+                                                    <input type="text" [(ngModel)]="policy.totalClick" name="totalClick" disabled="disabled" class="bgc-white" [ngClass]="{'hide':(!policy.totalClick? true:false)}">
+                                                    <img src="../../images/money.png" alt="" [ngClass]="{'hide':(!policy.totalBudget? true:false)}">
+                                                    <span [ngClass]="{'hide':(!policy.totalBudget? true:false)}">{{policy.totalBudget}}元</span>
+                                                    <div class="base-day ml40">
+                                                        <!-- <span class="tian">D</span> -->
+                                                        <img src="../../images/d.png" alt="">
+                                                        <span>{{days}}天</span>
+                                                    </div>
+                                                    <div class="base-hour ml40">
+                                                        <!-- <span class="hour">H</span> -->
+                                                        <img src="../../images/h.png" alt="">
+                                                        <span>{{hours}}小时</span>
+                                                    </div>
+                                                    <button class="btn btn-primary" (click)="toggleKpi()">查看详情</button>
+                                            </div>
+                                            <ng-kpi *ngIf="isShowKpi"
+                                            [kpi]="policy.kpi"
+                                            [ready]="true"
+                                            [totalBudget]="totalBudget"
+                                            [totalClick]="policy.totalClick"
+                                            [totalImpression]="policy.totalImpression"
+                                            (outer)="onmessage($event)"
+                                        ></ng-kpi>
+                                            <div class="base-hz base-left">
+                                                    <span>出价：</span>
+                                                    <span>{{policy.realBid/100}}元 /CPM</span>
+                                            </div>
+                                            <div class="base-hz base-left">
+                                                    <span>频次控制：</span>
+                                                    <span [ngClass]="{'hide':(policy.frequencyType=='0'? true:false)}">全部创意-{{cycleType}}-限每个用户-{{policy.frequencyType=="1"?"展示":"点击"}}-{{policy.frequencyAmount}}次</span>
+                                                    <span [ngClass]="{'hide':(policy.frequencyType=='0'? false:true)}">无频次控制</span>
+                                            </div>
+                                            <div class="base-hz base-left">
+                                                        <span>匀速投放：</span>
+                                                        <span>{{isUniform}}</span>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="edit-point poc-point">
+                                            <div class="point-text">定向信息</div>
+                                            <div>
+                                                <span>城市——</span>
+                                                <span>{{regionsName.join("、")}}</span>
+                                            </div>
+                                            <div>
+                                                <span>人群包定向——</span>
+                                                <span>{{populationType}}</span>
+                                            </div>
+                                            <div>
+                                                <span>设备平台——</span>
+                                                <span>{{devices.join("、")}}</span>
+                                            </div>
+                                            <div>
+                                                <span>操作系统——</span>
+                                                <span>{{oss.join("、")}}</span>
+                                            </div>
+                                            <div>
+                                                <span>手机品牌——</span>
+                                                <span>{{brandsName.join("、")}}</span>
+                                            </div>
+                                            <div>
+                                                <span>运营商——</span>
+                                                <span>{{carriers.join("、")}}</span>
+                                            </div>
+                                            <div>
+                                                <span>联网环境——</span>
+                                                <span>{{networks.join("、")}}</span>
+                                            </div>
+                                            <div>
+                                                <span>场景定向——</span>
+                                                <span>{{sceneRadius}}范围内定向投放</span>
+                                            </div>
+                                </div>
+                                <div class="edit-point edit-put">
+                                    <div class="point-text">投放信息</div>
+                                    <div>
+                                        <span>渠道——</span>
+                                        <span>竞价：</span>
+                                        <span>{{adxName.join("、")}}</span>
+                                    </div>
+                                   <div class="mt0">
+                                        <div class="  ml65 dispaly-inline-block">定价：</div>
+                                        <div *ngFor=" let v of contractName; let i = index;" class="ml0 dispaly-inline-block" >  
+                                            <span>{{v.name}}，</span>
+                                            <span>deal，id:</span>
+                                            <span>{{v.id}}，</span>
+                                            <span>{{v.bid}}元/{{v.bidType==0?"CPM":"CPC"}}</span>
+                                        </div>
+                                   </div>
+                                    <div>
+                                        <span>媒体分类——</span>
+                                        <!-- <span>{{campaign.targeting.appType.isInclude === "1" ?" 选择 " : " 排除 "}}"{{appTypesNames.join("、")}}"</span> -->
+                                        <span>{{appTypes1}}<span [ngClass]="{'hide':(appTypes1=='不限'? true:false)}">"{{appTypesNames.join("、")}}"</span></span>
+                                    </div>
+                                    <div>
+                                        <span>媒体名称——</span>
+                                        <!-- <span>{{campaign.targeting.app.isInclude === "1" ? "选择 " : "排除 "}}"{{appName.join("、")}}"</span> -->
+                                        <span>{{apps11}}<span [ngClass]="{'hide':(apps11=='不限'? true:false)}">"{{appName.join("、")}}"</span></span>
+                                    </div>
+                               </div>
+                            </div> 
+                     </div> 
+    </div>
+</div>

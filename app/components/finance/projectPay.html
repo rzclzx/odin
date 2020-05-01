@@ -1,0 +1,322 @@
+<div class="content finance-contain">
+
+	<div class="public-list clearfix introduce-information">
+		<ul>
+			<li class="clearfix">
+				<span class="left">广告项目：</span>
+				<span class="pull-right">{{headtitletext.advertiserName}}</span>
+			</li>
+			<li class="clearfix">
+				<span class="left">展现数上限：</span>
+				<span class="pull-right">{{headtitletext.advertiserName}}</span>
+			</li>
+			<li class="clearfix">
+				<span class="left">总预算：</span>
+				<span class="pull-right">{{headtitletext.advertiserName}}</span>
+			</li>
+		</ul>
+		<ul>
+			<li class="clearfix">
+				<span class="left">项目编号：</span>
+				<span class="pull-right">{{headtitletext.projectName}}</span>
+			</li>
+			<li class="clearfix">
+				<span class="left">点击数上限：</span>
+				<span class="pull-right">{{headtitletext.advertiserName}}</span>
+			</li>
+		</ul>
+		<ul>
+			<li class="clearfix">
+				<span class="left">净收入：</span>
+				<span class="pull-right">{{headtitletext.campaignName}}</span>
+			</li>
+			<li class="clearfix">
+				<span class="left">结算模式：</span>
+				<span class="pull-right">{{headtitletext.advertiserName}}</span>
+			</li>
+		</ul>
+	</div>
+
+
+	<div class="clearfix tab-head">
+		<span class="tab-title">项目明细表</span>
+		<form class="form-inline title-table pull-right">
+			<div class="mr20"><span class="icon-Export2 font16 mb2 mr10"></span><span>导出报表</span></div>
+		</form>
+	</div>
+	<ngx-datatable
+    #mydatatable
+	[rows]="datas"
+    [columnMode]="'force'"
+    [draggable]="false"
+    [externalSorting]="true"
+    [externalPaging]="true"
+    [headerHeight]="50"
+    [rowHeight]="50"
+    [limit]="page.pageSize"
+    [count]="page.total"
+    [offset]="page.pageNo"
+    (page)="onPage($event)"  
+	[messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+    [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+	    <ngx-datatable-column name="流量成本" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div>
+					{{row.name}}
+	            </div>							
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="独采媒体" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div> 
+	               {{row.name}}
+	            </div>
+	        </template>
+	    </ngx-datatable-column>
+		<ngx-datatable-column name="落地页" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					{{row.name}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="效果成本" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					{{row.name}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="截图成本" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					{{row.name}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="监测成本" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					{{row.name}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="延展成本" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					{{row.name}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="备注" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					{{row.name}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<button class="btn btn-primary" (click)="edit()">编辑</button>
+					<modal #regionModal [backdrop]="'static'" [animation]="false" class="modalRegion modalfooter-topnone">
+						<modal-header>
+							<div class="ng2-modal-header">
+								<div class="width3 height18 bgc-blue4 ml20"></div>
+								<div class="ml10 font16 font-bold color-gray5">项目估算明细</div>
+							</div>
+						</modal-header>
+						<modal-body>
+							<div class="modal-inline mb20 mt20">
+								<div class="modal-label text-right width160">流量成本：</div>
+								<div class="form-group">
+									<input class="form-control width240" type="text" />
+									<span class="rmb">¥</span>
+								</div>
+							</div>
+							<div class="modal-inline mb20">
+								<div class="modal-label text-right width160">独采媒体：</div>
+								<div class="form-group">
+									<input class="form-control width240" type="text" />
+									<span class="rmb">¥</span>
+								</div>
+							</div>
+							<div class="modal-inline mb20">
+								<div class="modal-label text-right width160">落地页：</div>
+								<div class="form-group">
+									<input class="form-control width240" type="text" />
+									<span class="rmb">¥</span>
+								</div>
+							</div>
+							<div class="modal-inline mb20">
+								<div class="modal-label text-right width160">效果成本：</div>
+								<div class="form-group">
+									<input class="form-control width240" type="text" />
+									<span class="rmb">¥</span>
+								</div>
+							</div>
+							<div class="modal-inline mb20">
+								<div class="modal-label text-right width160">截图成本：</div>
+								<div class="form-group">
+									<input class="form-control width240" type="text" />
+									<span class="rmb">¥</span>
+								</div>
+							</div>
+							<div class="modal-inline mb20">
+								<div class="modal-label text-right width160">监测成本：</div>
+								<div class="form-group">
+									<input class="form-control width240" type="text" />
+									<span class="rmb">¥</span>
+								</div>
+							</div>
+							<div class="modal-inline mb20">
+								<div class="modal-label text-right width160">延伸成本：</div>
+								<div class="form-group">
+									<input class="form-control width240" type="text" />
+									<span class="rmb">¥</span>
+								</div>
+							</div>
+							<div class="modal-inline mb20">
+								<div class="modal-label text-right width160">备注：</div>
+								<input class="form-control width240" type="text" />
+							</div>
+						</modal-body>
+						<modal-footer>
+							<div class="pull-right">
+								<button type="button" class="btn btn-cancel btn-sm height30 width65" (click)="regionCancel()">取消</button>
+								<button type="button" class="btn btn-primary btn-sm height30 width65" (click)="regionModalSubmit()">确定</button>
+							</div>
+						</modal-footer>
+					</modal>
+				</div>
+			</template>
+		</ngx-datatable-column>
+	</ngx-datatable>
+
+
+
+
+<div class="clearfix tab-head">
+	<span class="tab-title">实际支出表</span>
+	<button class="btn btn-primary pull-right fianace" (click)="editpay()">新增支出</button>
+</div>
+<div class="text-center tab-head-title">
+	<div class="pull-left ml20">
+		<input type="checkbox" (change)="allToggleOuter($event,allCheck)"  [(ngModel)]="allCheck" [value] = "false" />
+		<span class="">全选</span>
+	</div>
+	<div class="pull-left ml20">
+		<span class="icon-delete-01"></span>
+		<span class="">删除</span>
+	</div>
+</div>
+<ngx-datatable
+		#mydatatable2
+		[rows]="datas2"
+		[columnMode]="'force'"
+		[draggable]="false"
+		[externalSorting]="true"
+		[externalPaging]="true"
+		[headerHeight]="50"
+		[footerHeight]="50"
+		[rowHeight]="50"
+		[limit]="page.pageSize"
+		[count]="page.total"
+		[offset]="page.pageNo"
+		(page)="onPage($event)"
+		[messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+		[cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+	<ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+						  [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+	</ngx-datatable-column>
+	<ngx-datatable-column name="支出时间" [resizeable]="false" [sortable]="false">
+		<template ngx-datatable-cell-template let-row="row">
+			<div>
+				{{row.name}}
+			</div>
+		</template>
+	</ngx-datatable-column>
+	<ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false">
+		<template ngx-datatable-cell-template let-row="row">
+			<div class="btn-group btn-primary-select">
+				<button type="button" class="btn btn-primary" (click)="editpay()">编辑</button>
+				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="caret"></span>
+					<span class="sr-only"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li class="text-left">删除</li>
+				</ul>
+
+
+				<modal #regionModalpay [backdrop]="'static'" [animation]="false" class="modalRegion modalfooter-topnone">
+					<modal-header>
+						<div class="ng2-modal-header">
+							<div class="width3 height18 bgc-blue4 ml20"></div>
+							<div class="ml10 font16 font-bold color-gray5">新增支出</div>
+						</div>
+					</modal-header>
+					<modal-body>
+						<div class="modal-inline mb20 mt20">
+							<div class="modal-label text-right width160">支出时间：</div>
+							<div class="rel width240 put-picker dsplay-inline form-group">
+								<input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}" />
+								<i class="icon-calendar time-icon"></i>
+							</div>
+
+							<!--<div class="form-group">
+								<input class="form-control width240" type="text" />
+								<span class="rmb">¥</span>
+							</div>-->
+						</div>
+						<div class="modal-inline mb20">
+							<div class="modal-label text-right width160">成本类别：</div>
+							<select class="form-control width240" [(ngModel)]="campaign" name="campaign" (change)="selectedCampaign(advertiser,campaign,size)">
+								<option [ngValue]="undefined">请选择成本类型</option>
+								<!--<option *ngFor="let v of campaigns;let i = index;" [ngValue]="v">{{ v.name }}</option>-->
+							</select>
+						</div>
+						<div class="modal-inline mb20">
+							<div class="modal-label text-right width160">支出金额：</div>
+							<div class="form-group">
+								<input class="form-control width240" type="text" />
+								<span class="rmb">¥</span>
+							</div>
+						</div>
+						<div class="modal-inline mb20">
+							<div class="modal-label text-right width160">备注：</div>
+							<input class="form-control width240" type="text" />
+						</div>
+					</modal-body>
+					<modal-footer>
+						<div class="pull-right">
+							<button type="button" class="btn btn-cancel btn-sm height30 width65" (click)="regionCancel()">取消</button>
+							<button type="button" class="btn btn-primary btn-sm height30 width65" (click)="regionModalSubmit()">确定</button>
+						</div>
+					</modal-footer>
+				</modal>
+			</div>
+		</template>
+	</ngx-datatable-column>
+	<ngx-datatable-column name="成本类型" [resizeable]="false" [sortable]="false">
+		<template ngx-datatable-cell-template let-row="row">
+			<div>
+				{{row.name}}
+			</div>
+		</template>
+	</ngx-datatable-column>
+	<ngx-datatable-column name="金额" [resizeable]="false" [sortable]="false">
+		<template ngx-datatable-cell-template let-row="row">
+			<div>
+				{{row.name}}
+			</div>
+		</template>
+	</ngx-datatable-column>
+	<ngx-datatable-column name="备注" [resizeable]="false" [sortable]="false">
+		<template ngx-datatable-cell-template let-row="row">
+			<div>
+				{{row.name}}
+			</div>
+		</template>
+	</ngx-datatable-column>
+</ngx-datatable>

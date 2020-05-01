@@ -1,0 +1,162 @@
+@import url("./public.less");
+
+/* 地区选择样式样式 */
+.area {
+    position: relative;
+}
+.area-box {
+    font-size: 14px;
+}
+.area-box-left {
+	width: 200px;
+    float: left;
+}
+.area-box-right {
+	width: 200px;
+    float: right;
+}
+.area-title {
+    border-bottom: 1px #dedede solid;
+    color: #999;
+    line-height: 50px;
+    text-align: center;
+}
+.area-box>ul {
+    width: 100%;
+    height: 400px;
+    overflow-y: scroll;
+}
+.area-box ul li a {
+    line-height: 36px;
+    display: block;
+    color: #666;
+}
+.area-box>ul>li>a {
+    padding-left: 15px;
+}
+.area-box ul li a i {
+    color: #999;
+}
+.area-box>ul>li>ul>li>a {
+    padding-left: 30px;
+}
+.area-act {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -33px;
+    margin-top: -50px;
+}
+.area-act ul li {
+    margin-bottom: 10px;
+}
+.area-box ul li .active, .area-box ul li .active:hover, .area-box ul li .active i, .area-box ul li .active:hover i {
+    background: #4a8fd4;
+    color: #fff;
+}
+.area-box ul li a:hover {
+    background: #f7f7f7;
+}
+// 媒体选择插件
+.modal-init(@class,@width){
+    .@{class} .modal-dialog{
+        width: @width;
+    }
+    .@{class} .modal-body{
+        padding: 0;
+    }
+    .@{class} .modal-content{
+        border-radius: 0;
+    }
+}
+.modal-init(modalApp,940px);
+.ng2-modal-header{
+    height: 50px;
+    background: #EFF2F7;
+    border-bottom: solid 2px #C5CFD9;
+    .flex-start-center;
+}
+.modalRegion .modal-header{
+    padding: 0;
+    border: 0;
+}
+.modal-init(modalBrand,600px);
+.modal-init(modalBanner,700px);
+.modal-init(modalKpi,1442px);
+.err-tip:focus{
+    border-color: #e84c3c;
+    box-shadow: 0 0 6px #e84c3c;
+}
+.campaign-appType{
+    background: @yellow3;
+    color: #fff;
+}
+.kpi-err .err-tip-span{
+    display: none!important;
+}
+.campaign-appType-alert{
+    position: absolute;
+    overflow: hidden;
+    top: 70px;
+    left: 30px;
+    padding: 10px;
+    background-color: #FEF8AA;
+    border: solid 1px #B9B27C;
+    color: #000;
+    font-size: 12px;
+    z-index: 99;
+    border-radius: 3px;
+    display: none;
+}
+.campaign-appType-alertshow:hover + .campaign-appType-alert{
+    display: block!important;
+}
+.required-left:after{
+    content: "*";
+    position: absolute;
+    color: @blue7;
+    top: 0;
+    right: -10px;
+}
+.packageHover:hover .icon-bianji{
+    display: block!important;
+}
+.table-scroll{
+    .row-scroll;
+    box-sizing: border-box;
+}
+.table-scroll::-webkit-scrollbar {  
+    width: 10px;  
+    height: 12px;  
+    background-color: #F5F5F5;  
+}  
+.table-scroll::-webkit-scrollbar-track {  
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    background: #fff ;  
+}    
+.table-scroll::-webkit-scrollbar-thumb {  
+    border-radius: 5px;  
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: #2a92fc;  
+}  
+.table-scroll::-webkit-scrollbar-thumb:hover {  
+    border-radius: 5px;  
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: #2a92fc;  
+} 
+.device-list ::-webkit-scrollbar {  
+    width: 10px;  
+    height: 12px;  
+    background-color: #F5F5F5;  
+} 
+.device-list ::-webkit-scrollbar-thumb {  
+    border-radius: 5px;  
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: @gray3;  
+}  
+.device-list ::-webkit-scrollbar-thumb:hover {  
+    border-radius: 5px;  
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: @gray3;  
+} 
+

@@ -1,0 +1,61 @@
+
+
+<div class="content">
+        <div class="add-video">
+             <div class="add-length mb10 name-tip">
+                 <span class="duration">名称：</span>
+                 <i>&nbsp;*</i>
+                 <input type="text" [(ngModel)]="name" name="name" validation [validations]="'required;videoname'">
+                 <span class="tips">限20个字以内</span>
+             </div>
+             <div class="add-length mb10">
+                     <span class="duration">标识：</span>
+                     <input type="text" [(ngModel)]="code" name="code"  class="add-duration ml20">
+                 </div>
+                 <div class="add-length mb10">
+                         <span class="duration">平台：</span>
+                         <select [(ngModel)]="adxId" name="adxId"  class="add-duration" >
+                                 <option [ngValue]= undefined >请选择平台</option>
+                                <option *ngFor="let v of adxs;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                            </select>
+                 </div>
+                 <div class="add-length mb10">
+                                <span class="video-size">视频尺寸：</span>
+                                <select [(ngModel)]="sizeId" name="sizeId"  class="add-duration" >
+                                        <option [ngValue]= undefined >请选择尺寸</option>
+                                       <option *ngFor="let v of sizes;let i = index;" [ngValue]="v.id">{{ v.width }}*{{ v.height }}</option>
+                                   </select>
+                        </div>
+                    <div class="videoFormats mb10">
+                            <span class="duration">格式：</span>
+                            <input type="checkbox"  class="add-duration" [(ngModel)]="flv" name="video1" ><span>flv</span>
+                            <input type="checkbox" [(ngModel)]="mp4" name="video2'" ><span>mp4</span>
+                            <input type="checkbox"  [(ngModel)]="avi" name="video3"><span>未知</span>
+                    </div>
+                    <div class="add-length mb10">
+                            <span class="duration">时长：</span>
+                            <i>&nbsp;*</i>
+                            <input type="number" [(ngModel)]="duration" name="duration" validation [validations]="'required;plusFloat'" placeholder="支持的时长">
+                            <span class="tips">输入正数</span>
+                    </div>
+                    <div class="add-length mb10">
+                            <span class="video-size">视频大小：</span>
+                            <i>&nbsp;*</i>
+                            <input type="number" [(ngModel)]="maxVolume" name="maxVolume" validation [validations]="'required;plusFloat'" placeholder="单位M">
+                            <span class="tips">输入正数</span>
+                    </div>
+                    <div class="videoFormats mb10">
+                            <span>是否添加播放后的图片：</span>
+                            <input type="checkbox"  class="add-duration" [(ngModel)]="needImage" name="needImage"><span>必选</span>
+                            <input type="text" [(ngModel)]="imageMaxVolume" name="imageMaxVolume" class="imageMaxVolume"  placeholder="图片支持大小,单位KB">
+                            <span class="tips1">该图片的尺寸与视频的尺寸一致</span>
+                    </div>
+                    
+                 <div class="video-button">
+                        <button class="btn btn-default btn1" (click)="cancel()">取消</button>
+                        <button class=" btn btn-primary" (click)="save()">确定</button>
+                 </div>
+        </div>    
+     </div>
+     
+     

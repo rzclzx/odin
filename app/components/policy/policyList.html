@@ -1,0 +1,338 @@
+<div class="content">
+        <div class="put-top">
+            <h4>{{campaign.name}}</h4>
+        </div>
+        <div class="put-data">
+            <div class="campaignData">
+                <span>今日推广活动数据</span>
+                <table class="dataShow">
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.todayImpression?campaign.todayImpression:0}}</span>
+                        <td>展现数</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.todayClick?campaign.todayClick:0}}</span>
+                        <td>点击数</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.todayCtr?campaign.todayCtr:0}}</span>
+                        <td>点击率</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.totalBudget?campaign.totalBudget/100:0}}</span>
+                        <td>成本（元）</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.todayEcpm?campaign.todayEcpm/100:0}}</span>
+                        <td>eCPM（元）</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.todayEcpc?campaign.todayEcpc/100:0}}</span>
+                        <td>eCPC（元）</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="v-line">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="totalData">
+                <span>推广活动累计数据</span>
+                <table class="dataShow" >
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.impression?campaign.impression:0}}</span>
+                        <td>展现数</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.click?campaign.click:0}}</span>
+                        <td>点击数</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.ctr?campaign.ctr:0}}</span>
+                        <td>点击率</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.totalBudget?campaign.totalBudget/100:0}}</span>
+                        <td>成本（元）</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.ecpm?campaign.ecpm/100:0}}</span>
+                        <td>eCPM（元）</td>
+                    </tr>
+                    <tr>
+                        <span class="color-yellow2 mb0">{{campaign.ecpc?campaign.ecpc/100:0}}</span>
+                        <td>eCPC（元）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="put-tab">
+                <div>
+                        
+                          <!-- Nav tabs -->
+                          <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation"  [routerLink]="['/home/campaign/campaignDetail',campaignId]"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">活动详情</a></li>
+                            <li role="presentation" [routerLink]="['/home/campaign/package/packageList',campaignId]"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">物料包</a></li>
+                            <li role="presentation" class="active"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">投放策略</a></li>
+                            <button class="btn btn-primary ml1100" [routerLink]="['/home/campaign/policy/policyForm',campaignId]" [ngClass]="{'disabled':(campaign.status=='03'?true:false)}">新建投放策略</button>
+                            <button class="btn btn-primary ml10" (click)="goback()">返回</button>
+                          </ul>
+                        
+                          <!-- Tab panes -->
+                          <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="settings">
+                                    <div class="panel-body">
+                                            <form class="form-inline">
+                                                <div class="form-group poc-date">
+                                                    <span >投放日期：</span>
+                                                    <!-- <input type="email" class="form-control"  placeholder="" #searchDate> -->
+                                                    <!-- <div class="rel width185 put-picker">
+                                                    <input id="singalTimeRangePicker" class="form-control" type="text" value="{{publicService.FormalTimeLine(Date)}}">
+                                                    <i class="icon-calendar time-icon"></i>
+                                                    </div> -->
+                                                    <div class="rel width220 put-picker pl0">
+                                                        <!-- <input id="singalTimeRangePicker" class="form-control" type="text" value="{{publicService.FormalTimeLine(Date)}}"> -->
+                                                        <input id="timeRangePicker1" class="form-control width220" type="text"  value="{{ publicService.FormalTimeLine(startDate1)+ this.zhi +publicService.FormalTimeLine(endDate1)}}" >
+                                                        <i class="icon-calendar time-icon"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ml20">
+                                                    <span >策略ID：</span>
+                                                    <input type="number" class="form-control"  placeholder="仅支持精确搜索" [(ngModel)]="policyId" name="policyId" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <span>策略名称：</span>
+                                                    <input type="text" class="form-control"  placeholder="" [(ngModel)]="name" name="name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <span>策略状态：</span>
+                                                    <select  id="" [(ngModel)]="status" name="status">
+                                                            <option value="00">  全部   </option>
+                                                            <option value="01">已暂停</option>
+                                                            <option value="02">投放中</option>
+                                                            <option value="03">已结束</option>
+                                                            <!-- <option value="04">未到投放周期</option>
+                                                            <option value="05">不在投放时段</option>
+                                                            <option value="06">已到日KPI</option>
+                                                            <option value="07">已到日成本</option>
+                                                            <option value="08">推广活动已暂停</option> -->
+                                                        </select>
+                                                </div>
+                                                <button  class="btn btn-primary ml15" (click)="refreshTable({pageNo: 1})">查询</button>
+                                            </form>
+                                            <div class="text-date ml1220">数据时间选择：</div>
+                                            <div class="rel width220 put-picker">
+                                                <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}">
+                                                <i class="icon-calendar time-icon"></i>
+                                            </div>
+                                            <div class="prom-tab rel">
+                                                    <ng-page
+                                                    [page]="page"
+                                                    (outerPage)="onPage($event)"
+                                                     ></ng-page>
+                                                <ngx-datatable [rows]="policys"  [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50" [rowHeight]="60" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo" [messages]="{totalMessage: '条' }"
+                                                (page)="onPage($event)" [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                                                    <ngx-datatable-column name="开关" prop="开关" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                            <!-- <label class="ro-switch">
+                                                                <input type="checkbox" >
+                                                                <div class="slider"><div class="slider-thumb"></div> -->
+                                                                    <!-- <i class="switch-right icon-checked2"></i>
+                                                                    <i class="switch-error icon-delete2"></i> -->
+                                                                <!-- <div class="slider-thumb-right"></div>
+                                                                </div>
+                                                            </label> -->
+                                                            <div class="ell line-height60">
+                                                                <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.enable=='1'?true:false)}" (click)="switchChange(row)">
+                                                                    <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.enable=='1'?false:true)}"></span>
+                                                                    <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                                                                    <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.enable=='1'?false:true)}"></span>
+                                                                </div>
+                                                            </div>
+                                                        </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="策略ID" prop="id" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60" title="{{ row.id }}">
+                                                                        <span>{{ row.id }}</span>
+                                                                    </div>							
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="策略名称" prop="name" [width]="180" [resizeable]="false" [canAutoResize]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60" title="{{ row.name }}">
+                                                                        <a class="cursor-point textdecoration" (click)="gotopolicyDetail(campaignId,row.id)">{{ row.name }}</a>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="投放日期" prop="startDate" [width]="180" [resizeable]="false" [canAutoResize]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60" title="{{ publicService.FormalTimeLine(row.startDate) + ' 至 ' +  publicService.FormalTimeLine(row.endDate) }}">
+                                                                        <span>{{ publicService.FormalTimeLine(row.startDate) + ' 至 ' +  publicService.FormalTimeLine(row.endDate) }}</span>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="出价（元）" title="realBid" [sortable]="false" [width]="180" [resizeable]="false" [canAutoResize]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="flex-start-center height50 packageHove line-height60r ell">
+                                                                <div *ngIf="!row.show" class="color-blue3 ell width-90">{{ row.realBid/100 }}</div>
+                                                                <span *ngIf="!row.show" class="icon-bianji color-blue3 ml10 pointer " (click)="toggle(row,true)"></span>
+                                                                <div *ngIf="row.show" class="width60 mr10 ml10">
+                                                                    <input id="{{ 'bid' + row.$$index }}" class="form-control" type="text" value="{{ row.realBid/100 }}">              
+                                                                </div>
+                                                                <button *ngIf="row.show" class="btn btn-primary mr10 width35 min-width35 padding0" (click)="toggle(row,false,true)">确定</button>
+                                                                <button *ngIf="row.show" class="btn btn-cancel width35 min-width35 padding0" (click)="toggle(row,false)">取消</button>
+                                                            </div>
+                                                        </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="操作" prop="操作" [resizeable]="false" [sortable]="false" >
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="btn-group rel line-height60 ell">
+                                                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                  编辑 <span class="caret"></span>
+                                                                                  <span class="sr-only">Toggle Dropdown</span>
+                                                                                </button>
+                                                                                <ul class="dropdown-menu ul78">
+                                                                                  <li class="cursor-point" (click)="gotopolicyEdit(campaignId,row.id)"><a> 编辑</a></li>
+                                                                                  <li class="cursor-point" (click)="gotopolicyCopy(campaignId,row.id)"><a>复制</a></li>
+                                                                                </ul>
+                                                                                <div class="bgc-transprant width50 height30 abs z-index99"></div>
+                                                                              </div>
+                                                                </template>
+                                                    </ngx-datatable-column>
+                            
+                                                    <ngx-datatable-column prop="status" [resizeable]="false" [sortable]="false" [width]="140"  [canAutoResize]="false">
+                                                        <template ngx-datatable-header-template>
+                                                                    <div class="width-100 height50 flex-center pointer" title="审核状态">
+                                                                        <div class="flex-base rel height50">
+                                                                            <div class="ml8" >状态</div>
+                                                                            <div class="rel width20 height50">
+                                                                                <!-- <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="isPlusSort"></span>
+                                                                                <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="!isPlusSort"></span> -->
+                                                                                <img src="../../images/zhuangtai.png" alt="" title="审核状态">
+                                                                            </div> 
+                                                                        </div>     
+                                                                    </div>		
+                                                        </template>
+                                                        <template ngx-datatable-cell-template let-row="row" >
+                                                                        <div class="ell line-height60" >
+                                                                                   <span *ngIf="row.status=='01'?true:false" title="已暂停">已暂停</span>
+                                                                                   <span *ngIf="row.status=='02'?true:false" title="投放中">投放中</span>
+                                                                                   <span *ngIf="row.status=='03'?true:false" title="已结束">已结束</span>
+                                                                                   <span *ngIf="row.status=='04'?true:false" title="已暂停-未到投放周期">已暂停-未到投放周期</span>
+                                                                                   <span *ngIf="row.status=='05'?true:false" title="已暂停-不在投放时段">已暂停-不在投放时段</span>
+                                                                                   <span *ngIf="row.status=='06'?true:false" title="已暂停-已到日KPI">已暂停-已到日KPI</span>
+                                                                                   <span *ngIf="row.status=='07'?true:false" title="已暂停-已到日成本">已暂停-已到日成本</span>
+                                                                                   <span *ngIf="row.status=='08'?true:false" title="已暂停-推广活动已暂停">推广活动已暂停</span>
+                                                                        </div>							
+                                                                    </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="创意数量" prop="creativeAmount" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60">
+                                                                        <a class="cursor-point textdecoration" (click)="gotopolicyCreate(campaignId,row.id)">{{row.creativeAmount}}</a>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="总KPI及成本" prop="todayImpression" [width]="100" [resizeable]="false" [canAutoResize]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell kpi textleft" [ngClass]="{'hide':(!row.totalImpression? true:false)}">
+                                                                            <img src="../../images/m.png" alt="" [ngClass]="{'hide':(!row.totalImpression? true:false)}">
+                                                                            <span>{{row.totalImpression}}</span>                                                               
+                                                                    </div>
+                                                                    <div class="ell kpi textleft" [ngClass]="{'hide':(!row.totalClick? true:false)}">
+                                                                            <img src="../../images/c.png" alt="" [ngClass]="{'hide':(!row.totalClick? true:false)}">
+                                                                            <span>{{row.totalClick}}</span>
+                                                                </div>	
+                                                                    <div class="ell kpi textleft" [ngClass]="{'hide':(!row.totalBudget? true:false)}">
+                                                                            <img src="../../images/money.png" alt="" [ngClass]="{'hide':(!row.totalBudget? true:false)}">
+                                                                            <span [ngClass]="{'hide':(!row.totalBudget? true:false)}">{{row.totalBudget/100}}</span>
+                                                                </div>							
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="展现数" prop="impression" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60">
+                                                                        <span>{{ row.impression }}</span>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="点击量" prop="click" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60">
+                                                                        <span>{{ row.click }}</span>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="CTR" prop="ctr" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60">
+                                                                        <span>{{ row.ctr }}</span>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="成本（元）" prop="cost" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60">
+                                                                        <span>{{ row.cost }}</span>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="eCPM（元）" prop="ecpm" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60">
+                                                                        <span>{{ row.ecpm }}</span>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="eCPC（元）" prop="ecpc" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell line-height60">
+                                                                        <span>{{ row.ecpc }}</span>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                </ngx-datatable>
+                                                <ng-page
+                                                [isFooter]="true"
+                                                [page]="page"
+                                                (outerPage)="onPage($event)"
+                                                 ></ng-page>
+                                                <div class="height45 abs top50 left300 z-index10 bgc-white line-height45 width1600 textcenter ml2" id="noDatepolicy">
+                                                    暂无投放策略信息，<a (click)="autoPolicyShow()" class="cursor-point"> 点击自动生成投放策略>> </a>
+                                                </div>
+                                                <div class="width250 height180 border-text-1px ml675 top10 abs z-index20 bgc-white"  id="autoPolicy">
+                                                    <div class="width250 border-bottom-text-1px height25 line-height25 ">&nbsp;&nbsp;填写策略出价</div>
+                                                    <div class="mt20 ml20">
+                                                        <span>策略出价：</span>
+                                                        <input type="text" class="width60" [(ngModel)]="bid" name="bid">
+                                                        <span>元/CPM</span>
+                                                    </div>
+                                                    <button class="btn btn-primary display-inline-block ml40 mt20" (click)="save(obj)">保存</button>
+                                                    <button class="btn btn-primary display-inline-block mt20" (click)="autoPolicyHide()">取消</button>
+                                                    <div class="mt20">&nbsp;&nbsp;*保存后会自动生成一条投放策略</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </div>
+                          </div>
+                        
+                        </div>
+        </div>
+    </div>

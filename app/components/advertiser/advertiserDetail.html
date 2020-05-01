@@ -1,0 +1,166 @@
+<div class="content">
+	<div class="put-top">
+		<h4>{{advertiser.name}}</h4>
+	</div>
+	<div class="pos-relative">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#home" aria-controls="home" role="tab" data-toggle="tab" (click)="goAdvertiserDetail()">广告主详情</a>
+			</li>
+			<li role="presentation">
+				<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" (click)="goUserList()">用户列表</a>
+			</li>
+			<li role="presentation">
+				<a href="#channelAudit" aria-controls="channelAudit" role="tab" data-toggle="tab" (click)="goChannelAudit()">渠道审核</a>
+			</li>
+			<li role="presentation">
+				<a href="#topUpDetail" aria-controls="topUpDetail" role="tab" data-toggle="tab" (click)="goTopUpDetail()">充值明细</a>
+			</li>
+		</ul>
+		<div class="button-wrapper">
+			<button class="btn btn-primary" (click)="gotoadvertiserList()">返回</button>
+		</div>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="home">
+				<div class="ml80 mt30">
+					<div class="rel display-inline-block left1360">
+						<button class="btn btn-primary" (click)="gocreateAdvertisers(id)">编辑</button>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">客户名称：</span>
+						</div>
+						<span>{{advertiser.name}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">公司名称：</span>
+						</div>
+						<span>{{advertiser.companyName}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">是否保护客户：</span>
+						</div>
+                                           <span>{{advertiser.isProtected == "1" ? "是" : "否"}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">联系人：</span>
+						</div>
+						<span>{{advertiser.contacts}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">联系电话：</span>
+						</div>
+						<span>{{advertiser.contactNum}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">常用邮箱：</span>
+						</div>
+						<span>{{advertiser.email}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">所属行业：</span>
+						</div>
+                                            <span>{{industryName}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">qq：</span>
+						</div>
+						<span>{{advertiser.qq}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+                                                <span class="display-inline-block rel left0">品牌名称：</span>
+                                            </div>
+                                            <span>{{advertiser.brand}}</span>
+                                    </div>
+                                    <div class="line-height50 ">
+                                            <div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">品牌logo：</span>
+						</div>
+                                            <img src="{{advertiser.logoPath}}"  class="width120 height120 vertical-align-t" [ngClass]="{'hide':(!advertiser.logoPath?true:false)}">
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">资质上传：</span>
+						</div>
+                                            <span class="display-inline-block ml-5">
+                                                    <img src="{{advertiser.accountLicencePath}}"  class="width185 height130 vertical-align-t" [ngClass]="{'hide':(!advertiser.accountLicencePath?true:false)}">
+                                                    <img src="{{advertiser.businessLicencePath}}"  class="width185 height130 vertical-align-t" [ngClass]="{'hide':(!advertiser.businessLicencePath?true:false)}">
+                                                    <img src="{{advertiser.organizationCodePath}}"  class="width185 height130 vertical-align-t" [ngClass]="{'hide':(!advertiser.organizationCodePath?true:false)}">
+                                                    <img src="{{advertiser.icpPath}}"  class="width185 height130 vertical-align-t" [ngClass]="{'hide':(!advertiser.icpPath?true:false)}">
+                                            </span>          
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">组织机构代码：</span>
+						</div>
+						<span>{{advertiser.organizationCode}}</span>
+					</div>
+					<div class="line-height50 ">
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">固定电话：</span>
+						</div>
+                                            <span>{{advertiser.telephone}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">营业执照编号：</span>
+						</div>
+						<span>{{advertiser.	licenceNo}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">营业执照截至日期：</span>
+						</div>
+                                            <span>{{advertiser.	licenceDeadline}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">公司地址：</span>
+						</div>
+						<span>{{advertiser.address}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">邮编：</span>
+						</div>
+						<span>{{advertiser.zip}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">公司网址：</span>
+						</div>
+						<span>{{advertiser.websiteUrl}}</span>
+					</div>
+					<div class="line-height50 ">
+						<div class="pname dispaly-inline-block .abs width150">
+                                                <span class="display-inline-block rel left0">网站名称：</span>
+                                            </div>
+                                            <span>{{advertiser.websiteName}}</span>
+                                    </div>
+                                    <div class="line-height50 ">
+                                            <div class="pname dispaly-inline-block .abs width150">
+							<span class="display-inline-block rel left0">销售：</span>
+						</div>
+						<span>{{advertiser.saleman}}</span>
+					</div>
+				</div>
+			</div>
+				
+			</div>
+            <div role="tabpanel" class="tab-pane" id="profile">...</div>
+			<div role="tabpanel" class="tab-pane" id="channelAudit">...</div>
+			<div role="tabpanel" class="tab-pane" id="topUpDetail">...</div>
+		</div>
+	</div>
+</div>

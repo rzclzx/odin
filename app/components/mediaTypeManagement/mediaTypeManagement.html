@@ -1,0 +1,58 @@
+<div class="content content-wrapper">
+	<div class="row clearfix">
+		<button class="btn btn-primary pull-right marginR20" (click)="goNewLevel(3)">新增三级分类</button>
+		<button class="btn btn-primary pull-right marginR20" (click)="goNewLevel(2)">新增二级分类</button>
+		<button class="btn btn-primary pull-right marginR20" (click)="goNewLevel(1)">新增一级分类</button>
+		<button class="btn btn-primary pull-right marginR20">导出分类</button>
+		<button class="btn btn-primary pull-right marginR20">导入分类</button>
+		<button class=""></button>
+		<a href="{{documentTemplate}}" download="mediaTypeManagementTemplate.xlsx" class="pull-right marginR20 top5">下载媒体分类导入模块</a>
+		
+	</div>
+
+	<ngx-datatable [rows]="channelManagement" [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo" [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }" (page)="onPage($event)" [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+
+		<ngx-datatable-column name="分类ID" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div class="ell">
+					{{row.id}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div class="ell" *ngIf=" row.id == row.oneLevelId">
+					<a (click)="goNewLevel( 1, row.id)">编辑</a>
+				</div>
+				<div class="ell" *ngIf=" row.id == row.twoLevelId">
+					<a (click)="goNewLevel( 2, row.id)">编辑</a>
+				</div>
+				<div class="ell" *ngIf=" row.id == row.threeLevelId">
+					<a (click)="goNewLevel( 3, row.id)">编辑</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="一级分类" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div class="ell">
+					{{row.oneLevelName ? row.oneLevelName : "--.--"}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="二级分类" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div class="ell">
+					{{row.twoLevelName ? row.twoLevelName : "--.--"}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="三级分类" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div class="ell">
+					{{row.threeLevelName ? row.threeLevelName : "--.--"}}
+				</div>
+			</template>
+		</ngx-datatable-column>
+
+	</ngx-datatable>
+</div>

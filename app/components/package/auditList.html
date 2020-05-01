@@ -1,0 +1,126 @@
+<div class="content">
+        <div class="put-top">
+            <h4>{{ campaignName }}</h4>
+        </div>
+        <div class="put-tab">
+                <div>
+                        
+                          <!-- Nav tabs -->
+                          <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation"  [routerLink]='["/home/campaign/auditDetail",campaignId]'  ><a href="#home" aria-controls="home" role="tab" data-toggle="tab">活动详情</a></li>
+                            <li role="presentation" class="active" ><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">物料包</a></li>
+                          </ul>                       
+                          <!-- Tab panes -->
+                          <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="profile">
+                                    <div class="edit-head package-head">
+                                            <button class="btn btn-primary">审核推广活动</button>
+                                            <button class="btn btn-primary" (click)="gotocampaignAudit()">返回</button>
+                                    </div>
+                                    <div class="panel-body">
+                                            <div class="prom-tab">
+                                                <ngx-datatable [rows]="packages" [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50" [footerHeight]="50" [rowHeight]="60" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo" [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+                                                    [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                                                    <ngx-datatable-column name="物料包ID" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell">
+                                                                        <span>{{ row.id }}</span>
+                                                                    </div>							
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="物料包名称" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell">
+                                                                        <a class="display-inline-block cursor-point" (click)="gotopackageDetail(campaignId,row.id)">{{ row.name }}</a>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="操作" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="btn-group">
+                                                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                  编辑 <span class="caret"></span>
+                                                                                  <span class="sr-only">Toggle Dropdown</span>
+                                                                                </button>
+                                                                                <ul class="dropdown-menu ul78">
+                                                                                  <li class="cursor-point" (click)="gotopackageEdit (id)"><a > 编辑</a></li>
+                                                                                  <li class="cursor-point"><a >复制代码</a></li> 
+                                                                                  <li class="cursor-point"><a >检查代码</a></li>    
+                                                                                </ul>
+                                                                              </div>
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="落地页回收数据" [resizeable]="false" [sortable]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell">
+                                                                            <span>{{ needMonitorCode }}</span>
+                                                                        </div>								
+                                                                    </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="广告主" [resizeable]="false" [sortable]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell">
+                                                                            <a>{{ row.advertiserName }}</a>
+                                                                        </div>								
+                                                                    </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="广告项目" [resizeable]="false" [sortable]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell">
+                                                                            <a class="display-inline-block cursor-point" (click)="gotoprojectDetail(projectId)">{{ row.projectName }}</a>
+                                                                        </div>								
+                                                                    </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="推广活动" [resizeable]="false" [sortable]="false">
+                                                            <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell">
+                                                                            <a class="display-inline-block cursor-point" (click)="gotocampaignDetail(campaignId)">{{ row.campaignName }}</a>
+                                                                        </div>								
+                                                                    </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-header-template>
+                                                                    <div class="width-100 height50 flex-center pointer">
+                                                                        <div class="flex-base rel height50">
+                                                                            <div class="ml8">创意</div>
+                                                                            <div class="rel width20 height50">
+                                                                                <!-- <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="isPlusSort"></span>
+                                                                                <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="!isPlusSort"></span> -->
+                                                                                <img src="../../images/zhuangtai.png" alt=""title="投放中/全部">
+                                                                            </div> 
+                                                                        </div>     
+                                                                    </div>		
+                                                        </template>
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell">
+                                                                            <span>{{ row.creativeNum }}</span>
+                                                                        </div>							
+                                                                    </template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column name="地址" [resizeable]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell address">
+                                                                                <div >
+                                                                                        <img src="../../images/m.png" alt="" class="width18 height18">
+                                                                                        <span>{{ row.impressionUrl1 }}</span>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                            <img src="../../images/c.png" alt="" class="width18 height18">
+                                                                                            <span>{{ row.impressionUrl2 }}</span>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                            <span class=" font-size8 display-inline-block pl5 pr5 width8 height8 border-radius border-text-1px">L</span>
+                                                                                            <span>{{ row.landpageUrl }}</span>
+                                                                                    </div>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                                </ngx-datatable>
+                                            </div>
+                                        </div>
+                            </div>
+                          </div>
+                        
+                        </div>
+        </div>
+    </div>

@@ -1,0 +1,82 @@
+
+<div class="content">
+    <div class="size-top">
+        <span class="line3"></span>
+        <ul>
+            <li (click)="gotoimageSize()">图片尺寸</li>
+            <li (click)="gotoimagePoses()">图片广告位</li>
+            <li (click)="gotovideoPoses()">视频广告位</li>
+            <li class="active">原生广告位</li>
+        </ul>
+    </div>
+    <div class="add-size display-inline-block rel">   
+        <div class="abs left0 inflow-top">
+                <span  class="display-inline-block cursor-point left660 height34  line-height23" (click)="gotoinfoflowPoses()">原生广告位</span>
+                <button class="btn btn-primary height44" >模板</button>
+        </div>   
+        <button class="btn btn-primary imagebtn" (click)="gotoaddinflowTmpls()">新增模板</button>
+    </div>
+    <div class="size-list inflowTmpls-list">
+            <ngx-datatable 
+            [rows]="inflowTmpls"
+            [columnMode]="'force'"
+            [selected]="inflowPosesSelected"
+            [selectionType]="'checkbox'"
+            [draggable]="false"
+            [externalSorting]="true"
+            [externalPaging]="true"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [limit]="page.pageSize"
+            [count]="page.total"
+            [offset]="page.pageNo"
+            (page)="onPage($event)"
+            (select)="onSelect($event,0)"
+            [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+            <ngx-datatable-column name="名称" prop="row.name" [resizeable]="false" [sortable]="false"> 
+                <template ngx-datatable-cell-template let-row="row">
+                    <div class="ell">
+                        <span>{{ row.name }}</span>
+                    </div>							
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="大图尺寸" prop="大图尺寸" [resizeable]="false" [sortable]="false" >
+                    <template ngx-datatable-cell-template let-row="row">
+                        <div class="ell">
+                            <ng-container *ngFor="let v of row.imageTmpls;let i =index ">
+                                <div *ngIf=" v.type =='1'" class="display-inline-block">
+                                    <span [ngClass]="{'hide': i ==' 0'}">,</span>
+                                    <span >{{v.width}}*{{v.height}}</span>
+                                </div>
+                            </ng-container>
+                        </div>								
+                    </template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="icon尺寸" prop="icon尺寸" [resizeable]="false" [sortable]="false" >
+                        <template ngx-datatable-cell-template let-row="row">
+                            <div class="ell">
+                                    <ng-container *ngFor="let v of row.imageTmpls;let i =index">
+                                            <span *ngIf=" v.type =='3' ">{{v.width}}*{{v.height}}</span>
+                                        </ng-container>
+                            </div>								
+                        </template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="格式" prop="格式" [resizeable]="false" [sortable]="false" >
+                            <template ngx-datatable-cell-template let-row="row">
+                                <div class="ell">
+                                    <ng-container *ngFor="let v of row.imageFormats;let i =index">
+                                            <span *ngIf=" v=='17'">png</span>
+                                            <span *ngIf=" v=='18'">jpg/jpeg</span>
+                                            <span *ngIf=" v=='19'">gif</span>
+                                            <span *ngIf=" v=='0'" >未知</span>
+                                            <span *ngIf=" (i+1) != row.imageFormats.length">,</span>  
+                                    </ng-container>  
+                                </div>								
+                            </template>
+                        </ngx-datatable-column>        
+        </ngx-datatable>
+    </div>   
+</div>
+

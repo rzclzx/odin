@@ -1,0 +1,395 @@
+<div class="content">
+    <div class="put-top">
+        <h4>{{campaign.name}}</h4>
+    </div>
+    <div class="put-del">
+            <div class="adver">
+                    <span>广告主：</span>
+                    <input type="text" [(ngModel)]="campaign.advertiserName" name="advertiserName" disabled="disabled" class="bgc-white">
+                 </div>
+                <div class="adv-pro">
+                    <span>广告项目：</span>
+                    <input type="text"  [(ngModel)]="campaign.projectName" name="projectName" disabled="disabled" class="bgc-white">
+                </div>
+                <div class="base-name base-left">
+                        <span>推广活动名称：</span>
+                        <input type="text" [(ngModel)]="campaign.name" name="name" disabled="disabled" class="bgc-white">
+                </div>
+    </div>
+    <div class="put-tab">    
+    <div>
+                    
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" [routerLink]="['/home/campaign/policy/policyDetail',campaignId,policyId]"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">策略详情</a></li>
+                        <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">创意</a></li>
+                      </ul>
+                    
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home1">
+                                <div class="edit-head abs">
+                                    <button class="btn btn-primary poc-btn" (click)="show()" >导入创意</button>
+                                    <button class="btn btn-primary poc-btn" (click)="gotoPolicyList()">返回</button>
+                                </div>
+                                
+                                <div class="tab-nav">
+                                        <div class="text-date ml1220">数据时间选择：</div>
+                                        <div class="rel width220 put-picker">
+                                            <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}">
+                                            <i class="icon-calendar time-icon"></i>
+                                        </div>
+                                    </div>
+                                    <div class="prom-tab rel">
+                                            <ng-page
+                                            [page]="page"
+                                            (outerPage)="onPage($event)"
+                                             ></ng-page>
+                                        <ngx-datatable [rows]="creatives" [columnMode]="'force'" [draggable]="false" [externalSorting]="true" [externalPaging]="true" [headerHeight]="50"  [rowHeight]="50" [limit]="page.pageSize" [count]="page.total" [offset]="page.pageNo"  [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+                                        (page)="onPage($event)" [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                                            <ngx-datatable-column name="开关" prop="开关" [resizeable]="false" [sortable]="false" [width]="120" [canAutoResize]="false">
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                    <div class="ell">
+                                                        <div class="switch-btn chy-dropbtn" [ngClass]="{'switch-btn-pause':!(row.policyEnable=='1'?true:false)}" (click)="switchChange(row)">
+                                                            <span class="switch-btn-op"  [ngClass]="{'switch-btn-hide':!(row.policyEnable=='1'?false:true)}"></span>
+                                                            <span class="switch-btn-toggle"><i class="switch-btn-in"></i></span>
+                                                            <span class="switch-btn-cl"  [ngClass]="{'switch-btn-hide':(row.policyEnable=='1'?false:true)}"></span>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column name="创意名称" prop="name" [resizeable]="false" [sortable]="false">
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="ell" title="{{ row.name }}">
+                                                                <a class="cursor-point textdecoration" (click)="createShow(row.materials[0].path,row.name,row.id)">{{ row.name }}</a>
+                                                            </div>                                                           							
+                                                        </template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column [resizeable]="false" prop="creativeType" [sortable]="false" class="glyphicon glyphicon-question-sign" [width]="180">
+                                                    <template ngx-datatable-header-template let-row="row">
+                                                                <div class="width-100 height50 flex-center pointer">
+                                                                    <div class="flex-base rel height50">
+                                                                        <div class="ml8" title="素材类型 "> 
+                                                                            <select  [(ngModel)]="creativeType" name="creativeType"  (change)="refreshCreativeTable({pageNo:1})">
+                                                                                <option value="undefined">素材类型</option>
+                                                                                <option value="1">图片</option>
+                                                                                <option value="2">视频</option>
+                                                                                <option value="3">原生</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>     
+                                                                </div>		
+                                                    </template>
+                                                    <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell">
+                                                                        <span [ngClass]="{'hide':(row.type=='1'?false:true)}">图片</span>
+                                                                        <span [ngClass]="{'hide':(row.type=='2'?false:true)}">视频</span>
+                                                                        <span [ngClass]="{'hide':(row.type=='3'?false:true)}">原生</span>
+                                                                    </div>							
+                                                                </template>
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column name="尺寸"  prop="尺寸" [resizeable]="false" [sortable]="false" [width]="180">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                        <div class="ell" title="{{ row.materials[0].width }}*{{row.materials[0].height}}">
+                                                                            <span >{{ row.materials[0].width }}*{{row.materials[0].height}}</span>
+                                                                        </div>								
+                                                                    </template>
+                                                    </ngx-datatable-column>
+                                                <ngx-datatable-column name="出价（元）" prop="bid" [sortable]="false" [width]="180" [resizeable]="false" [canAutoResize]="false">
+                                                    <template ngx-datatable-cell-template let-row="row">
+                                                        <div class="flex-start-center height50 packageHover">
+                                                            <div *ngIf="!row.show" class="color-blue3 ell width-90">{{ row.bid/100}}</div>
+                                                            <span *ngIf="!row.show" class="icon-bianji color-blue3 ml10 pointer dispaly-none" (click)="toggle(row,true)"></span>
+                                                            <div *ngIf="row.show" class="width60 mr10 ml10">
+                                                                <input id="{{ 'bid' + row.$$index }}" class="form-control" type="text" value="{{ row.bid/100 }}">              
+                                                            </div>
+                                                            <button *ngIf="row.show" class="btn btn-primary mr10 width35 min-width35 padding0" (click)="toggle(row,false,true)">确定</button>
+                                                            <button *ngIf="row.show" class="btn btn-cancel width35 min-width35 padding0" (click)="toggle(row,false)">取消</button>
+                                                        </div>
+                                                    </template>
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column name="状态" prop="status" [width]="190" [resizeable]="false" [canAutoResize]="false" [sortable]="false">
+                                                        <template ngx-datatable-cell-template let-row="row">
+                                                                    <div class="ell">
+                                                                        <select name="status"  [(ngModel)]="row.status" class="select11" disabled="disabled">
+                                                                            <!-- <option value="00">  全部   </option> -->
+                                                                            <option value="01">已暂停</option>
+                                                                            <option value="02">投放中</option>
+                                                                            <option value="03">已结束</option>
+                                                                            <option value="04">已暂停-无可投放渠道</option>
+                                                                            <option value="05">已暂停-投放策略已暂停</option>
+                                                                            <option value="06">已暂停-创意在物料包下不可用</option>
+                                                                        </select>
+                                                                    </div>								
+                                                                </template>
+                                                    </ngx-datatable-column>
+                                            <ngx-datatable-column prop="impression" [resizeable]="false" [sortable]="false">
+                                                    <template ngx-datatable-header-template let-row="row">
+                                                            <div class="width-100 height50 flex-center pointer" (click)="sortTime()">
+                                                                <div class="flex-base rel height50">
+                                                                    <div class="ml8">展现量</div>
+                                                                    <!-- <div class="rel width20 height50">
+                                                                        <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                                        <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                                    </div>  -->
+                                                                </div>     
+                                                            </div>		
+                                                        </template>
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="ell">
+                                                                <span>{{ row.impression }}</span>
+                                                            </div>								
+                                                        </template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="click" [resizeable]="false" [sortable]="false">
+                                                    <template ngx-datatable-header-template let-row="row">
+                                                            <div class="width-100 height50 flex-center pointer" (click)="sortTime()">
+                                                                <div class="flex-base rel height50">
+                                                                    <div class="ml8">点击量</div>
+                                                                    <!-- <div class="rel width20 height50"> -->
+                                                                        <!-- <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                                        <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span> -->
+                                                                    <!-- </div>  -->
+                                                                </div>     
+                                                            </div>		
+                                                        </template>
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="ell">
+                                                                <span>{{ row.click }}</span>
+                                                            </div>								
+                                                        </template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="ctr" [resizeable]="false" [sortable]="false">
+                                                    <template ngx-datatable-header-template let-row="row">
+                                                            <div class="width-100 height50 flex-center pointer" (click)="sortTime()">
+                                                                <div class="flex-base rel height50">
+                                                                    <div class="ml8">CTR</div>
+                                                                    <!-- <div class="rel width20 height50">
+                                                                        <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                                        <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                                    </div>  -->
+                                                                </div>     
+                                                            </div>		
+                                                        </template>
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="ell">
+                                                                <span>{{ row.ctr }}</span>
+                                                            </div>								
+                                                        </template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="cost" [resizeable]="false" [sortable]="false">
+                                                    <template ngx-datatable-header-template let-row="row">
+                                                            <div class="width-100 height50 flex-center pointer" (click)="sortTime()">
+                                                                <div class="flex-base rel height50">
+                                                                    <div class="ml8">成本（元）</div>
+                                                                    <!-- <div class="rel width20 height50">
+                                                                        <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                                        <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                                    </div>  -->
+                                                                </div>     
+                                                            </div>		
+                                                        </template>
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="ell">
+                                                                <span>{{ row.cost }}</span>
+                                                            </div>								
+                                                        </template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="ecpm" [resizeable]="false" [sortable]="false">
+                                                    <template ngx-datatable-header-template let-row="row">
+                                                            <div class="width-100 height50 flex-center pointer" (click)="sortTime()">
+                                                                <div class="flex-base rel height50">
+                                                                    <div class="ml8">eCPM（元）</div>
+                                                                    <!-- <div class="rel width20 height50">
+                                                                        <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                                        <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                                    </div>  -->
+                                                                </div>     
+                                                            </div>		
+                                                        </template>
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="ell">
+                                                                <span>{{ row.ecpm }}</span>
+                                                            </div>								
+                                                        </template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="ecpc" [resizeable]="false" [sortable]="false">
+                                                    <template ngx-datatable-header-template let-row="row">
+                                                            <div class="width-100 height50 flex-center pointer" (click)="sortTime()">
+                                                                <div class="flex-base rel height50">
+                                                                    <div class="ml8">eCPC（元）</div>
+                                                                    <!-- <div class="rel width20 height50">
+                                                                        <span class='sort-caret-top left5 top19' [class.border-bottom-color-blue2]="sortTimeType === '01'"></span>
+                                                                        <span class='sort-caret-bottom left5 top25' [class.border-top-color-blue2]="sortTimeType === '02'"></span>
+                                                                    </div>  -->
+                                                                </div>     
+                                                            </div>		
+                                                        </template>
+                                                <template ngx-datatable-cell-template let-row="row">
+                                                            <div class="ell">
+                                                                <span>{{ row.ecpc }}</span>
+                                                            </div>								
+                                                        </template>
+                                            </ngx-datatable-column>
+                                        </ngx-datatable>
+                                        <ng-page
+                                        [isFooter]="true"
+                                        [page]="page"
+                                        (outerPage)="onPage($event)"
+                                         ></ng-page>
+                                    </div>
+                                     <!-- 小弹窗 -->
+                                     <div class="width400 height270 border-text-1px ml415  abs z-index99 top400 bgc-white" id="create">
+                                        <div class="width400 border-bottom-text-1px height25 line-height25 rel">
+                                            <span class="display-inline-block  width293 height25 line-height25 ml10">{{name1}}</span>
+                                            <i class="display-inline-block bgc-gray3 left385 cursor-point abs height20 line-height20 top2" (click)="createHide()">X</i>
+                                        </div>
+                                        <div class="mt20 ml20 width350 height190 ">
+                                                <img src="{{path}}" alt="" class="width350 height190" [ngClass]="{'display-none':(path?true:false)}">
+                                                <video src="{{path}}" class="width350 height190" [ngClass]="{'display-none':(path?true:false)}" controls="controls" controls="controls"></video>
+                                        </div>
+                                        
+                                    </div>	
+                            </div> 
+                     </div> 
+    </div>
+
+
+
+    <!-- 导入创意 -->
+    <div class="border-text-1px width800 height635   overflow-scroll  abs left680 top160 z-index99 bgc-white hide creative">
+        <div class="dashed-bottom-1px padding5 display-inline-block">导入创意</div>
+        <span class="display-inline-block padding5 bgc-gray4 color-white fr mt-20 cursor-point" (click)="hide()">X</span>
+        <div class="ml20  mt10">     
+              <!-- Nav tabs --> 
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" id="active11" class="active"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" (click)="show1()">按物料包导入</a></li>
+                <li role="presentation" id="active22"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" (click)="show2()">按创意导入</a></li>
+              </ul>  
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active active1" id="messages" >
+                        <div class="mt10">
+                            <input type="checkbox" class="input1"  [(ngModel)]="packageAllcheck" name="packageAllcheck" (change)="allCheckFire(0)">
+                            <span>全选</span>
+                            <button class="btn btn-primary ml20"  (click)="input0()">导入</button>
+                        </div>
+                        <div class="mt10 mr20 padding5">
+                            <ngx-datatable #packageDatatable
+                                [rows]="packages"
+                                [columnMode]="'force'"
+                                [selected]="packageSelected"
+                                [selectionType]="'checkbox'"
+                                [draggable]="false"
+                                [externalSorting]="true"
+                                [externalPaging]="true"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [rowHeight]="50"
+                                [count]="page2.total"
+                                (select)="onSelect($event,0)"
+                                [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }" 
+                                [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                                <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                                [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="物料包名称" [resizeable]="false" [sortable]="false" [width]="673" [canAutoResize]="false">
+                                    <template ngx-datatable-cell-template let-row="row">
+                                        <div class="ell">
+                                            <span>{{row.name}}</span>
+                                        </div>								
+                                    </template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                </div>
+                
+                <div role="tabpanel" class="tab-pane active2" id="settings" >
+                    <div class="mt10">
+                        <input type="checkbox" [(ngModel)]="createAllcheck" name="createAllcheck" (change)="allCheckFire(1)">
+                        <span>全选</span>
+                        <button class="btn btn-primary ml20" (click)="input1()">导入</button>
+                    </div>
+                    <div class="mt10 mr20">
+                        <ngx-datatable #createDatatable
+                            [rows]="creates"
+                            [columnMode]="'force'"
+                            [draggable]="false"
+                            [selected]="createSelected"
+                            [selectionType]="'checkbox'"
+                            [externalSorting]="true"
+                            [externalPaging]="true"
+                            [headerHeight]="50"
+                            [footerHeight]="50"
+                            (select)="onSelect($event,1)"
+                            [rowHeight]="50"
+                            [count]="page1.total"
+                            [messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }" 
+                            [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+                            <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+                            [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [resizeable]="false" [sortable]="false" class="glyphicon glyphicon-question-sign"  [width]="320" [canAutoResize]="false">
+                                <template ngx-datatable-header-template let-row="row" >
+                                            <div class="width-100 height50 flex-center pointer">
+                                                <div class="flex-base rel height50">
+                                                    <div class="ml8">
+                                                        <select [(ngModel)]="packageId1" name="packageId1"  (change)="refreshCreateTable()" >
+                                                            <option [ngValue]=0>全部物料包</option>
+                                                            <option *ngFor="let v of packages;let i = index;" [ngValue]="v.id">{{ v.name }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>     
+                                            </div>		
+                                </template>
+                                <template ngx-datatable-cell-template let-row="row">
+                                                <div class="ell" title="{{name}}">
+                                                    <span>{{name}}</span>
+                                                </div>							
+                                            </template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="创意名称" [resizeable]="false" [sortable]="false" [width]="120" [canAutoResize]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                    <div class="ell" title="{{row.name}}">
+                                        <span>{{row.name}}</span>
+                                    </div>								
+                                </template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [resizeable]="false" [sortable]="false" class="glyphicon glyphicon-question-sign" [width]="100" [canAutoResize]="false" >
+                                <template ngx-datatable-header-template let-row="row">
+                                            <div class="width-100 height50 flex-center pointer">
+                                                <div class="flex-base rel height50">
+                                                    <div class="ml8">
+                                                        <select  [(ngModel)]="creativeType1" name="creativeType1" (change)="refreshCreateTable()" >
+                                                            <option value="undefined">创意类型</option>
+                                                            <option [ngValue]="'1'">图片</option>
+                                                            <option [ngValue]="'2'">视频</option>
+                                                            <option [ngValue]="'3'">原生</option>
+                                                        </select>
+                                                    </div>
+                                                </div>     
+                                            </div>		
+                                </template>
+                                <template ngx-datatable-cell-template let-row="row">
+                                                <div class="ell">
+                                                    <span [ngClass]="{'hide':(row.type=='1'?false:true)}">图片</span>
+                                                    <span [ngClass]="{'hide':(row.type=='2'?false:true)}">视频</span>
+                                                    <span [ngClass]="{'hide':(row.type=='3'?false:true)}">原生</span>
+                                                </div>							
+                                            </template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="尺寸" [resizeable]="false" [sortable]="false" [width]="143" [canAutoResize]="false">
+                                <template ngx-datatable-cell-template let-row="row">
+                                    <div class="ell" title="{{row.materials[0].width}}*{{row.materials[0].height}}">
+                                        <span>{{ row.materials[0].width }}*{{row.materials[0].height}}</span>
+                                    </div>								
+                                </template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+              </div>
+            
+            </div>
+    </div>
+</div>

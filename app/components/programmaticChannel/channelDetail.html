@@ -1,0 +1,133 @@
+<div class="content pos-relative">
+   <div class="creative-name text-left">
+		{{name}}
+	</div>
+	<ul class="nav nav-tabs" role="tablist" >
+		<li role="presentation" class="active" (click)="goChannelDetail()">
+			<a>渠道详情</a>
+		</li>
+		<li role="presentation" (click)="goPricingContracts()">
+			<a>定价合约</a>
+		</li>
+		<li role="presentation" (click)="goTrafficManagement()">
+			<a>无设备ID流量管理</a>
+		</li>
+		<li role="presentation" (click)="goMediaManagement()">
+			<a>媒体管理</a>
+		</li>
+	</ul>
+	
+	<div class="ml100 mt10">
+			<button class="btn btn-primary ml1400 mt-93" (click)="back()">返回</button>
+			<button class="btn btn-primary ml1400" (click)="edit()">编辑</button>
+		<div>
+			<span class="height50 line-height50">名称：</span>
+			<span>{{name}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">logo：</span>
+				<img src="{{logoPath}}" class="vertical-align-t width200 height100">
+		</div>
+		<div>
+				<span class="height50 line-height50">编号：</span>
+				<span>{{id}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">人民币汇率：</span>
+				<span>{{exchangeRate}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">支持尺寸：</span>
+				<span *ngIf="sizes?true:false">{{sizes.join('、')}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">点击监测地址：</span>
+				<span>{{cturl}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">展示监测地址：</span>
+				<span>{{iurl}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">激活地址：</span>
+				<span>{{aurl}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">结算地址：</span>
+				<span>{{nurl}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">推广类型：</span>
+				<!-- <span>{{andrImageTmpl}}</span> -->
+				<span  *ngIf="andrImageTmpl && iosImageTmpl ? true:fase">图片广告：</span>
+				<div class="ml86">
+					<textarea  class="width240 height140 " placeholder="Android模板内容" *ngIf="andrImageTmpl?true:fase">{{andrImageTmpl}}</textarea>
+					<textarea  class="width240 height140" placeholder="Ios模板内容" *ngIf="iosImageTmpl?true:fase">{{iosImageTmpl}}</textarea>
+				</div>
+				<div class="height50 line-height50 ml86"  *ngIf="andrVideoTmpl && iosVideoTmpl ? true:fase">视频广告：</div>
+				<div class="ml86">
+						<textarea  class="width240 height140" placeholder="Android模板内容" *ngIf="andrVideoTmpl?true:fase">{{andrVideoTmpl}}</textarea>
+						<textarea  class="width240 height140" placeholder="Ios模板内容" *ngIf="iosVideoTmpl?true:fase">{{iosVideoTmpl}}</textarea>
+				</div>
+				<div class="height50 line-height50 ml86" *ngIf="andrInfoflowTmpl && iosInfoflowTmpl ? true:fase">原生广告：</div>
+				<div class="ml86">
+						<textarea  class="width240 height140"  placeholder="Android模板内容" *ngIf="andrInfoflowTmpl?true:fase">{{andrInfoflowTmpl}}</textarea>
+						<textarea  class="width240 height140"  placeholder="Ios模板内容" *ngIf="iosInfoflowTmpl?true:fase">{{iosInfoflowTmpl}}</textarea>
+				</div>
+		</div>
+		<div>
+				<span class="height50 line-height50">是否需要广告主审核：</span>
+				<span>{{needAdvertiserAudit=="0"?"否":"是"}}</span>
+				<div class="ml160 height50 line-height50" *ngIf="advertiserAuditUrl?true:fase">
+					<span>广告主审核URL——</span>
+					<span>{{advertiserAuditUrl}}</span>
+				</div>
+				<div class="ml160 height50 line-height50" *ngIf="qualificationAuditUrl?true:fase">
+						<span>资质审核URL——</span>
+						<span>{{qualificationAuditUrl}}</span>
+				</div>
+				<div class="ml160 height50 line-height50" *ngIf="advertiserSyncUrl?true:fase">
+						<span>广告主审核结果URL——</span>
+						<span>{{advertiserSyncUrl}}</span>
+				</div>
+				<div class="ml160 height50 line-height50" *ngIf="advertiserUpdateUrl?true:fase">
+						<span>广告主更新URL——</span>
+						<span>{{advertiserUpdateUrl}}</span>
+				</div>	
+				<div class="ml160 height50 line-height50" *ngIf="advertiserUpdateUrl?true:fase">
+						<span>广告主资质更新URL——</span>
+						<span>{{advertiserUpdateUrl}}</span>
+				</div>	
+		</div>
+		<div>
+				<span class="height50 line-height50">是否需要创意审核：</span>
+				<span>{{needCreativeAudit=="0"?"否":"是"}}</span>
+				<div class="ml160 height50 line-height50" *ngIf="creativeAuditUrl?true:fase">
+						<span>创意审核URL——</span>
+						<span>{{creativeAuditUrl}}</span>
+					</div>
+					<div class="ml160 height50 line-height50" *ngIf="creativeSyncUrl?true:fase">
+							<span>创意审核结果URL——</span>
+							<span>{{creativeSyncUrl}}</span>
+					</div>
+					<div class="ml160 height50 line-height50" *ngIf="creativeUpdateUrl?true:fase">
+							<span>创意更新URL ——</span>
+							<span>{{creativeUpdateUrl}}</span>
+					</div>	
+		</div>
+		<div>
+				<span class="height50 line-height50">是否支持安全连接：</span>
+				<span>{{supportSsl=="0"?"否":"是"}}</span>
+		</div>
+		<div>
+				<span class="height50 line-height50">私密KEY：</span>
+				<div class="mt-50">
+						<div class="ml100 height50 line-height50" *ngFor="let v of securityKeyss;let i = index;">
+								<span>{{v.key}} ——</span>
+								<span>{{v.value}}</span>
+						</div>
+				</div>
+		</div>
+	</div>
+</div>
+

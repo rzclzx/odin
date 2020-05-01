@@ -1,0 +1,49 @@
+<div class="row paddingTop50">
+   <form class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">合同号<span class="color-red">*</span>：</label>
+			<div class="col-sm-8" *ngIf="!contractId">
+				<input type="text" class="form-control width300" placeholder="" name="code" [(ngModel)]="code"  validation [validations]="'required;maxlength:20;'">
+			</div>
+			<div class="col-sm-8 line-height34" *ngIf='contractId'>
+				{{code}}
+			</div>
+		</div>
+		<div class="form-group password">
+			<label class="col-sm-2 control-label">合同名称<span class="color-red">*</span>：</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control width300" placeholder="" name="name" [(ngModel)]="name"  validation [validations]="'required;maxlength:20;'">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">有效期<span class="color-red">*</span>：</label>
+			<div class="rel width220 put-picker">
+                <input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}" >
+                <i class="icon-calendar time-icon"></i>
+            </div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">单价<span class="color-red">*</span>：</label>
+			<div class="dispaly-flex paddingLeft15" *ngIf="!contractId">
+				<input type="text" class="form-control width80" placeholder="" name="bid" [(ngModel)]="bid" validation [validations]="'required;rate;'">
+				<span class="width30 paddingTop15">&nbsp;元</span>
+				<select  class="form-control width80"  name="bidType" [(ngModel)]="bidType">
+					<option value="1">CPM</option>
+					<option value="2">CPC</option>
+				</select>
+				<span class="paddingTop15">&nbsp;最多支持两位小数</span>
+			</div>
+			<div class="col-sm-8 line-height34" *ngIf="contractId">
+				{{ bid + "元/" + ( bidType == "1" ? "CPM" : "CPC")}}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="rel width220 put-picker">
+                <button class="btn btn-primary" (click)="save()">保存</button>
+                <button class="btn btn-default" (click)="goCreateEditPricing()">取消</button>
+            </div>
+		</div>
+	</form>
+</div>
+

@@ -1,0 +1,80 @@
+<div class="content">
+	<div class="put-top">
+		<h4>{{advertiser.name}}</h4>
+	</div>
+	<div class="pos-relative">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation">
+				<a href="#home" aria-controls="home" role="tab" data-toggle="tab" (click)="goAdvertiserDetail()">广告主详情</a>
+			</li>
+			<li role="presentation">
+				<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" (click)="goUserList()">用户列表</a>
+			</li>
+			<li role="presentation" class="active">
+				<a href="#channelAudit" aria-controls="channelAudit" role="tab" data-toggle="tab" (click)="goChannelAudit()">渠道审核</a>
+			</li>
+			<li role="presentation">
+				<a href="#topUpDetail" aria-controls="topUpDetail" role="tab" data-toggle="tab" (click)="goTopUpDetail()">充值明细</a>
+			</li>
+		</ul>
+		<div class="button-wrapper">
+			<button class="btn btn-primary" >同步</button>
+			<button class="btn btn-primary" >提交渠道审核</button>
+			<button class="btn btn-primary" (click)="gotoadvertiserList()">返回</button>
+		</div>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane" id="home">...</div>
+            <div role="tabpanel" class="tab-pane" id="profile">...</div>
+			<div role="tabpanel" class="tab-pane active" id="channelAudit">
+        		<input type="checkbox"  [(ngModel)]="channelAllcheck" name="channelAllcheck" (change)="allCheckFire()" class="allSelect">
+				<ngx-datatable
+			    #mydatatable
+			    [rows]="channel"
+			    [columnMode]="'force'"
+			    [draggable]="false"
+			    [selected]="channelSelected"
+			    [selectionType]="'checkbox'"
+			    (select)="onSelect($event)"
+			    [externalSorting]="true"
+			    [externalPaging]="true"
+			    [headerHeight]="50"
+			    [footerHeight]="50"
+			    [rowHeight]="50"
+			    [limit]="page.pageSize"
+			    [count]="page.total"
+			    [offset]="page.pageNo"
+			    (page)="onPage($event)"  
+				[messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+			    [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+				    <ngx-datatable-column [width]="58" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+           				[resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            		</ngx-datatable-column>
+				    <ngx-datatable-column name="渠道名称" [resizeable]="false" [sortable]="false">
+				        <template ngx-datatable-cell-template let-row="row">
+				           <div class="ell">
+			                   {{row.adxName}}
+			                </div>
+				        </template>
+				    </ngx-datatable-column>
+				    <ngx-datatable-column name="审核状态" [resizeable]="false" [sortable]="false">
+				        <template ngx-datatable-cell-template let-row="row">
+				            <div>
+				                {{row.status}}
+				            </div>							
+				        </template>
+				    </ngx-datatable-column>
+				    <ngx-datatable-column name="消息" [resizeable]="false" [sortable]="false">
+				        <template ngx-datatable-cell-template let-row="row">
+				            <div> 
+				                <a>{{row.message}}</a>
+				            </div>
+				        </template>
+				    </ngx-datatable-column>
+				</ngx-datatable>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="topUpDetail">...</div>
+		</div>
+	</div>
+</div>

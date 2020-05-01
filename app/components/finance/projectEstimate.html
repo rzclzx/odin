@@ -1,0 +1,112 @@
+<div class="content finance-contain">
+	<form class="clearfix">
+		<!--<div class="text-date dsplay-inline">日期：</div>
+		<div class="rel width240 put-picker dsplay-inline">
+			<input id="timeRangePicker" class="form-control" type="text" value="{{ publicService.FormalTimeLine(startDate) + ' 至 ' +  publicService.FormalTimeLine(endDate)}}" >
+			<i class="icon-calendar time-icon"></i>
+		</div>-->
+
+		<div class="text-date dsplay-inline ml20">广告项目：</div>
+		<input type="text" class="width240 dispaly-inline form-control" [(ngModel)]="advertiser" name="advertiser"  validation [validations]="'policyName;required'">
+
+		<div class="text-date dsplay-inline ml20">项目号：</div>
+		<div class="rel width240 put-picker dsplay-inline search-input">
+			<input type="text" class="width240 dispaly-inline form-control" [(ngModel)]="advertiser" name="advertiser"  validation [validations]="'policyName;required'">
+			<span class="icon-search"></span>
+		</div>
+
+		<button class="btn btn-primary ml20" (click)="search()">查询</button>
+
+	</form>
+
+	<div class="clearfix tab-head">
+		<span class="tab-title">项目估算表</span>
+		<form class="form-inline title-table pull-right">
+			<div class="mr20"><span>下载估算表模板</span></div>
+			<div class="mr20"><span>下载请款表模板</span></div>
+			<div class="mr20"><span>导入估算表</span></div>
+			<div class="mr20"><span>导入请款表</span></div>
+			<div class="mr20"><span class="icon-Export2 font16 mb2 mr10"></span><span>导出报表</span></div>
+		</form>
+	</div>
+	<ngx-datatable
+    #mydatatable
+	[rows]="datas"
+    [columnMode]="'force'"
+    [draggable]="false"
+    [externalSorting]="true"
+    [externalPaging]="true"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="50"
+    [limit]="page.pageSize"
+    [count]="page.total"
+    [offset]="page.pageNo"
+    (page)="onPage($event)"  
+	[messages]="{ emptyMessage: '暂无数据', totalMessage: '条' }"
+    [cssClasses]="{ pagerPrevious:'icon-backward22', pagerNext:'icon-forward32', pagerLeftArrow: 'icon-left2', pagerRightArrow: 'icon-right2' }">
+	    <ngx-datatable-column name="项目编号" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div>
+					{{row.name}}
+	            </div>							
+	        </template>
+	    </ngx-datatable-column>
+	    <ngx-datatable-column name="广告项目" [resizeable]="false" [sortable]="false">
+	        <template ngx-datatable-cell-template let-row="row">
+	            <div> 
+	                <a href="javascript:;" (click)="gotocampaigncost(row)">{{row.name}}</a>
+	            </div>
+	        </template>
+	    </ngx-datatable-column>
+		<ngx-datatable-column name="展现数" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<a>{{row.name}}</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="点击数" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<a>{{row.name}}</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="结算模式" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<a>{{row.name}}</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="总预算（元）" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<a>{{row.name}}</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="净收入（元）" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<a>{{row.name}}</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="项目总成本（元）" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<a>{{row.name}}</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+		<ngx-datatable-column name="成本占比" [resizeable]="false" [sortable]="false">
+			<template ngx-datatable-cell-template let-row="row">
+				<div>
+					<a>{{row.name}}</a>
+				</div>
+			</template>
+		</ngx-datatable-column>
+	</ngx-datatable>
+</div>
